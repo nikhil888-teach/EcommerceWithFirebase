@@ -1,3 +1,8 @@
+import 'package:ecommerce/screen/home/bag_pages.dart';
+import 'package:ecommerce/screen/home/favorite_page.dart';
+import 'package:ecommerce/screen/home/home_page.dart';
+import 'package:ecommerce/screen/home/profile_page.dart';
+import 'package:ecommerce/screen/home/shope_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart' as google_fonts;
@@ -9,176 +14,78 @@ class MyMainPage extends StatefulWidget {
   State<MyMainPage> createState() => _MyMainPageState();
 }
 
+int currentindex = 0;
+List pagess = <Widget>[
+  const MyHomePage(),
+  const MyShopePage(),
+  const MyBagPage(),
+  const MyFavoritePage(),
+  const MyProfilePage(),
+];
+
 class _MyMainPageState extends State<MyMainPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                    flex: 5,
-                    child: Stack(fit: StackFit.expand, children: [
-                      Image.asset(
-                        "assets/image/homebanner.png",
-                        fit: BoxFit.cover,
-                      ),
-                      Positioned(
-                        bottom: 40,
-                        left: 15,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Fashion",
-                              style: google_fonts.GoogleFonts.roboto(
-                                  color: Colors.white,
-                                  fontSize: 48,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              "sale",
-                              style: google_fonts.GoogleFonts.roboto(
-                                  color: Colors.white,
-                                  fontSize: 48,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 24),
-                              child: GestureDetector(
-                                onTap: () {},
-                                child: Container(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.5,
-                                  decoration: BoxDecoration(
-                                      color: Colors.red,
-                                      borderRadius: BorderRadius.circular(25)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8, horizontal: 39),
-                                    child: Center(
-                                      child: Text(
-                                        "Check",
-                                        style: google_fonts.GoogleFonts.roboto(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ])),
-                Expanded(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 33, left: 15),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "New",
-                                style: google_fonts.GoogleFonts.roboto(
-                                    fontSize: 34, fontWeight: FontWeight.bold),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(top: 10, right: 15),
-                                child: Text("View all"),
-                              )
-                            ],
-                          ),
-                          Text(
-                            "You've never seen it before",
-                            style: google_fonts.GoogleFonts.roboto(
-                                color: const Color(0xff9B9B9B),
-                                fontSize: 11,
-                                fontWeight: FontWeight.normal),
-                          )
-                        ],
-                      ),
-                    )),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 22, left: 15, right: 20, bottom: 40),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Stack(
-                          children: [
-                            Ink(
-                                decoration: const BoxDecoration(boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.black12,
-                                      offset: Offset(0, 0),
-                                      blurRadius: 5),
-                                ]),
-                                child: Image.network(
-                                  "https://m.media-amazon.com/images/I/61XdzIyV6hL._UY741_.jpg",
-                                  fit: BoxFit.fill,
-                                  color: Colors.grey.shade300,
-                                  colorBlendMode: BlendMode.multiply,
-                                  height:
-                                      MediaQuery.of(context).size.height / 5,
-                                  width: MediaQuery.of(context).size.width / 3,
-                                )),
-                            Positioned(
-                              left: 8,
-                              top: 8,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    borderRadius: BorderRadius.circular(29)),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(6.0),
-                                  child: Text("New",
-                                      style: google_fonts.GoogleFonts.roboto(
-                                        color: const Color(0xffFFFFFF),
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.bold,
-                                      )),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 5,
-                              right: 5,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(29)),
-                                child: const Padding(
-                                    padding: EdgeInsets.all(10.0),
-                                    child: Icon(
-                                      CupertinoIcons.heart,
-                                      color: Colors.grey,
-                                      size: 14,
-                                    )),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
+        body: pagess.elementAt(currentindex),
+        bottomNavigationBar: BottomNavigationBar(
+            currentIndex: currentindex,
+            onTap: (value) {
+              if (!mounted) return;
+              setState(() {
+                currentindex = value;
+              });
+            },
+            showUnselectedLabels: true,
+            showSelectedLabels: true,
+            selectedItemColor: const Color(0xffDB3022),
+            unselectedItemColor: Colors.grey,
+            unselectedLabelStyle: google_fonts.GoogleFonts.roboto(
+                color: const Color(0xff9B9B9B),
+                fontSize: 10,
+                fontWeight: FontWeight.normal),
+            selectedLabelStyle: google_fonts.GoogleFonts.roboto(
+                color: Color(0xffDB3022),
+                fontSize: 10,
+                fontWeight: FontWeight.normal),
+            items: const [
+              BottomNavigationBarItem(
+                  label: "Home",
+                  icon: Icon(Icons.home),
+                  activeIcon: Icon(
+                    Icons.home,
+                    color: Colors.red,
+                  )),
+              BottomNavigationBarItem(
+                  label: "Shop",
+                  icon: Icon(CupertinoIcons.shopping_cart),
+                  activeIcon: Icon(
+                    CupertinoIcons.shopping_cart,
+                    color: Colors.red,
+                  )),
+              BottomNavigationBarItem(
+                  label: "Bag",
+                  icon: Icon(CupertinoIcons.bag),
+                  activeIcon: Icon(
+                    CupertinoIcons.bag_fill,
+                    color: Colors.red,
+                  )),
+              BottomNavigationBarItem(
+                  label: "Favorites",
+                  icon: Icon(CupertinoIcons.heart),
+                  activeIcon: Icon(
+                    CupertinoIcons.heart_fill,
+                    color: Colors.red,
+                  )),
+              BottomNavigationBarItem(
+                  label: "Profile",
+                  icon: Icon(CupertinoIcons.profile_circled),
+                  activeIcon: Icon(
+                    CupertinoIcons.profile_circled,
+                    color: Colors.red,
+                  )),
+            ]),
       ),
     );
   }
