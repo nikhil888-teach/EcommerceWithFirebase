@@ -31,6 +31,7 @@ class _MyMainPageState extends State<MyMainPage> {
         body: pagess.elementAt(currentindex),
         bottomNavigationBar: BottomNavigationBar(
             currentIndex: currentindex,
+            type: BottomNavigationBarType.fixed,
             onTap: (value) {
               if (!mounted) return;
               setState(() {

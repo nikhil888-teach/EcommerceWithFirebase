@@ -1,3 +1,4 @@
+import 'package:ecommerce/screen/authntication/login_page.dart';
 import 'package:ecommerce/screen/authntication/sign_page.dart';
 import 'package:ecommerce/screen/home/main_page.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyMainPage(),
+      home: const MySignInPage(),
     );
   }
 }

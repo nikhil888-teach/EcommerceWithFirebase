@@ -2,6 +2,8 @@ import 'package:ecommerce/screen/authntication/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart' as google_fonts;
 
+import '../home/main_page.dart';
+
 class MySignInPage extends StatefulWidget {
   const MySignInPage({Key? key}) : super(key: key);
 
@@ -115,7 +117,13 @@ class _MySignInPageState extends State<MySignInPage> {
                         height: 28,
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const MyMainPage(),
+                              ));
+                        },
                         child: Container(
                           decoration: BoxDecoration(
                               color: Colors.red,
