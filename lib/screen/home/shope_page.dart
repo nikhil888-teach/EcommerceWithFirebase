@@ -10,14 +10,14 @@ class MyShopePage extends StatefulWidget {
 class _MyShopePageState extends State<MyShopePage> {
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
+    return  SafeArea(
         child: Scaffold(
-      body: Center(
-        child: Text(
-          "Shope",
-          style: TextStyle(color: Colors.black),
-        ),
-      ),
+
+      body: Column(
+        children: [
+          
+        ],
+      )
     ));
   }
 }
