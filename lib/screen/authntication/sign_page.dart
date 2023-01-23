@@ -1,6 +1,7 @@
 import 'package:ecommerce/screen/authntication/login_page.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart' as google_fonts;
+
+import '../home/main_page.dart';
 
 class MySignInPage extends StatefulWidget {
   const MySignInPage({Key? key}) : super(key: key);
@@ -27,8 +28,8 @@ class _MySignInPageState extends State<MySignInPage> {
                       const SizedBox(
                         height: 34,
                       ),
-                      Text("Sign up",
-                          style: google_fonts.GoogleFonts.roboto(
+                      const Text("Sign up",
+                          style: TextStyle(
                               fontSize: 34, fontWeight: FontWeight.bold)),
                       const SizedBox(
                         height: 74,
@@ -98,9 +99,9 @@ class _MySignInPageState extends State<MySignInPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Text(
+                            const Text(
                               "Already have an account?",
-                              style: google_fonts.GoogleFonts.roboto(
+                              style: TextStyle(
                                 fontSize: 14,
                               ),
                             ),
@@ -115,17 +116,23 @@ class _MySignInPageState extends State<MySignInPage> {
                         height: 28,
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const MyMainPage(),
+                              ));
+                        },
                         child: Container(
                           decoration: BoxDecoration(
                               color: Colors.red,
                               borderRadius: BorderRadius.circular(25)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(14.0),
+                          child: const Padding(
+                            padding: EdgeInsets.all(14.0),
                             child: Center(
                               child: Text(
                                 "SIGN UP",
-                                style: google_fonts.GoogleFonts.roboto(
+                                style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold),

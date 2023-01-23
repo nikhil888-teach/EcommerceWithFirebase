@@ -5,7 +5,6 @@ import 'package:ecommerce/screen/home/profile_page.dart';
 import 'package:ecommerce/screen/home/shope_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart' as google_fonts;
 
 class MyMainPage extends StatefulWidget {
   const MyMainPage({Key? key}) : super(key: key);
@@ -31,6 +30,7 @@ class _MyMainPageState extends State<MyMainPage> {
         body: pagess.elementAt(currentindex),
         bottomNavigationBar: BottomNavigationBar(
             currentIndex: currentindex,
+            type: BottomNavigationBarType.fixed,
             onTap: (value) {
               if (!mounted) return;
               setState(() {
@@ -41,11 +41,11 @@ class _MyMainPageState extends State<MyMainPage> {
             showSelectedLabels: true,
             selectedItemColor: const Color(0xffDB3022),
             unselectedItemColor: Colors.grey,
-            unselectedLabelStyle: google_fonts.GoogleFonts.roboto(
+            unselectedLabelStyle: TextStyle(
                 color: const Color(0xff9B9B9B),
                 fontSize: 10,
                 fontWeight: FontWeight.normal),
-            selectedLabelStyle: google_fonts.GoogleFonts.roboto(
+            selectedLabelStyle: TextStyle(
                 color: Color(0xffDB3022),
                 fontSize: 10,
                 fontWeight: FontWeight.normal),

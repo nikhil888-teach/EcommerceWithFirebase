@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
+import 'package:ecommerce/screen/home/main_page.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart' as google_fonts;
 
 class MyLoginPage extends StatefulWidget {
   const MyLoginPage({Key? key}) : super(key: key);
@@ -27,8 +26,8 @@ class _MyLoginPageState extends State<MyLoginPage> {
                       const SizedBox(
                         height: 34,
                       ),
-                      Text("Login",
-                          style: google_fonts.GoogleFonts.roboto(
+                      const Text("Login",
+                          style: TextStyle(
                               fontSize: 34, fontWeight: FontWeight.bold)),
                       const SizedBox(
                         height: 74,
@@ -75,14 +74,14 @@ class _MyLoginPageState extends State<MyLoginPage> {
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
+                        children: const [
                           Text(
                             "Forgot your password",
-                            style: google_fonts.GoogleFonts.roboto(
+                            style: TextStyle(
                               fontSize: 14,
                             ),
                           ),
-                          const Icon(
+                          Icon(
                             Icons.arrow_right_alt,
                             color: Colors.red,
                           )
@@ -92,17 +91,23 @@ class _MyLoginPageState extends State<MyLoginPage> {
                         height: 28,
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const MyMainPage(),
+                              ));
+                        },
                         child: Container(
                           decoration: BoxDecoration(
                               color: Colors.red,
                               borderRadius: BorderRadius.circular(25)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(14.0),
+                          child: const Padding(
+                            padding: EdgeInsets.all(14.0),
                             child: Center(
                               child: Text(
                                 "LOGIN",
-                                style: google_fonts.GoogleFonts.roboto(
+                                style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold),

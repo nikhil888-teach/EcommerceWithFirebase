@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart' as google_fonts;
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -31,16 +30,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         "Fashion",
-                        style: google_fonts.GoogleFonts.roboto(
+                        style: const TextStyle(
                             color: Colors.white,
                             fontSize: 48,
                             fontWeight: FontWeight.bold),
                       ),
-                      Text(
+                      const Text(
                         "sale",
-                        style: google_fonts.GoogleFonts.roboto(
+                        style: TextStyle(
                             color: Colors.white,
                             fontSize: 48,
                             fontWeight: FontWeight.bold),
@@ -54,13 +53,13 @@ class _MyHomePageState extends State<MyHomePage> {
                             decoration: BoxDecoration(
                                 color: Colors.red,
                                 borderRadius: BorderRadius.circular(25)),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(
                                   vertical: 8, horizontal: 39),
-                              child: Center(
-                                child: Text(
+                              child: const Center(
+                                child: const Text(
                                   "Check",
-                                  style: google_fonts.GoogleFonts.roboto(
+                                  style: TextStyle(
                                       fontSize: 14,
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold),
@@ -87,9 +86,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
+                            const Text(
                               "New",
-                              style: google_fonts.GoogleFonts.roboto(
+                              style: TextStyle(
                                   fontSize: 34, fontWeight: FontWeight.bold),
                             ),
                             const Padding(
@@ -99,12 +98,12 @@ class _MyHomePageState extends State<MyHomePage> {
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15),
                         child: Text(
                           "You've never seen it before",
-                          style: google_fonts.GoogleFonts.roboto(
-                              color: const Color(0xff9B9B9B),
+                          style: TextStyle(
+                              color: Color(0xff9B9B9B),
                               fontSize: 11,
                               fontWeight: FontWeight.normal),
                         ),
@@ -112,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       Container(
                         height: MediaQuery.of(context).size.height / 2.87,
                         child: ListView.builder(
-                          physics: BouncingScrollPhysics(),
+                          physics: const BouncingScrollPhysics(),
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
                           itemCount: 3,
@@ -155,13 +154,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                               color: Colors.black,
                                               borderRadius:
                                                   BorderRadius.circular(29)),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(6.0),
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(6.0),
                                             child: Text("New",
-                                                style: google_fonts.GoogleFonts
-                                                    .roboto(
-                                                  color:
-                                                      const Color(0xffFFFFFF),
+                                                style: TextStyle(
+                                                  color: Color(0xffFFFFFF),
                                                   fontSize: 11,
                                                   fontWeight: FontWeight.bold,
                                                 )),
@@ -203,13 +200,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                             left: 2, bottom: 8),
                                         child: Text(
                                           "(10)",
-                                          style:
-                                              google_fonts.GoogleFonts.roboto(
-                                                  color:
-                                                      const Color(0xff9B9B9B),
-                                                  fontSize: 10,
-                                                  fontWeight:
-                                                      FontWeight.normal),
+                                          style: const TextStyle(
+                                              color: Color(0xff9B9B9B),
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.normal),
                                         ),
                                       )
                                     ],
@@ -217,18 +211,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ),
                                 Text(
                                   "Dorothy Perkins",
-                                  style: google_fonts.GoogleFonts.roboto(
-                                      color: const Color(0xff9B9B9B),
+                                  style: const TextStyle(
+                                      color: Color(0xff9B9B9B),
                                       fontSize: 11,
                                       fontWeight: FontWeight.normal),
                                 ),
                                 Padding(
                                   padding:
                                       const EdgeInsets.only(top: 5, bottom: 3),
-                                  child: Text(
+                                  child: const Text(
                                     "Evening Dress",
-                                    style: google_fonts.GoogleFonts.roboto(
-                                        color: const Color(0xff222222),
+                                    style: TextStyle(
+                                        color: Color(0xff222222),
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -239,16 +233,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                       padding: const EdgeInsets.only(right: 4),
                                       child: Text(
                                         "15\$",
-                                        style: google_fonts.GoogleFonts.roboto(
-                                            color: const Color(0xff9B9B9B),
+                                        style: const TextStyle(
+                                            color: Color(0xff9B9B9B),
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold),
                                       ),
                                     ),
-                                    Text(
+                                    const Text(
                                       "12\$",
-                                      style: google_fonts.GoogleFonts.roboto(
-                                          color: const Color(0xffDB3022),
+                                      style: TextStyle(
+                                          color: Color(0xffDB3022),
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold),
                                     ),
