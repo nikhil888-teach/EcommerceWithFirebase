@@ -50,117 +50,275 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
               ],
             ),
             body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 50, bottom: 25),
-                    child: Text(
-                      "Favorites",
-                      style: TextStyle(
-                          color: const Color(0xff222222),
-                          fontSize: 34,
-                          fontWeight: FontWeight.bold),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 50, bottom: 25),
+                      child: Text(
+                        "Favorites",
+                        style: TextStyle(
+                            color: const Color(0xff222222),
+                            fontSize: 34,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          const Icon(
-                            CupertinoIcons.arrow_up_arrow_down,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            const Icon(
+                              CupertinoIcons.arrow_up_arrow_down,
+                              color: Colors.black,
+                              size: 20,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 5),
+                              child: Text(
+                                "Price: $selectedSort",
+                                style: TextStyle(
+                                    color: const Color(0xff222222),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                            ),
+                          ],
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return Container(
+                                  height:
+                                      MediaQuery.of(context).size.height / 2.5,
+                                  child: Column(
+                                    children: [
+                                      const Text(
+                                        "Sort",
+                                        style: TextStyle(
+                                            color: Color(0xff222222),
+                                            fontSize: 34,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: StatefulBuilder(
+                                            builder: (context, setState) {
+                                          return ListView.builder(
+                                            itemCount: map.length,
+                                            itemBuilder: (context, index) {
+                                              return ListTile(
+                                                onTap: () {
+                                                  if (!mounted) return;
+                                                  this.setState(() {
+                                                    sortIndex = index;
+                                                    selectedSort = map.entries
+                                                        .elementAt(sortIndex!)
+                                                        .value;
+                                                    Navigator.pop(context);
+                                                  });
+                                                },
+                                                // tileColor: ,
+                                                title: Text(
+                                                  map.entries
+                                                      .elementAt(index)
+                                                      .value,
+                                                  style: TextStyle(
+                                                      color: sortIndex == index
+                                                          ? Colors.white
+                                                          : Colors.black,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
+                                                selected: true,
+                                                selectedColor: Colors.red,
+                                                selectedTileColor:
+                                                    sortIndex == index
+                                                        ? Colors.red
+                                                        : Colors.white,
+                                              );
+                                            },
+                                          );
+                                        }),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          child: const Icon(
+                            Icons.menu,
                             color: Colors.black,
                             size: 20,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 5),
-                            child: Text(
-                              "Price: $selectedSort",
-                              style: TextStyle(
-                                  color: const Color(0xff222222),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal),
-                            ),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height / 1.7,
+                        child: GridView.builder(
+                          itemCount: 10,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 20,
+                            childAspectRatio: 0.64,
                           ),
-                        ],
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          showModalBottomSheet(
-                            context: context,
-                            builder: (context) {
-                              return Container(
-                                height:
-                                    MediaQuery.of(context).size.height / 2.5,
-                                child: Column(
+                          shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          scrollDirection: Axis.vertical,
+                          itemBuilder: (context, index) => Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Stack(
                                   children: [
-                                    const Text(
-                                      "Sort",
-                                      style: TextStyle(
-                                          color: Color(0xff222222),
-                                          fontSize: 34,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Expanded(
-                                      flex: 1,
-                                      child: StatefulBuilder(
-                                          builder: (context, setState) {
-                                        return ListView.builder(
-                                          itemCount: map.length,
-                                          itemBuilder: (context, index) {
-                                            return ListTile(
-                                              onTap: () {
-                                                if (!mounted) return;
-                                                this.setState(() {
-                                                  sortIndex = index;
-                                                  selectedSort = map.entries
-                                                      .elementAt(sortIndex!)
-                                                      .value;
-                                                  Navigator.pop(context);
-                                                });
-                                              },
-                                              // tileColor: ,
-                                              title: Text(
-                                                map.entries
-                                                    .elementAt(index)
-                                                    .value,
-                                                style: TextStyle(
-                                                    color: sortIndex == index
-                                                        ? Colors.white
-                                                        : Colors.black,
-                                                    fontSize: 16,
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                              ),
-                                              selected: true,
-                                              selectedColor: Colors.red,
-                                              selectedTileColor:
-                                                  sortIndex == index
-                                                      ? Colors.red
-                                                      : Colors.white,
-                                            );
-                                          },
-                                        );
-                                      }),
-                                    ),
+                                    Ink(
+                                        decoration:
+                                            const BoxDecoration(boxShadow: [
+                                          BoxShadow(
+                                              color: Colors.black12,
+                                              offset: Offset(0, 0),
+                                              blurRadius: 5),
+                                        ]),
+                                        child: Image.network(
+                                          "https://m.media-amazon.com/images/I/61XdzIyV6hL._UY741_.jpg",
+                                          fit: BoxFit.fill,
+                                          color: Colors.grey.shade300,
+                                          colorBlendMode: BlendMode.multiply,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              5,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              2.4,
+                                        )),
+                                    Positioned(
+                                      bottom: 5,
+                                      right: 5,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: Color(0xffDB3022),
+                                            borderRadius:
+                                                BorderRadius.circular(29)),
+                                        child: const Padding(
+                                            padding: EdgeInsets.all(10.0),
+                                            child: Icon(
+                                              CupertinoIcons.bag_fill,
+                                              color: Color(0xffF9F9F9),
+                                              size: 16,
+                                            )),
+                                      ),
+                                    )
                                   ],
                                 ),
-                              );
-                            },
-                          );
-                        },
-                        child: const Icon(
-                          Icons.menu,
-                          color: Colors.black,
-                          size: 20,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 7),
+                                child: Row(
+                                  children: [
+                                    for (int i = 0; i < 5; i++)
+                                      const Icon(
+                                        Icons.star,
+                                        size: 14,
+                                        color: Colors.yellow,
+                                      ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 2, bottom: 0),
+                                      child: Text(
+                                        "(10)",
+                                        style: const TextStyle(
+                                            color: Color(0xff9B9B9B),
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Text(
+                                "Dorothy Perkins",
+                                style: const TextStyle(
+                                    color: Color(0xff9B9B9B),
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 5, bottom: 3),
+                                child: const Text(
+                                  "Evening Dress",
+                                  style: TextStyle(
+                                      color: Color(0xff222222),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  const Text(
+                                    "Color: ",
+                                    style: TextStyle(
+                                        color: Color(0xff9B9B9B),
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.normal),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 15),
+                                    child: Text(
+                                      "Black",
+                                      style: const TextStyle(
+                                          color: Color(0xff222222),
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                  ),
+                                  Text(
+                                    "Size: ",
+                                    style: const TextStyle(
+                                        color: Color(0xff9B9B9B),
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.normal),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 15),
+                                    child: Text(
+                                      "L",
+                                      style: const TextStyle(
+                                          color: Color(0xff222222),
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 5),
+                                child: const Text(
+                                  "12\$",
+                                  style: TextStyle(
+                                      color: Color(0xffDB3022),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ],
-                  )
-                ],
-              ),
-            )));
+                    )
+                  ],
+                ))));
   }
 }
