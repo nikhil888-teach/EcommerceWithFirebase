@@ -16,10 +16,15 @@ class MyMainPage extends StatefulWidget {
 int currentindex = 0;
 List pagess = <Widget>[
   const MyHomePage(),
-  const MyShopePage(),
-  const MyBagPage(),
-  const MyFavoritePage(),
-  const MyProfilePage(),
+  const MyHomePage(),
+  const MyHomePage(),
+  const MyHomePage(),
+  const MyHomePage(),
+
+  // const MyShopePage(),
+  // const MyBagPage(),
+  // const MyFavoritePage(),
+  // const MyProfilePage(),
 ];
 
 class _MyMainPageState extends State<MyMainPage> {
