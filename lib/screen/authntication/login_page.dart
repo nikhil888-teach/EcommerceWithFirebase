@@ -1,4 +1,5 @@
 import 'package:ecommerce/screen/home/main_page.dart';
+import 'package:ecommerce/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class MyLoginPage extends StatefulWidget {
@@ -26,7 +27,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                       const SizedBox(
                         height: 34,
                       ),
-                      const Text("Login",
+                      const Text(Constants.LOGIN,
                           style: TextStyle(
                               fontSize: 34, fontWeight: FontWeight.bold)),
                       const SizedBox(
@@ -45,7 +46,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                           keyboardType: TextInputType.emailAddress,
                           cursorColor: Colors.grey,
                           decoration: const InputDecoration(
-                              hintText: "Email",
+                              hintText: Constants.EMAIL,
                               border: OutlineInputBorder(
                                   borderSide: BorderSide.none)),
                         ),
@@ -64,7 +65,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                           cursorColor: Colors.grey,
                           obscureText: true,
                           decoration: const InputDecoration(
-                              hintText: "Password",
+                              hintText: Constants.PASSWORD,
                               border: OutlineInputBorder(
                                   borderSide: BorderSide.none)),
                         ),
@@ -76,7 +77,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: const [
                           Text(
-                            "Forgot your password",
+                            Constants.FORGOT_PASSWORD,
                             style: TextStyle(
                               fontSize: 14,
                             ),
@@ -106,7 +107,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                             padding: EdgeInsets.all(14.0),
                             child: Center(
                               child: Text(
-                                "LOGIN",
+                                Constants.LOGIN,
                                 style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.white,
@@ -122,8 +123,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                     crossAxisAlignment: WrapCrossAlignment.center,
                     alignment: WrapAlignment.center,
                     children: [
-                      const Center(
-                          child: Text("Or sign up with Social account")),
+                      const Center(child: Text(Constants.OR_SIGN_WITH_SOCIAL)),
                       Padding(
                         padding: const EdgeInsets.only(top: 20),
                         child: Card(

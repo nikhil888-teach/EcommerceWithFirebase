@@ -1,3 +1,4 @@
+import 'package:ecommerce/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -57,7 +58,7 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Favorites",
+                          Constants.Favorites,
                           style: TextStyle(
                               color: const Color(0xff222222),
                               fontSize: 34,

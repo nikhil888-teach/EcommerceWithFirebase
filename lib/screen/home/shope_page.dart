@@ -1,3 +1,4 @@
+import 'package:ecommerce/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class MyShopePage extends StatefulWidget {
@@ -31,7 +32,7 @@ class _MyShopePageState extends State<MyShopePage> {
                   )
                 ],
                 centerTitle: true,
-                title: const Text("Categories",
+                title: const Text(Constants.Categories,
                     style: TextStyle(
                         color: Color(0xff222222),
                         fontSize: 18,
@@ -53,11 +54,9 @@ class _MyShopePageState extends State<MyShopePage> {
                         labelStyle: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),
                         tabs: [
-                          Text(
-                            "Women",
-                          ),
-                          Text("Men"),
-                          Text("Kids")
+                          Text(Constants.women),
+                          Text(Constants.Men),
+                          Text(Constants.kides)
                         ]),
                   ),
                   Expanded(
@@ -93,7 +92,7 @@ class _MyShopePageState extends State<MyShopePage> {
                     const Padding(
                       padding: EdgeInsets.only(left: 25),
                       child: Text(
-                        "New",
+                        Constants.NEW,
                         style: TextStyle(
                             color: Color(0xff222222),
                             fontSize: 18,

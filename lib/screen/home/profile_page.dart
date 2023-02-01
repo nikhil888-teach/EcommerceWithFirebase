@@ -1,3 +1,4 @@
+import 'package:ecommerce/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +34,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 25, top: 18),
                       child: Text(
-                        "My profile",
+                        Constants.my_profile,
                         style: TextStyle(
                             color: const Color(0xff222222),
                             fontSize: 34,
@@ -101,102 +102,6 @@ class _MyProfilePageState extends State<MyProfilePage> {
                         ),
                       ),
                     ),
-
-                    // Padding(
-                    //   padding: const EdgeInsets.only(bottom: 5),
-                    //   child: Card(
-                    //     elevation: 0,
-                    //     child: ListTile(
-                    //       title: Text(
-                    //         "Shipping addresses",
-                    //         style: TextStyle(
-                    //             color: const Color(0xff222222),
-                    //             fontSize: 20,
-                    //             fontWeight: FontWeight.w500),
-                    //       ),
-                    //       trailing: const Icon(
-                    //         CupertinoIcons.forward,
-                    //         color: Colors.black,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(bottom: 5),
-                    //   child: Card(
-                    //     elevation: 0,
-                    //     child: ListTile(
-                    //       title: Text(
-                    //         "Payment methods",
-                    //         style: TextStyle(
-                    //             color: const Color(0xff222222),
-                    //             fontSize: 20,
-                    //             fontWeight: FontWeight.w500),
-                    //       ),
-                    //       trailing: const Icon(
-                    //         CupertinoIcons.forward,
-                    //         color: Colors.black,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(bottom: 5),
-                    //   child: Card(
-                    //     elevation: 0,
-                    //     child: ListTile(
-                    //       title: Text(
-                    //         "Promocodes",
-                    //         style: TextStyle(
-                    //             color: const Color(0xff222222),
-                    //             fontSize: 20,
-                    //             fontWeight: FontWeight.w500),
-                    //       ),
-                    //       trailing: const Icon(
-                    //         CupertinoIcons.forward,
-                    //         color: Colors.black,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(bottom: 5),
-                    //   child: Card(
-                    //     elevation: 0,
-                    //     child: ListTile(
-                    //       title: Text(
-                    //         "My reviews",
-                    //         style: TextStyle(
-                    //             color: const Color(0xff222222),
-                    //             fontSize: 20,
-                    //             fontWeight: FontWeight.w500),
-                    //       ),
-                    //       trailing: const Icon(
-                    //         CupertinoIcons.forward,
-                    //         color: Colors.black,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(bottom: 5),
-                    //   child: Card(
-                    //     elevation: 0,
-                    //     child: ListTile(
-                    //       title: Text(
-                    //         "Settings",
-                    //         style: TextStyle(
-                    //             color: const Color(0xff222222),
-                    //             fontSize: 20,
-                    //             fontWeight: FontWeight.w500),
-                    //       ),
-                    //       trailing: const Icon(
-                    //         CupertinoIcons.forward,
-                    //         color: Colors.black,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // )
                   ],
                 ),
               ),

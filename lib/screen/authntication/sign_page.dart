@@ -1,4 +1,5 @@
 import 'package:ecommerce/screen/authntication/login_page.dart';
+import 'package:ecommerce/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 import '../home/main_page.dart';
@@ -28,7 +29,7 @@ class _MySignInPageState extends State<MySignInPage> {
                       const SizedBox(
                         height: 34,
                       ),
-                      const Text("Sign up",
+                      const Text(Constants.SIGNUP,
                           style: TextStyle(
                               fontSize: 34, fontWeight: FontWeight.bold)),
                       const SizedBox(
@@ -44,8 +45,8 @@ class _MySignInPageState extends State<MySignInPage> {
                           keyboardType: TextInputType.name,
                           cursorColor: Colors.grey,
                           decoration: const InputDecoration(
-                              label: Text("Name"),
-                              hintText: "Name",
+                              label: Text(Constants.NAME),
+                              hintText: Constants.NAME,
                               border: OutlineInputBorder(
                                   borderSide: BorderSide.none)),
                         ),
@@ -63,7 +64,7 @@ class _MySignInPageState extends State<MySignInPage> {
                           keyboardType: TextInputType.emailAddress,
                           cursorColor: Colors.grey,
                           decoration: const InputDecoration(
-                              hintText: "Email",
+                              hintText: Constants.EMAIL,
                               border: OutlineInputBorder(
                                   borderSide: BorderSide.none)),
                         ),
@@ -82,7 +83,7 @@ class _MySignInPageState extends State<MySignInPage> {
                           cursorColor: Colors.grey,
                           obscureText: true,
                           decoration: const InputDecoration(
-                              hintText: "Password",
+                              hintText: Constants.PASSWORD,
                               border: OutlineInputBorder(
                                   borderSide: BorderSide.none)),
                         ),
@@ -100,7 +101,7 @@ class _MySignInPageState extends State<MySignInPage> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             const Text(
-                              "Already have an account?",
+                              Constants.ALREADY_ACCOUNT,
                               style: TextStyle(
                                 fontSize: 14,
                               ),
@@ -127,11 +128,11 @@ class _MySignInPageState extends State<MySignInPage> {
                           decoration: BoxDecoration(
                               color: Colors.red,
                               borderRadius: BorderRadius.circular(25)),
-                          child: const Padding(
+                          child: Padding(
                             padding: EdgeInsets.all(14.0),
                             child: Center(
                               child: Text(
-                                "SIGN UP",
+                                Constants.SIGNUP.toUpperCase(),
                                 style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.white,
@@ -147,8 +148,7 @@ class _MySignInPageState extends State<MySignInPage> {
                     crossAxisAlignment: WrapCrossAlignment.center,
                     alignment: WrapAlignment.center,
                     children: [
-                      const Center(
-                          child: Text("Or sign up with Social account")),
+                      const Center(child: Text(Constants.OR_SIGN_WITH_SOCIAL)),
                       Padding(
                         padding: const EdgeInsets.only(top: 20),
                         child: Card(

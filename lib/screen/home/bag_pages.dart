@@ -1,3 +1,4 @@
+import 'package:ecommerce/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -38,10 +39,10 @@ class _MyBagPageState extends State<MyBagPage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.only(top: 50, left: 14, bottom: 25),
                         child: Text(
-                          "My Bag",
+                          Constants.My_Bag,
                           style: TextStyle(
                               color: Color(0xff222222),
                               fontSize: 34,
@@ -113,11 +114,11 @@ class _MyBagPageState extends State<MyBagPage> {
                                                   ),
                                                   itemBuilder: (context) => [
                                                     const PopupMenuItem(
-                                                        child: Text(
-                                                            "Add to favorities")),
+                                                        child: Text(Constants
+                                                            .ADD_FAVORITE)),
                                                     const PopupMenuItem(
-                                                        child: Text(
-                                                            "Delete from the list"))
+                                                        child: Text(Constants
+                                                            .delete_list))
                                                   ],
                                                 ),
                                               )
@@ -130,7 +131,7 @@ class _MyBagPageState extends State<MyBagPage> {
                                           child: Row(
                                             children: [
                                               const Text(
-                                                "Color: ",
+                                                Constants.color,
                                                 style: TextStyle(
                                                     color: Color(0xff9B9B9B),
                                                     fontSize: 13,
@@ -150,7 +151,7 @@ class _MyBagPageState extends State<MyBagPage> {
                                                 ),
                                               ),
                                               Text(
-                                                "Size: ",
+                                                Constants.size,
                                                 style: const TextStyle(
                                                     color: Color(0xff9B9B9B),
                                                     fontSize: 13,
@@ -281,7 +282,7 @@ class _MyBagPageState extends State<MyBagPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Text(
-                              "Total Amount:",
+                              Constants.total_amount,
                               style: TextStyle(
                                   color: Color(0xff9B9B9B),
                                   fontSize: 14,
@@ -308,7 +309,7 @@ class _MyBagPageState extends State<MyBagPage> {
                                 padding: EdgeInsets.all(14.0),
                                 child: Center(
                                   child: Text(
-                                    "CHECK OUT",
+                                    Constants.check_out,
                                     style: TextStyle(
                                         fontSize: 14,
                                         color: Colors.white,

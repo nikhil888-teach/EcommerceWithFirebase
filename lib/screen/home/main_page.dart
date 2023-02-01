@@ -3,6 +3,7 @@ import 'package:ecommerce/screen/home/favorite_page.dart';
 import 'package:ecommerce/screen/home/home_page.dart';
 import 'package:ecommerce/screen/home/profile_page.dart';
 import 'package:ecommerce/screen/home/shope_page.dart';
+import 'package:ecommerce/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -51,35 +52,35 @@ class _MyMainPageState extends State<MyMainPage> {
                 fontWeight: FontWeight.normal),
             items: const [
               BottomNavigationBarItem(
-                  label: "Home",
+                  label: Constants.HOME,
                   icon: Icon(Icons.home),
                   activeIcon: Icon(
                     Icons.home,
                     color: Colors.red,
                   )),
               BottomNavigationBarItem(
-                  label: "Shop",
+                  label: Constants.shop,
                   icon: Icon(CupertinoIcons.shopping_cart),
                   activeIcon: Icon(
                     CupertinoIcons.shopping_cart,
                     color: Colors.red,
                   )),
               BottomNavigationBarItem(
-                  label: "Bag",
+                  label: Constants.bag,
                   icon: Icon(CupertinoIcons.bag),
                   activeIcon: Icon(
                     CupertinoIcons.bag_fill,
                     color: Colors.red,
                   )),
               BottomNavigationBarItem(
-                  label: "Favorites",
+                  label: Constants.Favorites,
                   icon: Icon(CupertinoIcons.heart),
                   activeIcon: Icon(
                     CupertinoIcons.heart_fill,
                     color: Colors.red,
                   )),
               BottomNavigationBarItem(
-                  label: "Profile",
+                  label: Constants.Profile,
                   icon: Icon(CupertinoIcons.profile_circled),
                   activeIcon: Icon(
                     CupertinoIcons.profile_circled,
