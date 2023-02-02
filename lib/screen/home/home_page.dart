@@ -1,5 +1,6 @@
 import 'package:ecommerce/screen/products/product_view.dart';
 import 'package:ecommerce/utils/constants.dart';
+import 'package:ecommerce/widgets/button_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +16,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Column(
@@ -50,27 +52,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       Padding(
                         padding: const EdgeInsets.only(top: 24),
                         child: GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            width: MediaQuery.of(context).size.width / 2.5,
-                            decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(25)),
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 39),
-                              child: const Center(
-                                child: const Text(
-                                  Constants.CHECK,
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                            onTap: () {},
+                            child: Container(
+                                width: MediaQuery.of(context).size.width / 2.5,
+                                child: Button_Style.button_Theme(
+                                    Constants.CHECK))),
                       ),
                     ],
                   ),
@@ -112,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.72,
+                        height: 300,
                         child: ListView.builder(
                           physics: const BouncingScrollPhysics(),
                           shrinkWrap: true,
@@ -145,15 +131,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                                         blurRadius: 5),
                                                   ]),
                                               child: Hero(
-                                                tag: "imageurl" +
-                                                    index.toString(),
+                                                tag: UniqueKey(),
                                                 child: Image.network(
                                                   "https://m.media-amazon.com/images/I/61XdzIyV6hL._UY741_.jpg",
                                                   fit: BoxFit.fill,
                                                   color: Colors.grey.shade300,
                                                   colorBlendMode:
                                                       BlendMode.multiply,
-                                                  scale: 5,
+                                                  scale: 4,
                                                 ),
                                               )),
                                           Positioned(

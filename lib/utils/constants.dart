@@ -38,6 +38,7 @@ class Constants {
   static const size = "Size: ";
   static const total_amount = "Total Amount:";
   static const check_out = "CHECK OUT";
+  static const add_cart = "ADD TO CART";
 
   //SHOPE_PAGE
   static const Categories = "Categories";

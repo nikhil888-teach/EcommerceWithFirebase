@@ -1,5 +1,6 @@
 import 'package:ecommerce/screen/home/main_page.dart';
 import 'package:ecommerce/utils/constants.dart';
+import 'package:ecommerce/widgets/button_theme.dart';
 import 'package:flutter/material.dart';
 
 class MyLoginPage extends StatefulWidget {
@@ -92,31 +93,14 @@ class _MyLoginPageState extends State<MyLoginPage> {
                         height: 28,
                       ),
                       GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const MyMainPage(),
-                              ));
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(25)),
-                          child: const Padding(
-                            padding: EdgeInsets.all(14.0),
-                            child: Center(
-                              child: Text(
-                                Constants.LOGIN,
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const MyMainPage(),
+                                ));
+                          },
+                          child: Button_Style.button_Theme(Constants.LOGIN)),
                     ],
                   ),
                   Wrap(

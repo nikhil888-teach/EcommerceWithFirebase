@@ -1,5 +1,6 @@
 import 'package:ecommerce/screen/authntication/login_page.dart';
 import 'package:ecommerce/utils/constants.dart';
+import 'package:ecommerce/widgets/button_theme.dart';
 import 'package:flutter/material.dart';
 
 import '../home/main_page.dart';
@@ -117,31 +118,14 @@ class _MySignInPageState extends State<MySignInPage> {
                         height: 28,
                       ),
                       GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const MyMainPage(),
-                              ));
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(25)),
-                          child: Padding(
-                            padding: EdgeInsets.all(14.0),
-                            child: Center(
-                              child: Text(
-                                Constants.SIGNUP.toUpperCase(),
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const MyMainPage(),
+                                ));
+                          },
+                          child: Button_Style.button_Theme(Constants.SIGNUP)),
                     ],
                   ),
                   Wrap(

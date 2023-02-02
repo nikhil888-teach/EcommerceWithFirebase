@@ -36,34 +36,35 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
             backgroundColor: Colors.white,
             appBar: AppBar(
               backgroundColor: Colors.white,
-              elevation: 0,
+              centerTitle: false,
+              titleSpacing: 0,
+              titleTextStyle: TextStyle(
+                  color: const Color(0xff222222),
+                  fontSize: 34,
+                  fontWeight: FontWeight.bold),
+              title: Transform(
+                transform: Matrix4.translationValues(-40.0, 0.0, 0.0),
+                child: Text(
+                  Constants.Favorites,
+                ),
+              ),
               actions: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 5),
-                  child: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.search,
-                        color: Colors.black,
-                        size: 24,
-                      )),
-                )
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.search,
+                      color: Colors.black,
+                      size: 24,
+                    ))
               ],
               bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(60.0),
+                preferredSize: const Size.fromHeight(35.0),
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          Constants.Favorites,
-                          style: TextStyle(
-                              color: const Color(0xff222222),
-                              fontSize: 34,
-                              fontWeight: FontWeight.bold),
-                        ),
                         Padding(
                           padding: const EdgeInsets.only(right: 15, top: 10),
                           child: Row(
@@ -173,176 +174,164 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                 ),
               ),
             ),
-            body: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
+            body: Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
               child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Column(
+                padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
+                child: GridView.builder(
+                  itemCount: 10,
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 200,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: 0.5182,
+                  ),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  physics: BouncingScrollPhysics(),
+                  itemBuilder: (context, index) => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 15),
-                        child: Container(
-                          height: MediaQuery.of(context).size.height * 0.7,
-                          child: GridView.builder(
-                            itemCount: 10,
-                            gridDelegate:
-                                SliverGridDelegateWithMaxCrossAxisExtent(
-                              maxCrossAxisExtent: 200,
-                              crossAxisSpacing: 10,
-                              mainAxisSpacing: 10,
-                              childAspectRatio: 0.62,
-                            ),
-                            shrinkWrap: true,
-                            physics: BouncingScrollPhysics(),
-                            scrollDirection: Axis.vertical,
-                            itemBuilder: (context, index) => Container(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Stack(
+                          children: [
+                            Ink(
+                                decoration: const BoxDecoration(boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black12,
+                                      offset: Offset(0, 0),
+                                      blurRadius: 5),
+                                ]),
+                                child: Image.network(
+                                  "https://m.media-amazon.com/images/I/61XdzIyV6hL._UY741_.jpg",
+                                  fit: BoxFit.fill,
+                                  color: Colors.grey.shade300,
+                                  colorBlendMode: BlendMode.multiply,
+                                  scale: 3,
+                                )),
+                            Positioned(
+                              bottom: 5,
+                              right: 5,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Color(0xffDB3022),
+                                    borderRadius: BorderRadius.circular(29)),
+                                child: const Padding(
+                                    padding: EdgeInsets.all(10.0),
+                                    child: Icon(
+                                      CupertinoIcons.bag_fill,
+                                      color: Color(0xffF9F9F9),
+                                      size: 16,
+                                    )),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 7),
+                              child: Row(
                                 children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: Stack(
-                                      children: [
-                                        Ink(
-                                            decoration:
-                                                const BoxDecoration(boxShadow: [
-                                              BoxShadow(
-                                                  color: Colors.black12,
-                                                  offset: Offset(0, 0),
-                                                  blurRadius: 5),
-                                            ]),
-                                            child: Image.network(
-                                              "https://m.media-amazon.com/images/I/61XdzIyV6hL._UY741_.jpg",
-                                              fit: BoxFit.fill,
-                                              color: Colors.grey.shade300,
-                                              colorBlendMode:
-                                                  BlendMode.multiply,
-                                              scale: 5,
-                                            )),
-                                        Positioned(
-                                          bottom: 5,
-                                          right: 5,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                color: Color(0xffDB3022),
-                                                borderRadius:
-                                                    BorderRadius.circular(29)),
-                                            child: const Padding(
-                                                padding: EdgeInsets.all(10.0),
-                                                child: Icon(
-                                                  CupertinoIcons.bag_fill,
-                                                  color: Color(0xffF9F9F9),
-                                                  size: 16,
-                                                )),
-                                          ),
-                                        )
-                                      ],
+                                  for (int i = 0; i < 5; i++)
+                                    const Icon(
+                                      Icons.star,
+                                      size: 14,
+                                      color: Colors.yellow,
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 7),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        for (int i = 0; i < 5; i++)
-                                          const Icon(
-                                            Icons.star,
-                                            size: 14,
-                                            color: Colors.yellow,
-                                          ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 2, bottom: 0),
-                                          child: Text(
-                                            "(10)",
-                                            style: const TextStyle(
-                                                color: Color(0xff9B9B9B),
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.normal),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  Text(
-                                    "Dorothy Perkins",
-                                    style: const TextStyle(
-                                        color: Color(0xff9B9B9B),
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.normal),
-                                  ),
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        top: 5, bottom: 3),
-                                    child: const Text(
-                                      "Evening Dress",
-                                      style: TextStyle(
-                                          color: Color(0xff222222),
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
+                                        left: 2, bottom: 0),
+                                    child: Text(
+                                      "(10)",
+                                      style: const TextStyle(
+                                          color: Color(0xff9B9B9B),
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.normal),
                                     ),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Text(
-                                        "Color: ",
-                                        style: TextStyle(
-                                            color: Color(0xff9B9B9B),
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 15),
-                                        child: Text(
-                                          "Black",
-                                          style: const TextStyle(
-                                              color: Color(0xff222222),
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.normal),
-                                        ),
-                                      ),
-                                      Text(
-                                        "Size: ",
-                                        style: const TextStyle(
-                                            color: Color(0xff9B9B9B),
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 15),
-                                        child: Text(
-                                          "L",
-                                          style: const TextStyle(
-                                              color: Color(0xff222222),
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.normal),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 5),
-                                    child: const Text(
-                                      "12\$",
-                                      style: TextStyle(
-                                          color: Color(0xffDB3022),
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
+                                  )
                                 ],
                               ),
                             ),
-                          ),
+                            Text(
+                              "Dorothy Perkins",
+                              style: const TextStyle(
+                                  color: Color(0xff9B9B9B),
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.normal),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5, bottom: 3),
+                              child: const Text(
+                                "Evening Dress",
+                                style: TextStyle(
+                                    color: Color(0xff222222),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                const Text(
+                                  "Color: ",
+                                  style: TextStyle(
+                                      color: Color(0xff9B9B9B),
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 15),
+                                  child: Text(
+                                    "Black",
+                                    style: const TextStyle(
+                                        color: Color(0xff222222),
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.normal),
+                                  ),
+                                ),
+                                Text(
+                                  "Size: ",
+                                  style: const TextStyle(
+                                      color: Color(0xff9B9B9B),
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 15),
+                                  child: Text(
+                                    "L",
+                                    style: const TextStyle(
+                                        color: Color(0xff222222),
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.normal),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5),
+                              child: const Text(
+                                "12\$",
+                                style: TextStyle(
+                                    color: Color(0xffDB3022),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
                         ),
                       )
                     ],
-                  )),
+                  ),
+                ),
+              ),
             )));
   }
 }
