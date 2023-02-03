@@ -1,6 +1,7 @@
 import 'package:ecommerce/screen/products/product_view.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
+import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -35,19 +36,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        Constants.FASHION,
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 48,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const Text(
+                      Text(Constants.FASHION,
+                          style:
+                              Text_Style.white_text_Theme(48, FontWeight.bold)),
+                      Text(
                         Constants.SALE,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 48,
-                            fontWeight: FontWeight.bold),
+                        style: Text_Style.white_text_Theme(48, FontWeight.bold),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 24),
@@ -75,11 +69,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text(
-                              Constants.NEW,
-                              style: TextStyle(
-                                  fontSize: 34, fontWeight: FontWeight.bold),
-                            ),
+                            Text(Constants.NEW,
+                                style: Text_Style.black_text_Theme(
+                                    34, FontWeight.bold)),
                             const Padding(
                               padding: EdgeInsets.only(top: 10, right: 15),
                               child: Text("View all"),
@@ -87,15 +79,11 @@ class _MyHomePageState extends State<MyHomePage> {
                           ],
                         ),
                       ),
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.symmetric(horizontal: 15),
-                        child: Text(
-                          Constants.you_never_before,
-                          style: TextStyle(
-                              color: Color(0xff9B9B9B),
-                              fontSize: 11,
-                              fontWeight: FontWeight.normal),
-                        ),
+                        child: Text(Constants.you_never_before,
+                            style: Text_Style.grey_text_Theme(
+                                11, FontWeight.normal)),
                       ),
                       Container(
                         height: 300,
@@ -150,15 +138,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           29)),
-                                              child: const Padding(
+                                              child: Padding(
                                                 padding: EdgeInsets.all(6.0),
                                                 child: Text(Constants.NEW,
-                                                    style: TextStyle(
-                                                      color: Color(0xffFFFFFF),
-                                                      fontSize: 11,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    )),
+                                                    style: Text_Style
+                                                        .white_text_Theme(11,
+                                                            FontWeight.bold)),
                                               ),
                                             ),
                                           ),
@@ -203,28 +188,22 @@ class _MyHomePageState extends State<MyHomePage> {
                                                     color: Colors.yellow,
                                                   ),
                                                 Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 2, bottom: 8),
-                                                  child: Text(
-                                                    "(10)",
-                                                    style: const TextStyle(
-                                                        color:
-                                                            Color(0xff9B9B9B),
-                                                        fontSize: 10,
-                                                        fontWeight:
-                                                            FontWeight.normal),
-                                                  ),
+                                                  padding: EdgeInsets.only(
+                                                      left: 2, bottom: 8),
+                                                  child: Text("(10)",
+                                                      style: Text_Style
+                                                          .grey_text_Theme(
+                                                              10,
+                                                              FontWeight
+                                                                  .normal)),
                                                 )
                                               ],
                                             ),
                                           ),
                                           Text(
                                             "Dorothy Perkins",
-                                            style: const TextStyle(
-                                                color: Color(0xff9B9B9B),
-                                                fontSize: 11,
-                                                fontWeight: FontWeight.normal),
+                                            style: Text_Style.grey_text_Theme(
+                                                11, FontWeight.normal),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.only(

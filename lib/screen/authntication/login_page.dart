@@ -1,6 +1,7 @@
 import 'package:ecommerce/screen/home/main_page.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
+import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/material.dart';
 
 class MyLoginPage extends StatefulWidget {
@@ -28,9 +29,9 @@ class _MyLoginPageState extends State<MyLoginPage> {
                       const SizedBox(
                         height: 34,
                       ),
-                      const Text(Constants.LOGIN,
-                          style: TextStyle(
-                              fontSize: 34, fontWeight: FontWeight.bold)),
+                      Text(Constants.LOGIN,
+                          style:
+                              Text_Style.black_text_Theme(34, FontWeight.bold)),
                       const SizedBox(
                         height: 74,
                       ),
@@ -76,13 +77,10 @@ class _MyLoginPageState extends State<MyLoginPage> {
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
-                        children: const [
-                          Text(
-                            Constants.FORGOT_PASSWORD,
-                            style: TextStyle(
-                              fontSize: 14,
-                            ),
-                          ),
+                        children: [
+                          Text(Constants.FORGOT_PASSWORD,
+                              style: Text_Style.black_text_Theme(
+                                  14, FontWeight.normal)),
                           Icon(
                             Icons.arrow_right_alt,
                             color: Colors.red,
