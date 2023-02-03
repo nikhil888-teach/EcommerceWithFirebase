@@ -1,5 +1,6 @@
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
+import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -11,10 +12,16 @@ class MyProductPage extends StatefulWidget {
 }
 
 class _MyProductPageState extends State<MyProductPage> {
-  List size = <String>["XS", "S", "M", "L", "XL"];
+  Map size = {0: "XS", 1: "S", 2: "M", 3: "L", 4: "XL"};
   String? selectedsize = "XS";
   List color = <String>["White", "Black", "Pink", "Blue", "Grey"];
   String? selectedcolor = "Black";
+  bool showbottomdialog = false;
+  @override
+  void initState() {
+    showbottomdialog = false;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +33,8 @@ class _MyProductPageState extends State<MyProductPage> {
         elevation: 1,
         centerTitle: true,
         title: Text("Short dress",
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: 18,
-                fontWeight: FontWeight.bold)),
+            style: Text_Style.text_Theme(
+                Constants.black_text, 18, FontWeight.bold)),
         actions: const [
           Padding(
             padding: EdgeInsets.only(right: 17),
@@ -59,80 +64,47 @@ class _MyProductPageState extends State<MyProductPage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          height: 55,
-                          width: MediaQuery.of(context).size.width * 0.35,
-                          child: DropdownButtonFormField(
-                            alignment: Alignment.topCenter,
-                            elevation: 0,
-                            decoration: InputDecoration(
-                                fillColor: Colors.red,
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.red),
-                                  borderRadius: BorderRadius.circular(8),
+                        OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                              backgroundColor: Colors.white),
+                          onPressed: () {
+                            setState(() {
+                              showbottomdialog = true;
+                            });
+                          },
+                          child: Container(
+                            height: 55,
+                            width: MediaQuery.of(context).size.width * 0.30,
+                            // color: Colors.white,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "size",
+                                  style: Text_Style.text_Theme(
+                                      Constants.black_text,
+                                      18,
+                                      FontWeight.normal),
                                 ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Color(0xff9B9B9B)),
-                                  borderRadius: BorderRadius.circular(8),
-                                )),
-                            value: selectedsize,
-                            items: size.map((e) {
-                              return DropdownMenuItem<String>(
-                                  value: e,
-                                  child: Text(
-                                    e,
-                                  ));
-                            }).toList(),
-                            onChanged: (value) {
-                              if (!mounted) return;
-                              setState(() {
-                                selectedsize = value.toString();
-                              });
-                            },
-                            borderRadius: BorderRadius.circular(8),
+                                Icon(
+                                  Icons.arrow_downward,
+                                  color: Colors.black,
+                                )
+                              ],
+                            ),
                           ),
                         ),
                         Container(
                           height: 55,
                           width: MediaQuery.of(context).size.width * 0.35,
-                          child: DropdownButtonFormField(
-                            alignment: Alignment.topCenter,
-                            elevation: 0,
-                            decoration: InputDecoration(
-                                fillColor: Colors.red,
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.red),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Color(0xff9B9B9B)),
-                                  borderRadius: BorderRadius.circular(8),
-                                )),
-                            value: selectedcolor,
-                            items: color.map((e) {
-                              return DropdownMenuItem<String>(
-                                  value: e,
-                                  child: Text(
-                                    e,
-                                  ));
-                            }).toList(),
-                            onChanged: (value) {
-                              if (!mounted) return;
-                              setState(() {
-                                selectedcolor = value.toString();
-                              });
-                            },
-                            borderRadius: BorderRadius.circular(8),
-                          ),
+                          color: Colors.yellow,
                         ),
                         Container(
                           decoration: BoxDecoration(
@@ -198,19 +170,14 @@ class _MyProductPageState extends State<MyProductPage> {
                       ),
                     ),
                     Text(
-                      "Short dress in soft cotton jersey with decorative buttons down the front and a wide, frill-trimmed square neckline with concealed elastication. Elasticated seam under the bust and short puff sleeves with a small frill trim.",
-                      style: TextStyle(
-                          color: Color(0xff9B9B9B),
-                          fontSize: 14,
-                          fontWeight: FontWeight.normal),
-                    ),
+                        "Short dress in soft cotton jersey with decorative buttons down the front and a wide, frill-trimmed square neckline with concealed elastication. Elasticated seam under the bust and short puff sleeves with a small frill trim.",
+                        style: Text_Style.text_Theme(
+                            Constants.grey_text, 14, FontWeight.normal)),
                     Padding(
                       padding: const EdgeInsets.only(top: 25, bottom: 12),
                       child: Text("You can also like this",
-                          style: TextStyle(
-                              color: Color(0xff222222),
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold)),
+                          style: Text_Style.text_Theme(
+                              Constants.black_text, 18, FontWeight.bold)),
                     ),
                     Container(
                       height: 300,
@@ -261,14 +228,13 @@ class _MyProductPageState extends State<MyProductPage> {
                                                 color: Colors.black,
                                                 borderRadius:
                                                     BorderRadius.circular(29)),
-                                            child: const Padding(
+                                            child: Padding(
                                               padding: EdgeInsets.all(6.0),
                                               child: Text(Constants.NEW,
-                                                  style: TextStyle(
-                                                    color: Color(0xffFFFFFF),
-                                                    fontSize: 11,
-                                                    fontWeight: FontWeight.bold,
-                                                  )),
+                                                  style: Text_Style.text_Theme(
+                                                      Constants.white_text,
+                                                      11,
+                                                      FontWeight.bold)),
                                             ),
                                           ),
                                         ),
@@ -314,11 +280,10 @@ class _MyProductPageState extends State<MyProductPage> {
                                                   left: 2, bottom: 0),
                                               child: Text(
                                                 "(10)",
-                                                style: const TextStyle(
-                                                    color: Color(0xff9B9B9B),
-                                                    fontSize: 10,
-                                                    fontWeight:
-                                                        FontWeight.normal),
+                                                style: Text_Style.text_Theme(
+                                                    Constants.grey_text,
+                                                    10,
+                                                    FontWeight.normal),
                                               ),
                                             )
                                           ],
@@ -334,12 +299,12 @@ class _MyProductPageState extends State<MyProductPage> {
                                       Padding(
                                         padding: const EdgeInsets.only(
                                             top: 5, bottom: 3),
-                                        child: const Text(
+                                        child: Text(
                                           "Evening Dress",
-                                          style: TextStyle(
-                                              color: Color(0xff222222),
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
+                                          style: Text_Style.text_Theme(
+                                              Constants.black_text,
+                                              16,
+                                              FontWeight.bold),
                                         ),
                                       ),
                                       Row(
@@ -349,19 +314,17 @@ class _MyProductPageState extends State<MyProductPage> {
                                                 const EdgeInsets.only(right: 4),
                                             child: Text(
                                               "15\$",
-                                              style: const TextStyle(
-                                                  color: Color(0xff9B9B9B),
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
+                                              style: Text_Style.text_Theme(
+                                                  Constants.grey_text,
+                                                  14,
+                                                  FontWeight.bold),
                                             ),
                                           ),
-                                          const Text(
-                                            "12\$",
-                                            style: TextStyle(
-                                                color: Color(0xffDB3022),
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold),
-                                          ),
+                                          Text("12\$",
+                                              style: Text_Style.text_Theme(
+                                                  Constants.red_text,
+                                                  14,
+                                                  FontWeight.bold)),
                                         ],
                                       ),
                                     ],

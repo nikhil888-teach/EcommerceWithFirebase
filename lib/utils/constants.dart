@@ -48,4 +48,10 @@ class Constants {
 
   //PROFILE_PAGE
   static const my_profile = "My profile";
+
+  //COLOR
+  static const red_text = 0xffDB3022;
+  static const white_text = 0xffFFFFFF;
+  static const black_text = 0xff222222;
+  static const grey_text = 0xff9B9B9B;
 }

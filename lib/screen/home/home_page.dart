@@ -37,11 +37,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(Constants.FASHION,
-                          style:
-                              Text_Style.white_text_Theme(48, FontWeight.bold)),
+                          style: Text_Style.text_Theme(
+                              Constants.white_text, 48, FontWeight.bold)),
                       Text(
                         Constants.SALE,
-                        style: Text_Style.white_text_Theme(48, FontWeight.bold),
+                        style: Text_Style.text_Theme(
+                            Constants.white_text, 48, FontWeight.bold),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 24),
@@ -70,8 +71,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(Constants.NEW,
-                                style: Text_Style.black_text_Theme(
-                                    34, FontWeight.bold)),
+                                style: Text_Style.text_Theme(
+                                    Constants.black_text, 34, FontWeight.bold)),
                             const Padding(
                               padding: EdgeInsets.only(top: 10, right: 15),
                               child: Text("View all"),
@@ -82,8 +83,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 15),
                         child: Text(Constants.you_never_before,
-                            style: Text_Style.grey_text_Theme(
-                                11, FontWeight.normal)),
+                            style: Text_Style.text_Theme(
+                                Constants.grey_text, 11, FontWeight.normal)),
                       ),
                       Container(
                         height: 300,
@@ -141,8 +142,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                               child: Padding(
                                                 padding: EdgeInsets.all(6.0),
                                                 child: Text(Constants.NEW,
-                                                    style: Text_Style
-                                                        .white_text_Theme(11,
+                                                    style:
+                                                        Text_Style.text_Theme(
+                                                            Constants
+                                                                .white_text,
+                                                            11,
                                                             FontWeight.bold)),
                                               ),
                                             ),
@@ -191,8 +195,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   padding: EdgeInsets.only(
                                                       left: 2, bottom: 8),
                                                   child: Text("(10)",
-                                                      style: Text_Style
-                                                          .grey_text_Theme(
+                                                      style:
+                                                          Text_Style.text_Theme(
+                                                              Constants
+                                                                  .grey_text,
                                                               10,
                                                               FontWeight
                                                                   .normal)),
@@ -202,42 +208,37 @@ class _MyHomePageState extends State<MyHomePage> {
                                           ),
                                           Text(
                                             "Dorothy Perkins",
-                                            style: Text_Style.grey_text_Theme(
-                                                11, FontWeight.normal),
+                                            style: Text_Style.text_Theme(
+                                                Constants.grey_text,
+                                                11,
+                                                FontWeight.normal),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.only(
                                                 top: 5, bottom: 3),
-                                            child: const Text(
-                                              "Evening Dress",
-                                              style: TextStyle(
-                                                  color: Color(0xff222222),
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
+                                            child: Text("Evening Dress",
+                                                style: Text_Style.text_Theme(
+                                                    Constants.black_text,
+                                                    16,
+                                                    FontWeight.bold)),
                                           ),
                                           Row(
                                             children: [
                                               Padding(
-                                                padding: const EdgeInsets.only(
-                                                    right: 4),
-                                                child: Text(
-                                                  "15\$",
-                                                  style: const TextStyle(
-                                                      color: Color(0xff9B9B9B),
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
+                                                padding:
+                                                    EdgeInsets.only(right: 4),
+                                                child: Text("15\$",
+                                                    style:
+                                                        Text_Style.text_Theme(
+                                                            Constants.grey_text,
+                                                            14,
+                                                            FontWeight.bold)),
                                               ),
-                                              const Text(
-                                                "12\$",
-                                                style: TextStyle(
-                                                    color: Color(0xffDB3022),
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
+                                              Text("12\$",
+                                                  style: Text_Style.text_Theme(
+                                                      Constants.red_text,
+                                                      14,
+                                                      FontWeight.bold)),
                                             ],
                                           ),
                                         ],

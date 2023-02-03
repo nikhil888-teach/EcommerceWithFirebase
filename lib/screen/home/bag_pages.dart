@@ -1,5 +1,6 @@
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
+import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -18,14 +19,11 @@ class _MyBagPageState extends State<MyBagPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Align(
-          alignment: Alignment.center,
-          child: Text(
-            Constants.My_Bag,
-            style: TextStyle(
-                color: Color(0xff222222), fontWeight: FontWeight.bold),
-          ),
-        ),
+        title: Transform(
+            transform: Matrix4.translationValues(-40.0, 0.0, 0.0),
+            child: Text(Constants.My_Bag,
+                style: Text_Style.text_Theme(
+                    Constants.black_text, 20, FontWeight.bold))),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 5),
@@ -92,12 +90,12 @@ class _MyBagPageState extends State<MyBagPage> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            const Text(
+                                            Text(
                                               "Pullover",
-                                              style: TextStyle(
-                                                  color: Color(0xff222222),
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold),
+                                              style: Text_Style.text_Theme(
+                                                  Constants.black_text,
+                                                  16,
+                                                  FontWeight.bold),
                                             ),
                                             Container(
                                               height: 25,
@@ -125,44 +123,40 @@ class _MyBagPageState extends State<MyBagPage> {
                                             bottom: 15, top: 0),
                                         child: Row(
                                           children: [
-                                            const Text(
+                                            Text(
                                               Constants.color,
-                                              style: TextStyle(
-                                                  color: Color(0xff9B9B9B),
-                                                  fontSize: 13,
-                                                  fontWeight:
-                                                      FontWeight.normal),
+                                              style: Text_Style.text_Theme(
+                                                  Constants.grey_text,
+                                                  13,
+                                                  FontWeight.normal),
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                   right: 15),
                                               child: Text(
                                                 "Black",
-                                                style: const TextStyle(
-                                                    color: Color(0xff222222),
-                                                    fontSize: 13,
-                                                    fontWeight:
-                                                        FontWeight.normal),
+                                                style: Text_Style.text_Theme(
+                                                    Constants.black_text,
+                                                    13,
+                                                    FontWeight.normal),
                                               ),
                                             ),
                                             Text(
                                               Constants.size,
-                                              style: const TextStyle(
-                                                  color: Color(0xff9B9B9B),
-                                                  fontSize: 13,
-                                                  fontWeight:
-                                                      FontWeight.normal),
+                                              style: Text_Style.text_Theme(
+                                                  Constants.grey_text,
+                                                  13,
+                                                  FontWeight.normal),
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                   right: 15),
                                               child: Text(
                                                 "L",
-                                                style: const TextStyle(
-                                                    color: Color(0xff222222),
-                                                    fontSize: 13,
-                                                    fontWeight:
-                                                        FontWeight.normal),
+                                                style: Text_Style.text_Theme(
+                                                    Constants.black_text,
+                                                    13,
+                                                    FontWeight.normal),
                                               ),
                                             )
                                           ],
@@ -203,13 +197,12 @@ class _MyBagPageState extends State<MyBagPage> {
                                                 padding:
                                                     const EdgeInsets.symmetric(
                                                         horizontal: 16),
-                                                child: const Text(
+                                                child: Text(
                                                   "1",
-                                                  style: TextStyle(
-                                                      color: Color(0xff222222),
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.bold),
+                                                  style: Text_Style.text_Theme(
+                                                      Constants.black_text,
+                                                      14,
+                                                      FontWeight.bold),
                                                 ),
                                               ),
                                               ClipOval(
@@ -239,16 +232,16 @@ class _MyBagPageState extends State<MyBagPage> {
                                               )
                                             ],
                                           ),
-                                          const Padding(
-                                            padding: EdgeInsets.only(right: 10),
-                                            child: Text(
-                                              "51\$",
-                                              style: TextStyle(
-                                                  color: Color(0xff222222),
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          )
+                                          Padding(
+                                              padding:
+                                                  EdgeInsets.only(right: 10),
+                                              child: Text(
+                                                "51\$",
+                                                style: Text_Style.text_Theme(
+                                                    Constants.black_text,
+                                                    20,
+                                                    FontWeight.bold),
+                                              ))
                                         ],
                                       )
                                     ],
@@ -277,19 +270,15 @@ class _MyBagPageState extends State<MyBagPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  Text(
                     Constants.total_amount,
-                    style: TextStyle(
-                        color: Color(0xff9B9B9B),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500),
+                    style: Text_Style.text_Theme(
+                        Constants.grey_text, 14, FontWeight.w500),
                   ),
-                  const Text(
+                  Text(
                     "124\$",
-                    style: TextStyle(
-                        color: Color(0xff222222),
-                        fontSize: 18,
-                        fontWeight: FontWeight.w900),
+                    style: Text_Style.text_Theme(
+                        Constants.black_text, 18, FontWeight.w900),
                   )
                 ],
               ),

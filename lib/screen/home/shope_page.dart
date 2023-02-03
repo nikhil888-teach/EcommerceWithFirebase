@@ -1,4 +1,5 @@
 import 'package:ecommerce/utils/constants.dart';
+import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/material.dart';
 
 class MyShopePage extends StatefulWidget {
@@ -32,11 +33,9 @@ class _MyShopePageState extends State<MyShopePage> {
                   )
                 ],
                 centerTitle: true,
-                title: const Text(Constants.Categories,
-                    style: TextStyle(
-                        color: Color(0xff222222),
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold)),
+                title: Text(Constants.Categories,
+                    style: Text_Style.text_Theme(
+                        Constants.black_text, 18, FontWeight.bold)),
                 backgroundColor: Colors.white,
                 elevation: 1,
               ),
@@ -44,15 +43,15 @@ class _MyShopePageState extends State<MyShopePage> {
                 children: [
                   Container(
                     color: const Color(0xffFFFFFF),
-                    child: const TabBar(
+                    child: TabBar(
                         labelPadding: EdgeInsets.symmetric(vertical: 14),
                         indicatorColor: Color(0xffDB3022),
                         unselectedLabelColor: Color(0xff222222),
-                        unselectedLabelStyle: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.normal),
+                        unselectedLabelStyle: Text_Style.text_Theme(
+                            Constants.black_text, 16, FontWeight.normal),
                         labelColor: Color(0xff222222),
-                        labelStyle: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
+                        labelStyle: Text_Style.text_Theme(
+                            Constants.black_text, 16, FontWeight.bold),
                         tabs: [
                           Text(Constants.women),
                           Text(Constants.Men),
@@ -89,14 +88,12 @@ class _MyShopePageState extends State<MyShopePage> {
                     child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.only(left: 25),
                       child: Text(
                         Constants.NEW,
-                        style: TextStyle(
-                            color: Color(0xff222222),
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
+                        style: Text_Style.text_Theme(
+                            Constants.black_text, 18, FontWeight.bold),
                       ),
                     ),
                     Image.network(

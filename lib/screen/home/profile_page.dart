@@ -1,4 +1,5 @@
 import 'package:ecommerce/utils/constants.dart';
+import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -35,10 +36,8 @@ class _MyProfilePageState extends State<MyProfilePage> {
                       padding: const EdgeInsets.only(bottom: 25, top: 18),
                       child: Text(
                         Constants.my_profile,
-                        style: TextStyle(
-                            color: const Color(0xff222222),
-                            fontSize: 34,
-                            fontWeight: FontWeight.bold),
+                        style: Text_Style.text_Theme(
+                            Constants.black_text, 34, FontWeight.bold),
                       ),
                     ),
                     Row(
@@ -61,17 +60,13 @@ class _MyProfilePageState extends State<MyProfilePage> {
                             children: [
                               Text(
                                 "Matilda Brown",
-                                style: TextStyle(
-                                    color: const Color(0xff222222),
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold),
+                                style: Text_Style.text_Theme(
+                                    Constants.black_text, 18, FontWeight.bold),
                               ),
                               Text(
                                 "matildabrown@mail.com",
-                                style: TextStyle(
-                                    color: const Color(0xff9B9B9B),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal),
+                                style: Text_Style.text_Theme(
+                                    Constants.grey_text, 14, FontWeight.normal),
                               )
                             ],
                           ),
@@ -89,10 +84,8 @@ class _MyProfilePageState extends State<MyProfilePage> {
                           child: ListTile(
                             title: Text(
                               map.entries.elementAt(index).value,
-                              style: TextStyle(
-                                  color: const Color(0xff222222),
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500),
+                              style: Text_Style.text_Theme(
+                                  Constants.black_text, 20, FontWeight.w500),
                             ),
                             trailing: const Icon(
                               CupertinoIcons.forward,

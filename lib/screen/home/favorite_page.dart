@@ -1,4 +1,5 @@
 import 'package:ecommerce/utils/constants.dart';
+import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,7 @@ class MyFavoritePage extends StatefulWidget {
 }
 
 class _MyFavoritePageState extends State<MyFavoritePage> {
-  Map map = {
+  Map filter = {
     0: 'Newest',
     1: 'Oldest',
     2: 'lowest to high',
@@ -24,7 +25,7 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
   void initState() {
     if (!mounted) return;
     setState(() {
-      selectedSort = map.entries.elementAt(sortIndex!).value;
+      selectedSort = filter.entries.elementAt(sortIndex!).value;
     });
     super.initState();
   }
@@ -38,10 +39,8 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
               backgroundColor: Colors.white,
               centerTitle: false,
               titleSpacing: 0,
-              titleTextStyle: TextStyle(
-                  color: const Color(0xff222222),
-                  fontSize: 34,
-                  fontWeight: FontWeight.bold),
+              titleTextStyle: Text_Style.text_Theme(
+                  Constants.black_text, 34, FontWeight.bold),
               title: Transform(
                 transform: Matrix4.translationValues(-40.0, 0.0, 0.0),
                 child: Text(
@@ -79,40 +78,57 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(left: 5),
-                                    child: Text(
-                                      "Price: $selectedSort",
-                                      style: TextStyle(
-                                          color: const Color(0xff222222),
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.normal),
-                                    ),
+                                    child: Text("Price: $selectedSort",
+                                        style: Text_Style.text_Theme(
+                                            Constants.black_text,
+                                            14,
+                                            FontWeight.normal)),
                                   ),
                                 ],
                               ),
                               GestureDetector(
                                 onTap: () {
                                   showModalBottomSheet(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(34),
+                                            topRight: Radius.circular(34))),
+                                    backgroundColor: Colors.white,
                                     context: context,
                                     builder: (context) {
                                       return Container(
                                         height:
                                             MediaQuery.of(context).size.height /
-                                                2.5,
+                                                2.4,
                                         child: Column(
                                           children: [
-                                            const Text(
-                                              "Sort",
-                                              style: TextStyle(
-                                                  color: Color(0xff222222),
-                                                  fontSize: 34,
-                                                  fontWeight: FontWeight.bold),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 15),
+                                              child: Container(
+                                                width: 60,
+                                                height: 6,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(3),
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+                                            ),
+                                            Text(
+                                              "Sort by",
+                                              style: Text_Style.text_Theme(
+                                                  Constants.black_text,
+                                                  18,
+                                                  FontWeight.bold),
                                             ),
                                             Expanded(
                                               flex: 1,
                                               child: StatefulBuilder(
                                                   builder: (context, setState) {
                                                 return ListView.builder(
-                                                  itemCount: map.length,
+                                                  itemCount: filter.length,
                                                   itemBuilder:
                                                       (context, index) {
                                                     return ListTile(
@@ -120,7 +136,7 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                                                         if (!mounted) return;
                                                         this.setState(() {
                                                           sortIndex = index;
-                                                          selectedSort = map
+                                                          selectedSort = filter
                                                               .entries
                                                               .elementAt(
                                                                   sortIndex!)
@@ -129,21 +145,19 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                                                               context);
                                                         });
                                                       },
-                                                      // tileColor: ,
                                                       title: Text(
-                                                        map.entries
-                                                            .elementAt(index)
-                                                            .value,
-                                                        style: TextStyle(
-                                                            color: sortIndex ==
-                                                                    index
-                                                                ? Colors.white
-                                                                : Colors.black,
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w600),
-                                                      ),
+                                                          filter.entries
+                                                              .elementAt(index)
+                                                              .value,
+                                                          style: Text_Style.text_Theme(
+                                                              sortIndex == index
+                                                                  ? Constants
+                                                                      .white_text
+                                                                  : Constants
+                                                                      .black_text,
+                                                              16,
+                                                              FontWeight
+                                                                  .normal)),
                                                       selected: true,
                                                       selectedColor: Colors.red,
                                                       selectedTileColor:
@@ -185,7 +199,7 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                     maxCrossAxisExtent: 200,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
-                    childAspectRatio: 0.5182,
+                    childAspectRatio: 0.517,
                   ),
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
@@ -251,10 +265,10 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                                         left: 2, bottom: 0),
                                     child: Text(
                                       "(10)",
-                                      style: const TextStyle(
-                                          color: Color(0xff9B9B9B),
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.normal),
+                                      style: Text_Style.text_Theme(
+                                          Constants.grey_text,
+                                          13,
+                                          FontWeight.normal),
                                     ),
                                   )
                                 ],
@@ -262,67 +276,61 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                             ),
                             Text(
                               "Dorothy Perkins",
-                              style: const TextStyle(
-                                  color: Color(0xff9B9B9B),
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.normal),
+                              style: Text_Style.text_Theme(
+                                  Constants.grey_text, 11, FontWeight.normal),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 5, bottom: 3),
-                              child: const Text(
+                              child: Text(
                                 "Evening Dress",
-                                style: TextStyle(
-                                    color: Color(0xff222222),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold),
+                                style: Text_Style.text_Theme(
+                                    Constants.black_text, 16, FontWeight.bold),
                               ),
                             ),
                             Row(
                               children: [
-                                const Text(
+                                Text(
                                   "Color: ",
-                                  style: TextStyle(
-                                      color: Color(0xff9B9B9B),
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.normal),
+                                  style: Text_Style.text_Theme(
+                                      Constants.grey_text,
+                                      13,
+                                      FontWeight.normal),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(right: 15),
                                   child: Text(
                                     "Black",
-                                    style: const TextStyle(
-                                        color: Color(0xff222222),
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.normal),
+                                    style: Text_Style.text_Theme(
+                                        Constants.black_text,
+                                        13,
+                                        FontWeight.normal),
                                   ),
                                 ),
                                 Text(
                                   "Size: ",
-                                  style: const TextStyle(
-                                      color: Color(0xff9B9B9B),
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.normal),
+                                  style: Text_Style.text_Theme(
+                                      Constants.grey_text,
+                                      13,
+                                      FontWeight.normal),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(right: 15),
                                   child: Text(
                                     "L",
-                                    style: const TextStyle(
-                                        color: Color(0xff222222),
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.normal),
+                                    style: Text_Style.text_Theme(
+                                        Constants.black_text,
+                                        13,
+                                        FontWeight.normal),
                                   ),
                                 )
                               ],
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 5),
-                              child: const Text(
+                              child: Text(
                                 "12\$",
-                                style: TextStyle(
-                                    color: Color(0xffDB3022),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold),
+                                style: Text_Style.text_Theme(
+                                    Constants.red_text, 14, FontWeight.bold),
                               ),
                             ),
                           ],

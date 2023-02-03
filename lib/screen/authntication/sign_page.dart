@@ -32,8 +32,8 @@ class _MySignInPageState extends State<MySignInPage> {
                         height: 34,
                       ),
                       Text(Constants.SIGNUP,
-                          style:
-                              Text_Style.black_text_Theme(34, FontWeight.bold)),
+                          style: Text_Style.text_Theme(
+                              Constants.black_text, 34, FontWeight.bold)),
                       const SizedBox(
                         height: 74,
                       ),
@@ -103,8 +103,10 @@ class _MySignInPageState extends State<MySignInPage> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(Constants.ALREADY_ACCOUNT,
-                                style: Text_Style.black_text_Theme(
-                                    14, FontWeight.normal)),
+                                style: Text_Style.text_Theme(
+                                    Constants.black_text,
+                                    14,
+                                    FontWeight.normal)),
                             const Icon(
                               Icons.arrow_right_alt,
                               color: Colors.red,

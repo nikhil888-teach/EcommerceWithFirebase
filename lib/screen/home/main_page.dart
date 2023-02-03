@@ -4,6 +4,7 @@ import 'package:ecommerce/screen/home/home_page.dart';
 import 'package:ecommerce/screen/home/profile_page.dart';
 import 'package:ecommerce/screen/home/shope_page.dart';
 import 'package:ecommerce/utils/constants.dart';
+import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -42,14 +43,10 @@ class _MyMainPageState extends State<MyMainPage> {
             showSelectedLabels: true,
             selectedItemColor: const Color(0xffDB3022),
             unselectedItemColor: Colors.grey,
-            unselectedLabelStyle: TextStyle(
-                color: const Color(0xff9B9B9B),
-                fontSize: 10,
-                fontWeight: FontWeight.normal),
-            selectedLabelStyle: TextStyle(
-                color: Color(0xffDB3022),
-                fontSize: 10,
-                fontWeight: FontWeight.normal),
+            unselectedLabelStyle: Text_Style.text_Theme(
+                Constants.grey_text, 10, FontWeight.normal),
+            selectedLabelStyle: Text_Style.text_Theme(
+                Constants.red_text, 10, FontWeight.normal),
             items: const [
               BottomNavigationBarItem(
                   label: Constants.HOME,
