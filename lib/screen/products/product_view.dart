@@ -13,13 +13,14 @@ class MyProductPage extends StatefulWidget {
 
 class _MyProductPageState extends State<MyProductPage> {
   Map size = {0: "XS", 1: "S", 2: "M", 3: "L", 4: "XL"};
-  String? selectedsize = "XS";
-  List color = <String>["White", "Black", "Pink", "Blue", "Grey"];
-  String? selectedcolor = "Black";
-  bool showbottomdialog = false;
+
+  String? selectedsize;
+  Map color = {0: "White", 1: "Black", 2: "Pink", 3: "Blue", 4: "Grey"};
+  String? selectedcolor;
   @override
   void initState() {
-    showbottomdialog = false;
+    selectedsize = "Size";
+    selectedcolor = "Color";
     super.initState();
   }
 
@@ -75,9 +76,90 @@ class _MyProductPageState extends State<MyProductPage> {
                           style: OutlinedButton.styleFrom(
                               backgroundColor: Colors.white),
                           onPressed: () {
-                            setState(() {
-                              showbottomdialog = true;
-                            });
+                            showModalBottomSheet(
+                              backgroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(34),
+                                      topRight: Radius.circular(34))),
+                              context: context,
+                              builder: (context) {
+                                return Container(
+                                  decoration: BoxDecoration(),
+                                  height:
+                                      MediaQuery.of(context).size.height / 3,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 15),
+                                        child: Container(
+                                          width: 60,
+                                          height: 6,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(3),
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        "Select size",
+                                        style: Text_Style.text_Theme(
+                                            Constants.black_text,
+                                            18,
+                                            FontWeight.bold),
+                                      ),
+                                      Wrap(
+                                        spacing: 20,
+                                        direction: Axis.horizontal,
+                                        children: List.generate(
+                                            size.length,
+                                            (index) => Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 15),
+                                                  child: Container(
+                                                    width: 100,
+                                                    height: 40,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8)),
+                                                    child: OutlinedButton(
+                                                        onPressed: () {
+                                                          if (!mounted) return;
+                                                          setState(() {
+                                                            selectedsize = size
+                                                                .entries
+                                                                .elementAt(
+                                                                    index)
+                                                                .value;
+                                                          });
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child: Text(
+                                                          size.entries
+                                                              .elementAt(index)
+                                                              .value,
+                                                          style: Text_Style
+                                                              .text_Theme(
+                                                                  Constants
+                                                                      .black_text,
+                                                                  14,
+                                                                  FontWeight
+                                                                      .w500),
+                                                        )),
+                                                  ),
+                                                )),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
                           },
                           child: Container(
                             height: 55,
@@ -87,7 +169,7 @@ class _MyProductPageState extends State<MyProductPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "size",
+                                  selectedsize!,
                                   style: Text_Style.text_Theme(
                                       Constants.black_text,
                                       18,
@@ -101,10 +183,116 @@ class _MyProductPageState extends State<MyProductPage> {
                             ),
                           ),
                         ),
-                        Container(
-                          height: 55,
-                          width: MediaQuery.of(context).size.width * 0.35,
-                          color: Colors.yellow,
+                        OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                              backgroundColor: Colors.white),
+                          onPressed: () {
+                            showModalBottomSheet(
+                              backgroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(34),
+                                      topRight: Radius.circular(34))),
+                              context: context,
+                              builder: (context) {
+                                return Container(
+                                  decoration: BoxDecoration(),
+                                  height:
+                                      MediaQuery.of(context).size.height / 3,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 15),
+                                        child: Container(
+                                          width: 60,
+                                          height: 6,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(3),
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        "Select color",
+                                        style: Text_Style.text_Theme(
+                                            Constants.black_text,
+                                            18,
+                                            FontWeight.bold),
+                                      ),
+                                      Wrap(
+                                        spacing: 20,
+                                        direction: Axis.horizontal,
+                                        children: List.generate(
+                                            color.length,
+                                            (index) => Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 15),
+                                                  child: Container(
+                                                    width: 100,
+                                                    height: 40,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8)),
+                                                    child: OutlinedButton(
+                                                        onPressed: () {
+                                                          if (!mounted) return;
+                                                          setState(() {
+                                                            selectedcolor =
+                                                                color.entries
+                                                                    .elementAt(
+                                                                        index)
+                                                                    .value;
+                                                          });
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child: Text(
+                                                          color.entries
+                                                              .elementAt(index)
+                                                              .value,
+                                                          style: Text_Style
+                                                              .text_Theme(
+                                                                  Constants
+                                                                      .black_text,
+                                                                  14,
+                                                                  FontWeight
+                                                                      .w500),
+                                                        )),
+                                                  ),
+                                                )),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          child: Container(
+                            height: 55,
+                            width: MediaQuery.of(context).size.width * 0.30,
+                            // color: Colors.white,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  selectedcolor!,
+                                  style: Text_Style.text_Theme(
+                                      Constants.black_text,
+                                      18,
+                                      FontWeight.normal),
+                                ),
+                                Icon(
+                                  Icons.arrow_downward,
+                                  color: Colors.black,
+                                )
+                              ],
+                            ),
+                          ),
                         ),
                         Container(
                           decoration: BoxDecoration(
