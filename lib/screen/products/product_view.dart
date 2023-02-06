@@ -15,7 +15,15 @@ class _MyProductPageState extends State<MyProductPage> {
   Map size = {0: "XS", 1: "S", 2: "M", 3: "L", 4: "XL"};
 
   String? selectedsize;
+  int? selectedindexcolor;
   Map color = {0: "White", 1: "Black", 2: "Pink", 3: "Blue", 4: "Grey"};
+  var displaycolor = {
+    0xfff5f5f5,
+    0xff000000,
+    0xffFFC0CB,
+    0xff0000FF,
+    0xff808080
+  };
   String? selectedcolor;
   @override
   void initState() {
@@ -74,6 +82,8 @@ class _MyProductPageState extends State<MyProductPage> {
                       children: [
                         OutlinedButton(
                           style: OutlinedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
                               backgroundColor: Colors.white),
                           onPressed: () {
                             showModalBottomSheet(
@@ -121,12 +131,20 @@ class _MyProductPageState extends State<MyProductPage> {
                                                       const EdgeInsets.only(
                                                           top: 15),
                                                   child: Container(
-                                                    width: 100,
-                                                    height: 40,
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.05,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.25,
                                                     decoration: BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius
-                                                                .circular(8)),
+                                                                .circular(10)),
                                                     child: OutlinedButton(
                                                         onPressed: () {
                                                           if (!mounted) return;
@@ -162,9 +180,8 @@ class _MyProductPageState extends State<MyProductPage> {
                             );
                           },
                           child: Container(
-                            height: 55,
+                            height: MediaQuery.of(context).size.height * 0.06,
                             width: MediaQuery.of(context).size.width * 0.30,
-                            // color: Colors.white,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -176,7 +193,7 @@ class _MyProductPageState extends State<MyProductPage> {
                                       FontWeight.normal),
                                 ),
                                 Icon(
-                                  Icons.arrow_downward,
+                                  Icons.keyboard_arrow_down,
                                   color: Colors.black,
                                 )
                               ],
@@ -185,6 +202,8 @@ class _MyProductPageState extends State<MyProductPage> {
                         ),
                         OutlinedButton(
                           style: OutlinedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
                               backgroundColor: Colors.white),
                           onPressed: () {
                             showModalBottomSheet(
@@ -232,8 +251,16 @@ class _MyProductPageState extends State<MyProductPage> {
                                                       const EdgeInsets.only(
                                                           top: 15),
                                                   child: Container(
-                                                    width: 100,
-                                                    height: 40,
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.05,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.25,
                                                     decoration: BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius
@@ -247,21 +274,44 @@ class _MyProductPageState extends State<MyProductPage> {
                                                                     .elementAt(
                                                                         index)
                                                                     .value;
+                                                            selectedindexcolor =
+                                                                color.entries
+                                                                    .elementAt(
+                                                                        index)
+                                                                    .key;
                                                           });
                                                           Navigator.pop(
                                                               context);
                                                         },
-                                                        child: Text(
-                                                          color.entries
-                                                              .elementAt(index)
-                                                              .value,
-                                                          style: Text_Style
-                                                              .text_Theme(
-                                                                  Constants
-                                                                      .black_text,
-                                                                  14,
-                                                                  FontWeight
-                                                                      .w500),
+                                                        child: Row(
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      right: 5),
+                                                              child: Icon(
+                                                                Icons.circle,
+                                                                color: Color(
+                                                                    displaycolor
+                                                                        .elementAt(
+                                                                            index)),
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              color.entries
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .value,
+                                                              style: Text_Style
+                                                                  .text_Theme(
+                                                                      Constants
+                                                                          .black_text,
+                                                                      14,
+                                                                      FontWeight
+                                                                          .w500),
+                                                            ),
+                                                          ],
                                                         )),
                                                   ),
                                                 )),
@@ -273,21 +323,36 @@ class _MyProductPageState extends State<MyProductPage> {
                             );
                           },
                           child: Container(
-                            height: 55,
+                            height: MediaQuery.of(context).size.height * 0.06,
                             width: MediaQuery.of(context).size.width * 0.30,
+
                             // color: Colors.white,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  selectedcolor!,
-                                  style: Text_Style.text_Theme(
-                                      Constants.black_text,
-                                      18,
-                                      FontWeight.normal),
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 5),
+                                      child: Icon(
+                                        Icons.circle,
+                                        color: selectedindexcolor == null
+                                            ? Colors.transparent
+                                            : Color(displaycolor.elementAt(
+                                                selectedindexcolor!)),
+                                      ),
+                                    ),
+                                    Text(
+                                      selectedcolor!,
+                                      style: Text_Style.text_Theme(
+                                          Constants.black_text,
+                                          18,
+                                          FontWeight.normal),
+                                    )
+                                  ],
                                 ),
                                 Icon(
-                                  Icons.arrow_downward,
+                                  Icons.keyboard_arrow_down,
                                   color: Colors.black,
                                 )
                               ],
@@ -303,7 +368,7 @@ class _MyProductPageState extends State<MyProductPage> {
                               child: Icon(
                                 CupertinoIcons.heart,
                                 color: Colors.grey,
-                                size: 28,
+                                size: 24,
                               )),
                         ),
                       ],

@@ -1,4 +1,4 @@
-import 'package:ecommerce/screen/authntication/sign_page.dart';
+import 'package:ecommerce/screen/aftercheckout/add_address_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart' as google_fonts;
 
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         fontFamily: google_fonts.GoogleFonts.roboto().fontFamily,
         primarySwatch: Colors.blue,
       ),
-      home: const MySignInPage(),
+      home: const MyAddressPage(),
     );
   }
 }

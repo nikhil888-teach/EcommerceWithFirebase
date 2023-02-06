@@ -49,6 +49,14 @@ class Constants {
   //PROFILE_PAGE
   static const my_profile = "My profile";
 
+  //add address
+  static const full_name = "Full name";
+  static const address = "Address";
+  static const city = "City";
+  static const state = "State/Province/Region";
+  static const code = "Zip Code (Postal Code)";
+  static const country = "Country";
+
   //COLOR
   static const red_text = 0xffDB3022;
   static const white_text = 0xffFFFFFF;
