@@ -56,6 +56,13 @@ class Constants {
   static const state = "State/Province/Region";
   static const code = "Zip Code (Postal Code)";
   static const country = "Country";
+  static const save_address = "SAVE ADDRESS";
+  static const change = "Change";
+  static const payment = "Payment";
+
+  //checkout page
+  static const shipping_address = "Shipping address";
+  static const delivery_method = "Delivery method";
 
   //COLOR
   static const red_text = 0xffDB3022;
