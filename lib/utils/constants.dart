@@ -63,6 +63,20 @@ class Constants {
   //checkout page
   static const shipping_address = "Shipping address";
   static const delivery_method = "Delivery method";
+  static const order = "Order:";
+  static const delivery = "Delivery:";
+  static const summary = "Summary";
+  static const submit = "SUBMIT ORDER";
+
+  //Success! page
+  static const success = "Success!";
+  static const succ_text =
+      "Your order will be delivered soon.Thank you for choosing our app!";
+  static const conti_shop = "CONTINUE SHOPPING";
+  static const use_add = "Use as the shipping address";
+
+  //all address
+  static const edit = "Edit";
 
   //COLOR
   static const red_text = 0xffDB3022;
