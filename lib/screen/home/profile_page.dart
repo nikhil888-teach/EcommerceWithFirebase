@@ -1,3 +1,5 @@
+import 'package:ecommerce/profileoptions/myorders/myorder_page.dart';
+import 'package:ecommerce/profileoptions/settings_page.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,6 +21,14 @@ class _MyProfilePageState extends State<MyProfilePage> {
     4: "My reviews",
     5: "Settings"
   };
+  List pages = [
+    MyOrderPage(),
+    MySettingPage(),
+    MySettingPage(),
+    MySettingPage(),
+    MySettingPage(),
+    MySettingPage()
+  ];
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -28,7 +38,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
               physics: BouncingScrollPhysics(),
               child: Padding(
                 padding: const EdgeInsets.only(
-                    top: 18, left: 15, right: 15, bottom: 15),
+                    top: 0, left: 15, right: 15, bottom: 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -82,6 +92,11 @@ class _MyProfilePageState extends State<MyProfilePage> {
                         child: Card(
                           elevation: 0,
                           child: ListTile(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => pages[index],
+                              ));
+                            },
                             title: Text(
                               map.entries.elementAt(index).value,
                               style: Text_Style.text_Theme(

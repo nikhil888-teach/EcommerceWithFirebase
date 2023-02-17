@@ -2,6 +2,7 @@ import 'package:ecommerce/screen/authntication/login_page.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
+import 'package:ecommerce/widgets/textformfield_theme.dart';
 import 'package:flutter/material.dart';
 
 import '../home/main_page.dart';
@@ -14,6 +15,9 @@ class MySignInPage extends StatefulWidget {
 }
 
 class _MySignInPageState extends State<MySignInPage> {
+  TextEditingController name = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -37,59 +41,16 @@ class _MySignInPageState extends State<MySignInPage> {
                       const SizedBox(
                         height: 74,
                       ),
-                      Card(
-                        elevation: 2,
-                        child: TextFormField(
-                          autocorrect: true,
-                          enableSuggestions: true,
-                          enabled: true,
-                          enableInteractiveSelection: true,
-                          keyboardType: TextInputType.name,
-                          cursorColor: Colors.grey,
-                          decoration: const InputDecoration(
-                              label: Text(Constants.NAME),
-                              hintText: Constants.NAME,
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide.none)),
-                        ),
-                      ),
+                      Textformfield_style.textField(name, Constants.NAME),
                       const SizedBox(
                         height: 8,
                       ),
-                      Card(
-                        elevation: 2,
-                        child: TextFormField(
-                          autocorrect: true,
-                          enableSuggestions: true,
-                          enabled: true,
-                          enableInteractiveSelection: true,
-                          keyboardType: TextInputType.emailAddress,
-                          cursorColor: Colors.grey,
-                          decoration: const InputDecoration(
-                              hintText: Constants.EMAIL,
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide.none)),
-                        ),
-                      ),
+                      Textformfield_style.textField(email, Constants.EMAIL),
                       const SizedBox(
                         height: 8,
                       ),
-                      Card(
-                        elevation: 2,
-                        child: TextFormField(
-                          autocorrect: true,
-                          enableSuggestions: true,
-                          enabled: true,
-                          enableInteractiveSelection: true,
-                          keyboardType: TextInputType.visiblePassword,
-                          cursorColor: Colors.grey,
-                          obscureText: true,
-                          decoration: const InputDecoration(
-                              hintText: Constants.PASSWORD,
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide.none)),
-                        ),
-                      ),
+                      Textformfield_style.textField(
+                          password, Constants.PASSWORD),
                       const SizedBox(
                         height: 16,
                       ),

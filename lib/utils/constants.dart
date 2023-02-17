@@ -11,7 +11,7 @@ class Constants {
   static const LOGIN = "Login";
   static const EMAIL = "Email";
   static const PASSWORD = "Password";
-  static const FORGOT_PASSWORD = "Forgot your password";
+  static const FORGOT_PASSWORD = "Forgot password?";
   static const OR_SIGN_WITH_SOCIAL = "Or sign up with Social account";
 
   //SINGUP_PAGE
@@ -77,6 +77,19 @@ class Constants {
 
   //all address
   static const edit = "Edit";
+
+  //SETTING PAGE
+  static const pers_info = "Personal Information";
+  static const curr_password = "";
+  static const pass_change = "Password Change";
+  static const old_pass = "Old Password";
+  static const new_pass = "New Password";
+  static const repeat_pass = "Repeat New Password";
+  static const save_pass = "SAVE PASSWORD";
+  static const notification = "Notifications";
+  static const sales = "Sales";
+  static const new_arr = "New arrivals";
+  static const delivery_status = "Delivery status changes";
 
   //COLOR
   static const red_text = 0xffDB3022;

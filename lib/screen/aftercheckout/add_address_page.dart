@@ -3,6 +3,7 @@ import 'package:ecommerce/screen/aftercheckout/checkout_page.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
+import 'package:ecommerce/widgets/textformfield_theme.dart';
 import 'package:flutter/material.dart';
 
 class MyAddressPage extends StatefulWidget {
@@ -14,7 +15,11 @@ class MyAddressPage extends StatefulWidget {
 
 class _MyAddressPageState extends State<MyAddressPage> {
   String country = "Country";
-
+  TextEditingController fname = TextEditingController();
+  TextEditingController streetAddress = TextEditingController();
+  TextEditingController city = TextEditingController();
+  TextEditingController state = TextEditingController();
+  TextEditingController code = TextEditingController();
   @override
   void initState() {
     country = "Country";
@@ -44,86 +49,23 @@ class _MyAddressPageState extends State<MyAddressPage> {
           padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
           child: Column(
             children: [
-              Card(
-                elevation: 2,
-                child: TextFormField(
-                  autocorrect: true,
-                  enableSuggestions: true,
-                  enabled: true,
-                  enableInteractiveSelection: true,
-                  keyboardType: TextInputType.name,
-                  cursorColor: Colors.grey,
-                  decoration: const InputDecoration(
-                      hintText: Constants.full_name,
-                      border: OutlineInputBorder(borderSide: BorderSide.none)),
-                ),
-              ),
+              Textformfield_style.textField(fname, Constants.full_name),
               const SizedBox(
                 height: 8,
               ),
-              Card(
-                elevation: 2,
-                child: TextFormField(
-                  autocorrect: true,
-                  enableSuggestions: true,
-                  enabled: true,
-                  enableInteractiveSelection: true,
-                  keyboardType: TextInputType.streetAddress,
-                  cursorColor: Colors.grey,
-                  decoration: const InputDecoration(
-                      hintText: Constants.address,
-                      border: OutlineInputBorder(borderSide: BorderSide.none)),
-                ),
-              ),
+              Textformfield_style.textField(streetAddress, Constants.address),
               const SizedBox(
                 height: 8,
               ),
-              Card(
-                elevation: 2,
-                child: TextFormField(
-                  autocorrect: true,
-                  enableSuggestions: true,
-                  enabled: true,
-                  enableInteractiveSelection: true,
-                  cursorColor: Colors.grey,
-                  decoration: const InputDecoration(
-                      hintText: Constants.city,
-                      border: OutlineInputBorder(borderSide: BorderSide.none)),
-                ),
-              ),
+              Textformfield_style.textField(city, Constants.city),
               const SizedBox(
                 height: 8,
               ),
-              Card(
-                elevation: 2,
-                child: TextFormField(
-                  autocorrect: true,
-                  enableSuggestions: true,
-                  enabled: true,
-                  enableInteractiveSelection: true,
-                  cursorColor: Colors.grey,
-                  decoration: const InputDecoration(
-                      hintText: Constants.state,
-                      border: OutlineInputBorder(borderSide: BorderSide.none)),
-                ),
-              ),
+              Textformfield_style.textField(state, Constants.state),
               const SizedBox(
                 height: 8,
               ),
-              Card(
-                elevation: 2,
-                child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  autocorrect: true,
-                  enableSuggestions: true,
-                  enabled: true,
-                  enableInteractiveSelection: true,
-                  cursorColor: Colors.grey,
-                  decoration: const InputDecoration(
-                      hintText: Constants.code,
-                      border: OutlineInputBorder(borderSide: BorderSide.none)),
-                ),
-              ),
+              Textformfield_style.textField(code, Constants.code),
               const SizedBox(
                 height: 8,
               ),

@@ -2,6 +2,7 @@ import 'package:ecommerce/screen/home/main_page.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
+import 'package:ecommerce/widgets/textformfield_theme.dart';
 import 'package:flutter/material.dart';
 
 class MyLoginPage extends StatefulWidget {
@@ -12,6 +13,8 @@ class MyLoginPage extends StatefulWidget {
 }
 
 class _MyLoginPageState extends State<MyLoginPage> {
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -38,39 +41,9 @@ class _MyLoginPageState extends State<MyLoginPage> {
                       const SizedBox(
                         height: 8,
                       ),
-                      Card(
-                        elevation: 2,
-                        child: TextFormField(
-                          autocorrect: true,
-                          enableSuggestions: true,
-                          enabled: true,
-                          enableInteractiveSelection: true,
-                          keyboardType: TextInputType.emailAddress,
-                          cursorColor: Colors.grey,
-                          decoration: const InputDecoration(
-                              hintText: Constants.EMAIL,
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide.none)),
-                        ),
-                      ),
+                      Textformfield_style.textField(email, Constants.EMAIL),
                       const SizedBox(
                         height: 8,
-                      ),
-                      Card(
-                        elevation: 2,
-                        child: TextFormField(
-                          autocorrect: true,
-                          enableSuggestions: true,
-                          enabled: true,
-                          enableInteractiveSelection: true,
-                          keyboardType: TextInputType.visiblePassword,
-                          cursorColor: Colors.grey,
-                          obscureText: true,
-                          decoration: const InputDecoration(
-                              hintText: Constants.PASSWORD,
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide.none)),
-                        ),
                       ),
                       const SizedBox(
                         height: 16,
