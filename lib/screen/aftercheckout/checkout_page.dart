@@ -1,5 +1,4 @@
 import 'package:ecommerce/screen/aftercheckout/success_page.dart';
-import 'package:ecommerce/screen/home/main_page.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
 import 'package:ecommerce/widgets/text_theme.dart';

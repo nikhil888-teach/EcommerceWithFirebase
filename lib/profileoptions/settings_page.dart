@@ -28,7 +28,7 @@ class _MySettingPageState extends State<MySettingPage> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        elevation: 1,
+        elevation: 1, 
         centerTitle: true,
         leading: Icon(
           Icons.arrow_back_ios,
