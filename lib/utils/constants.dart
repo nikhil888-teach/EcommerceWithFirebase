@@ -91,9 +91,25 @@ class Constants {
   static const new_arr = "New arrivals";
   static const delivery_status = "Delivery status changes";
 
+  //orderdetail page
+  static const delivered = "Delivered";
+  static const processing = "Processing";
+  static const cancelled = "Cancelled";
+
+  //devivered tabs
+  static const orderNo = "Order No: ";
+  static const trackingNo = "Tracking number: ";
+  static const quantity = "Quantity: ";
+  static const total_amt = "Total Amount: ";
+  static const detail = "Details";
+
+  //delivered product detail page
+  static const item = " item";
+
   //COLOR
   static const red_text = 0xffDB3022;
   static const white_text = 0xffFFFFFF;
   static const black_text = 0xff222222;
   static const grey_text = 0xff9B9B9B;
+  static const green_text = 0xff2AA952;
 }
