@@ -37,7 +37,7 @@ class _MyOrderPageState extends State<MyOrderPage> {
                 child: Padding(
                   padding: const EdgeInsets.all(15),
                   child: TabBar(
-                      labelPadding: EdgeInsets.symmetric(vertical: 10),
+                      labelPadding: EdgeInsets.symmetric(vertical: 7),
                       indicator: BoxDecoration(
                         color: Colors.black,
                         borderRadius: BorderRadius.circular(30),
