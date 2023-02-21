@@ -36,7 +36,7 @@ class Constants {
   static const delete_list = "Delete from the list";
   static const color = "Color: ";
   static const size = "Size: ";
-  static const total_amount = "Total Amount:";
+  static const total_amount = "Total Amount: ";
   static const check_out = "CHECK OUT";
   static const add_cart = "ADD TO CART";
 
@@ -102,9 +102,18 @@ class Constants {
   static const quantity = "Quantity: ";
   static const total_amt = "Total Amount: ";
   static const detail = "Details";
+  static const unit = "Units: ";
 
   //delivered product detail page
   static const item = " item";
+  static const ord_info = "Order information";
+  static const shipp_add = "Shipping Address: ";
+  static const pay_meth = "Payment method: ";
+  static const del_method = "Delivery method: ";
+  static const discount = "Discount: ";
+  static const tot_amt = "Total Amount: ";
+  static const reorder = "Reorder";
+  static const lea_feed = "Leave feedback";
 
   //COLOR
   static const red_text = 0xffDB3022;

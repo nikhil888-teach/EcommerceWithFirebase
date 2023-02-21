@@ -1,4 +1,6 @@
+import 'package:ecommerce/profileoptions/myorders/tabs/cancelled/cancelled_page.dart';
 import 'package:ecommerce/profileoptions/myorders/tabs/delivered/delivered_page.dart';
+import 'package:ecommerce/profileoptions/myorders/tabs/processing/process_page.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +37,7 @@ class _MyOrderPageState extends State<MyOrderPage> {
                 child: Padding(
                   padding: const EdgeInsets.all(15),
                   child: TabBar(
-                      labelPadding: EdgeInsets.symmetric(vertical: 14),
+                      labelPadding: EdgeInsets.symmetric(vertical: 10),
                       indicator: BoxDecoration(
                         color: Colors.black,
                         borderRadius: BorderRadius.circular(30),
@@ -54,11 +56,8 @@ class _MyOrderPageState extends State<MyOrderPage> {
                 ),
               ),
               Expanded(
-                  child: TabBarView(children: [
-                MyDelivered(),
-                Text("data"),
-                Text("data"),
-              ]))
+                  child: TabBarView(
+                      children: [MyDelivered(), MyProcess(), MyCancelled()]))
             ],
           ),
         ),

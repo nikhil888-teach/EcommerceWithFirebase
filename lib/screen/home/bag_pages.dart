@@ -19,11 +19,9 @@ class _MyBagPageState extends State<MyBagPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Transform(
-            transform: Matrix4.translationValues(-40.0, 0.0, 0.0),
-            child: Text(Constants.My_Bag,
-                style: Text_Style.text_Theme(
-                    Constants.black_text, 20, FontWeight.bold))),
+        title: Text(Constants.My_Bag,
+            style: Text_Style.text_Theme(
+                Constants.black_text, 20, FontWeight.bold)),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 5),

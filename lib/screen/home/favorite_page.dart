@@ -39,12 +39,12 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
               backgroundColor: Colors.white,
               centerTitle: false,
               titleSpacing: 0,
-              titleTextStyle: Text_Style.text_Theme(
-                  Constants.black_text, 34, FontWeight.bold),
-              title: Transform(
-                transform: Matrix4.translationValues(-40.0, 0.0, 0.0),
+              title: Padding(
+                padding: const EdgeInsets.only(left: 15),
                 child: Text(
                   Constants.Favorites,
+                  style: Text_Style.text_Theme(
+                      Constants.black_text, 34, FontWeight.bold),
                 ),
               ),
               actions: [

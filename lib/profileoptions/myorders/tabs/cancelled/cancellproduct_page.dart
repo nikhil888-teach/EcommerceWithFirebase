@@ -4,14 +4,14 @@ import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class MyDeliveredProduct extends StatefulWidget {
-  const MyDeliveredProduct({super.key});
+class MyCancelledProduct extends StatefulWidget {
+  const MyCancelledProduct({super.key});
 
   @override
-  State<MyDeliveredProduct> createState() => _MyDeliveredProductState();
+  State<MyCancelledProduct> createState() => _MyCancelledProductState();
 }
 
-class _MyDeliveredProductState extends State<MyDeliveredProduct> {
+class _MyCancelledProductState extends State<MyCancelledProduct> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -80,7 +80,7 @@ class _MyDeliveredProductState extends State<MyDeliveredProduct> {
                     ],
                   ),
                   Text(
-                    Constants.delivered,
+                    Constants.cancelled,
                     style: Text_Style.text_Theme(
                         Constants.green_text, 14, FontWeight.w500),
                   )
@@ -329,7 +329,7 @@ class _MyDeliveredProductState extends State<MyDeliveredProduct> {
                                   borderRadius: BorderRadius.circular(24)))),
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => MyDeliveredProduct(),
+                          builder: (context) => MyCancelledProduct(),
                         ));
                       },
                       child: Padding(

@@ -3,14 +3,14 @@ import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/material.dart';
 
-class MyDelivered extends StatefulWidget {
-  const MyDelivered({super.key});
+class MyProcess extends StatefulWidget {
+  const MyProcess({super.key});
 
   @override
-  State<MyDelivered> createState() => _MyDeliveredState();
+  State<MyProcess> createState() => _MyProcessState();
 }
 
-class _MyDeliveredState extends State<MyDelivered> {
+class _MyProcessState extends State<MyProcess> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,7 +104,7 @@ class _MyDeliveredState extends State<MyDelivered> {
                                   Constants.black_text, 15, FontWeight.w600),
                             )),
                         Text(
-                          Constants.delivered,
+                          Constants.processing,
                           style: Text_Style.text_Theme(
                               Constants.green_text, 15, FontWeight.bold),
                         )
