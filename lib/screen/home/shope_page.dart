@@ -36,7 +36,6 @@ class _MyShopePageState extends State<MyShopePage> {
                 title: Text(Constants.Categories,
                     style: Text_Style.text_Theme(
                         Constants.black_text, 18, FontWeight.bold)),
-                backgroundColor: Colors.white,
                 elevation: 1,
               ),
               body: Column(

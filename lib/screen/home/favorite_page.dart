@@ -34,9 +34,7 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            backgroundColor: Colors.white,
             appBar: AppBar(
-              backgroundColor: Colors.white,
               centerTitle: false,
               titleSpacing: 0,
               title: Padding(
