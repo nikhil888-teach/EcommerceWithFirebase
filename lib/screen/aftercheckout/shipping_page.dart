@@ -11,7 +11,7 @@ class MyShippingAddress extends StatefulWidget {
 }
 
 class _MyShippingAddressState extends State<MyShippingAddress> {
-  bool checkaddress = true;
+  bool? checkaddress = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,7 +105,7 @@ class _MyShippingAddressState extends State<MyShippingAddress> {
                               value: checkaddress,
                               onChanged: (value) {
                                 setState(() {
-                                  checkaddress = value!;
+                                  checkaddress = value;
                                 });
                               },
                             ),

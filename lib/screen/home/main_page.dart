@@ -21,7 +21,7 @@ List pagess = <Widget>[
   const MyShopePage(),
   const MyBagPage(),
   const MyFavoritePage(),
-  const MyProfilePage(),
+  const MyFavoritePage(),
 ];
 
 class _MyMainPageState extends State<MyMainPage> {

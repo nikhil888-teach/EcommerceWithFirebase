@@ -2,7 +2,6 @@ import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class MyDeliveredProduct extends StatefulWidget {
   const MyDeliveredProduct({super.key});
