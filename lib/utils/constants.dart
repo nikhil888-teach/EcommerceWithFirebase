@@ -90,6 +90,7 @@ class Constants {
   static const sales = "Sales";
   static const new_arr = "New arrivals";
   static const delivery_status = "Delivery status changes";
+  static const darktheme = "Dark Theme";
 
   //orderdetail page
   static const delivered = "Delivered";

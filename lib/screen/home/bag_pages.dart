@@ -17,9 +17,7 @@ class _MyBagPageState extends State<MyBagPage> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
         title: Text(Constants.My_Bag,
             style: Text_Style.text_Theme(
                 Constants.black_text, 20, FontWeight.bold)),
@@ -286,10 +284,9 @@ class _MyBagPageState extends State<MyBagPage> {
               padding: const EdgeInsets.only(top: 15),
               child: GestureDetector(
                   onTap: () {
-                    // Navigator.of(context).push(MaterialPageRoute(
-                    //   builder: (context) => MyCheckOut(),
-                    // )
-                    // );
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => MyCheckOut(),
+                    ));
                   },
                   child: Button_Style.button_Theme(Constants.check_out)),
             ),

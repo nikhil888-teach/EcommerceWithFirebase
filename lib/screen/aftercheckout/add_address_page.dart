@@ -1,4 +1,4 @@
-import 'package:csc_picker/csc_picker.dart';
+import 'package:country_picker/country_picker.dart';
 import 'package:ecommerce/screen/aftercheckout/checkout_page.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
@@ -26,13 +26,14 @@ class _MyAddressPageState extends State<MyAddressPage> {
     super.initState();
   }
 
+  Country? _country;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: Colors.white,
         elevation: 1,
         centerTitle: true,
         leading: Icon(
@@ -72,19 +73,27 @@ class _MyAddressPageState extends State<MyAddressPage> {
               Container(
                 decoration: BoxDecoration(),
                 child: Card(
-                  child: CSCPicker(
-                    dropdownDecoration: BoxDecoration(),
-                    onCountryChanged: (value) {
-                      setState(() {
-                        country = value;
-                      });
-                    },
-                    showCities: false,
-                    onCityChanged: (value) {},
-                    showStates: false,
-                    countryDropdownLabel: country,
-                  ),
-                ),
+                    child: TextFormField(
+                  readOnly: true,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(borderSide: BorderSide.none)),
+                  controller: TextEditingController(
+                      text: _country?.displayNameNoCountryCode ??
+                          "Select Country"),
+                  onTap: () {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    showCountryPicker(
+                      context: context,
+                      showPhoneCode: true,
+                      onSelect: (Country country) {
+                        if (!mounted) return;
+                        setState(() {
+                          _country = country;
+                        });
+                      },
+                    );
+                  },
+                )),
               ),
               const SizedBox(
                 height: 8,

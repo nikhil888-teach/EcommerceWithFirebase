@@ -20,7 +20,6 @@ class _MyOrderPageState extends State<MyOrderPage> {
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.white,
             elevation: 1,
             centerTitle: true,
             leading: Icon(

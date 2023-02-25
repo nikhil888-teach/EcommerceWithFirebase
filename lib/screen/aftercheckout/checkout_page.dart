@@ -1,4 +1,4 @@
-import 'package:ecommerce/screen/aftercheckout/shipping_page.dart';
+import 'package:ecommerce/screen/aftercheckout/add_address_page.dart';
 import 'package:ecommerce/screen/aftercheckout/success_page.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
@@ -24,7 +24,6 @@ class _MyCheckOutState extends State<MyCheckOut> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
           elevation: 1,
           centerTitle: true,
           leading: Icon(
@@ -75,7 +74,7 @@ class _MyCheckOutState extends State<MyCheckOut> {
                                   onTap: () {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
-                                      builder: (context) => MyShippingAddress(),
+                                      builder: (context) => MyAddressPage(),
                                     ));
                                   },
                                   child: Text(

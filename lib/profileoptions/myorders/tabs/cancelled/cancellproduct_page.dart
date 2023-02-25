@@ -16,7 +16,6 @@ class _MyCancelledProductState extends State<MyCancelledProduct> {
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
         elevation: 1,
         centerTitle: true,
         leading: Icon(

@@ -38,7 +38,6 @@ class _MyProductPageState extends State<MyProductPage> {
         child: Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        backgroundColor: Colors.white,
         elevation: 1,
         centerTitle: true,
         title: Text("Short dress",

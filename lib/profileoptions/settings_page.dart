@@ -1,8 +1,10 @@
+import 'package:ecommerce/theme/themeprovider.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:ecommerce/widgets/textformfield_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MySettingPage extends StatefulWidget {
   const MySettingPage({Key? key}) : super(key: key);
@@ -23,12 +25,13 @@ class _MySettingPageState extends State<MySettingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<ThemeProvider>(context);
+
     return SafeArea(
         child: Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 1, 
+        elevation: 1,
         centerTitle: true,
         leading: Icon(
           Icons.arrow_back_ios,
@@ -213,6 +216,26 @@ class _MySettingPageState extends State<MySettingPage> {
                     onChanged: (value) {
                       setState(() {
                         checkStaus = value;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    Constants.darktheme,
+                    style: Text_Style.text_Theme(
+                        Constants.black_text, 14, FontWeight.normal),
+                  ),
+                  Switch(
+                    activeColor: Colors.green,
+                    value: themeChange.darkTheme,
+                    onChanged: (value) {
+                      setState(() {
+                        themeChange.darkTheme = value;
+                        themeChange.themePreference.setDarkTheme(value);
                       });
                     },
                   ),

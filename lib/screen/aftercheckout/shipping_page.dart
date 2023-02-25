@@ -16,7 +16,6 @@ class _MyShippingAddressState extends State<MyShippingAddress> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
         elevation: 1,
         centerTitle: true,
         leading: Icon(
