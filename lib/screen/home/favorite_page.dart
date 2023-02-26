@@ -1,7 +1,9 @@
+import 'package:ecommerce/theme/themeprovider.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MyFavoritePage extends StatefulWidget {
   const MyFavoritePage({Key? key}) : super(key: key);
@@ -32,6 +34,7 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<ThemeProvider>(context);
     return SafeArea(
         child: Scaffold(
             appBar: AppBar(
@@ -42,7 +45,7 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                 child: Text(
                   Constants.Favorites,
                   style: Text_Style.text_Theme(
-                      Constants.black_text, 34, FontWeight.bold),
+                      Constants.black_text, 34, FontWeight.bold, context),
                 ),
               ),
               actions: [
@@ -50,7 +53,6 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                     onPressed: () {},
                     icon: const Icon(
                       Icons.search,
-                      color: Colors.black,
                       size: 24,
                     ))
               ],
@@ -69,9 +71,11 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                             children: [
                               Row(
                                 children: [
-                                  const Icon(
+                                  Icon(
                                     CupertinoIcons.arrow_up_arrow_down,
-                                    color: Colors.black,
+                                    color: themeChange.darkTheme
+                                        ? Colors.white
+                                        : Colors.black,
                                     size: 20,
                                   ),
                                   Padding(
@@ -80,18 +84,21 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                                         style: Text_Style.text_Theme(
                                             Constants.black_text,
                                             14,
-                                            FontWeight.normal)),
+                                            FontWeight.normal,
+                                            context)),
                                   ),
                                 ],
                               ),
                               GestureDetector(
                                 onTap: () {
                                   showModalBottomSheet(
+                                    backgroundColor: themeChange.darkTheme
+                                        ? Colors.grey.shade900
+                                        : Colors.white,
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.only(
                                             topLeft: Radius.circular(34),
                                             topRight: Radius.circular(34))),
-                                    backgroundColor: Colors.white,
                                     context: context,
                                     builder: (context) {
                                       return Container(
@@ -119,13 +126,15 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                                               style: Text_Style.text_Theme(
                                                   Constants.black_text,
                                                   18,
-                                                  FontWeight.bold),
+                                                  FontWeight.bold,
+                                                  context),
                                             ),
                                             Expanded(
                                               flex: 1,
                                               child: StatefulBuilder(
                                                   builder: (context, setState) {
                                                 return ListView.builder(
+                                                  shrinkWrap: true,
                                                   itemCount: filter.length,
                                                   itemBuilder:
                                                       (context, index) {
@@ -154,14 +163,19 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                                                                   : Constants
                                                                       .black_text,
                                                               16,
-                                                              FontWeight
-                                                                  .normal)),
+                                                              FontWeight.normal,
+                                                              context)),
                                                       selected: true,
                                                       selectedColor: Colors.red,
                                                       selectedTileColor:
                                                           sortIndex == index
                                                               ? Colors.red
-                                                              : Colors.white,
+                                                              : themeChange
+                                                                      .darkTheme
+                                                                  ? Colors.grey
+                                                                      .shade900
+                                                                  : Colors
+                                                                      .white,
                                                     );
                                                   },
                                                 );
@@ -173,9 +187,11 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                                     },
                                   );
                                 },
-                                child: const Icon(
+                                child: Icon(
                                   Icons.menu,
-                                  color: Colors.black,
+                                  color: themeChange.darkTheme
+                                      ? Colors.white
+                                      : Colors.black,
                                   size: 20,
                                 ),
                               ),
@@ -266,7 +282,8 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                                       style: Text_Style.text_Theme(
                                           Constants.grey_text,
                                           13,
-                                          FontWeight.normal),
+                                          FontWeight.normal,
+                                          context),
                                     ),
                                   )
                                 ],
@@ -274,15 +291,18 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                             ),
                             Text(
                               "Dorothy Perkins",
-                              style: Text_Style.text_Theme(
-                                  Constants.grey_text, 11, FontWeight.normal),
+                              style: Text_Style.text_Theme(Constants.grey_text,
+                                  11, FontWeight.normal, context),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 5, bottom: 3),
                               child: Text(
                                 "Evening Dress",
                                 style: Text_Style.text_Theme(
-                                    Constants.black_text, 16, FontWeight.bold),
+                                    Constants.black_text,
+                                    16,
+                                    FontWeight.bold,
+                                    context),
                               ),
                             ),
                             Row(
@@ -292,7 +312,8 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                                   style: Text_Style.text_Theme(
                                       Constants.grey_text,
                                       13,
-                                      FontWeight.normal),
+                                      FontWeight.normal,
+                                      context),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(right: 15),
@@ -301,7 +322,8 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                                     style: Text_Style.text_Theme(
                                         Constants.black_text,
                                         13,
-                                        FontWeight.normal),
+                                        FontWeight.normal,
+                                        context),
                                   ),
                                 ),
                                 Text(
@@ -309,7 +331,8 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                                   style: Text_Style.text_Theme(
                                       Constants.grey_text,
                                       13,
-                                      FontWeight.normal),
+                                      FontWeight.normal,
+                                      context),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(right: 15),
@@ -318,7 +341,8 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                                     style: Text_Style.text_Theme(
                                         Constants.black_text,
                                         13,
-                                        FontWeight.normal),
+                                        FontWeight.normal,
+                                        context),
                                   ),
                                 )
                               ],
@@ -327,8 +351,8 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                               padding: const EdgeInsets.only(top: 5),
                               child: Text(
                                 "12\$",
-                                style: Text_Style.text_Theme(
-                                    Constants.red_text, 14, FontWeight.bold),
+                                style: Text_Style.text_Theme(Constants.red_text,
+                                    14, FontWeight.bold, context),
                               ),
                             ),
                           ],

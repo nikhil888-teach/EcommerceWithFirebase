@@ -42,19 +42,17 @@ class _MyProductPageState extends State<MyProductPage> {
         centerTitle: true,
         title: Text("Short dress",
             style: Text_Style.text_Theme(
-                Constants.black_text, 18, FontWeight.bold)),
+                Constants.black_text, 18, FontWeight.bold, context)),
         actions: const [
           Padding(
             padding: EdgeInsets.only(right: 17),
             child: Icon(
               Icons.share,
-              color: Colors.black,
             ),
           )
         ],
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
         child: Container(
           child: Column(
             children: [
@@ -86,7 +84,6 @@ class _MyProductPageState extends State<MyProductPage> {
                               backgroundColor: Colors.white),
                           onPressed: () {
                             showModalBottomSheet(
-                              backgroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(34),
@@ -118,7 +115,8 @@ class _MyProductPageState extends State<MyProductPage> {
                                         style: Text_Style.text_Theme(
                                             Constants.black_text,
                                             18,
-                                            FontWeight.bold),
+                                            FontWeight.bold,
+                                            context),
                                       ),
                                       Wrap(
                                         spacing: 20,
@@ -145,6 +143,11 @@ class _MyProductPageState extends State<MyProductPage> {
                                                             BorderRadius
                                                                 .circular(10)),
                                                     child: OutlinedButton(
+                                                        style: ButtonStyle(
+                                                            backgroundColor:
+                                                                MaterialStateProperty
+                                                                    .all(Colors
+                                                                        .white)),
                                                         onPressed: () {
                                                           if (!mounted) return;
                                                           setState(() {
@@ -158,17 +161,17 @@ class _MyProductPageState extends State<MyProductPage> {
                                                               context);
                                                         },
                                                         child: Text(
-                                                          size.entries
-                                                              .elementAt(index)
-                                                              .value,
-                                                          style: Text_Style
-                                                              .text_Theme(
-                                                                  Constants
-                                                                      .black_text,
-                                                                  14,
-                                                                  FontWeight
-                                                                      .w500),
-                                                        )),
+                                                            size.entries
+                                                                .elementAt(
+                                                                    index)
+                                                                .value,
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500))),
                                                   ),
                                                 )),
                                       )
@@ -186,10 +189,10 @@ class _MyProductPageState extends State<MyProductPage> {
                               children: [
                                 Text(
                                   selectedsize!,
-                                  style: Text_Style.text_Theme(
-                                      Constants.black_text,
-                                      18,
-                                      FontWeight.normal),
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.normal),
                                 ),
                                 Icon(
                                   Icons.keyboard_arrow_down,
@@ -206,7 +209,6 @@ class _MyProductPageState extends State<MyProductPage> {
                               backgroundColor: Colors.white),
                           onPressed: () {
                             showModalBottomSheet(
-                              backgroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(34),
@@ -238,7 +240,8 @@ class _MyProductPageState extends State<MyProductPage> {
                                         style: Text_Style.text_Theme(
                                             Constants.black_text,
                                             18,
-                                            FontWeight.bold),
+                                            FontWeight.bold,
+                                            context),
                                       ),
                                       Wrap(
                                         spacing: 20,
@@ -259,12 +262,21 @@ class _MyProductPageState extends State<MyProductPage> {
                                                         MediaQuery.of(context)
                                                                 .size
                                                                 .width *
-                                                            0.25,
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8)),
+                                                            0.27,
                                                     child: OutlinedButton(
+                                                        style: ButtonStyle(
+                                                            shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            24),
+                                                                side: BorderSide(
+                                                                    color: Colors
+                                                                        .white))),
+                                                            backgroundColor:
+                                                                MaterialStateProperty
+                                                                    .all(Colors
+                                                                        .white)),
                                                         onPressed: () {
                                                           if (!mounted) return;
                                                           setState(() {
@@ -298,18 +310,18 @@ class _MyProductPageState extends State<MyProductPage> {
                                                               ),
                                                             ),
                                                             Text(
-                                                              color.entries
-                                                                  .elementAt(
-                                                                      index)
-                                                                  .value,
-                                                              style: Text_Style
-                                                                  .text_Theme(
-                                                                      Constants
-                                                                          .black_text,
-                                                                      14,
-                                                                      FontWeight
-                                                                          .w500),
-                                                            ),
+                                                                color.entries
+                                                                    .elementAt(
+                                                                        index)
+                                                                    .value,
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontSize:
+                                                                        14,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500)),
                                                           ],
                                                         )),
                                                   ),
@@ -324,8 +336,7 @@ class _MyProductPageState extends State<MyProductPage> {
                           child: Container(
                             height: MediaQuery.of(context).size.height * 0.06,
                             width: MediaQuery.of(context).size.width * 0.30,
-
-                            // color: Colors.white,
+                            // color: Colors.black,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -341,13 +352,11 @@ class _MyProductPageState extends State<MyProductPage> {
                                                 selectedindexcolor!)),
                                       ),
                                     ),
-                                    Text(
-                                      selectedcolor!,
-                                      style: Text_Style.text_Theme(
-                                          Constants.black_text,
-                                          18,
-                                          FontWeight.normal),
-                                    )
+                                    Text(selectedcolor!,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.normal))
                                   ],
                                 ),
                                 Icon(
@@ -377,19 +386,15 @@ class _MyProductPageState extends State<MyProductPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
+                          Text(
                             "Evening Dress",
-                            style: TextStyle(
-                                color: Color(0xff222222),
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold),
+                            style: Text_Style.text_Theme(
+                                0xff222222, 24, FontWeight.bold, context),
                           ),
                           Text(
                             "\$19.99",
-                            style: TextStyle(
-                                color: Color(0xff222222),
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold),
+                            style: Text_Style.text_Theme(
+                                0xff222222, 24, FontWeight.bold, context),
                           ),
                         ],
                       ),
@@ -423,13 +428,13 @@ class _MyProductPageState extends State<MyProductPage> {
                     ),
                     Text(
                         "Short dress in soft cotton jersey with decorative buttons down the front and a wide, frill-trimmed square neckline with concealed elastication. Elasticated seam under the bust and short puff sleeves with a small frill trim.",
-                        style: Text_Style.text_Theme(
-                            Constants.grey_text, 14, FontWeight.normal)),
+                        style: Text_Style.text_Theme(Constants.grey_text, 14,
+                            FontWeight.normal, context)),
                     Padding(
                       padding: const EdgeInsets.only(top: 25, bottom: 12),
                       child: Text("You can also like this",
-                          style: Text_Style.text_Theme(
-                              Constants.black_text, 18, FontWeight.bold)),
+                          style: Text_Style.text_Theme(Constants.black_text, 18,
+                              FontWeight.bold, context)),
                     ),
                     Container(
                       height: 300,
@@ -486,7 +491,8 @@ class _MyProductPageState extends State<MyProductPage> {
                                                   style: Text_Style.text_Theme(
                                                       Constants.white_text,
                                                       11,
-                                                      FontWeight.bold)),
+                                                      FontWeight.bold,
+                                                      context)),
                                             ),
                                           ),
                                         ),
@@ -535,7 +541,8 @@ class _MyProductPageState extends State<MyProductPage> {
                                                 style: Text_Style.text_Theme(
                                                     Constants.grey_text,
                                                     10,
-                                                    FontWeight.normal),
+                                                    FontWeight.normal,
+                                                    context),
                                               ),
                                             )
                                           ],
@@ -556,7 +563,8 @@ class _MyProductPageState extends State<MyProductPage> {
                                           style: Text_Style.text_Theme(
                                               Constants.black_text,
                                               16,
-                                              FontWeight.bold),
+                                              FontWeight.bold,
+                                              context),
                                         ),
                                       ),
                                       Row(
@@ -566,17 +574,21 @@ class _MyProductPageState extends State<MyProductPage> {
                                                 const EdgeInsets.only(right: 4),
                                             child: Text(
                                               "15\$",
-                                              style: Text_Style.text_Theme(
-                                                  Constants.grey_text,
-                                                  14,
-                                                  FontWeight.bold),
+                                              style: TextStyle(
+                                                  decoration: TextDecoration
+                                                      .lineThrough,
+                                                  color: Color(
+                                                      Constants.grey_text),
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                           ),
                                           Text("12\$",
                                               style: Text_Style.text_Theme(
                                                   Constants.red_text,
                                                   14,
-                                                  FontWeight.bold)),
+                                                  FontWeight.bold,
+                                                  context)),
                                         ],
                                       ),
                                     ],

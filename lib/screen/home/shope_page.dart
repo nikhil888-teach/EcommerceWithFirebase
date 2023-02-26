@@ -1,6 +1,8 @@
+import 'package:ecommerce/theme/themeprovider.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MyShopePage extends StatefulWidget {
   const MyShopePage({Key? key}) : super(key: key);
@@ -12,6 +14,7 @@ class MyShopePage extends StatefulWidget {
 class _MyShopePageState extends State<MyShopePage> {
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<ThemeProvider>(context);
     return DefaultTabController(
       length: 3,
       child: SafeArea(
@@ -21,41 +24,32 @@ class _MyShopePageState extends State<MyShopePage> {
                     onPressed: () {},
                     icon: const Icon(
                       Icons.arrow_back_ios,
-                      color: Colors.black,
                     )),
                 actions: const [
                   Padding(
                     padding: EdgeInsets.only(right: 10),
                     child: Icon(
                       Icons.search,
-                      color: Colors.black,
                     ),
                   )
                 ],
                 centerTitle: true,
                 title: Text(Constants.Categories,
                     style: Text_Style.text_Theme(
-                        Constants.black_text, 18, FontWeight.bold)),
+                        Constants.black_text, 18, FontWeight.bold, context)),
                 elevation: 1,
               ),
               body: Column(
                 children: [
                   Container(
-                    color: const Color(0xffFFFFFF),
-                    child: TabBar(
-                        labelPadding: EdgeInsets.symmetric(vertical: 14),
-                        indicatorColor: Color(0xffDB3022),
-                        unselectedLabelColor: Color(0xff222222),
-                        unselectedLabelStyle: Text_Style.text_Theme(
-                            Constants.black_text, 16, FontWeight.normal),
-                        labelColor: Color(0xff222222),
-                        labelStyle: Text_Style.text_Theme(
-                            Constants.black_text, 16, FontWeight.bold),
-                        tabs: [
-                          Text(Constants.women),
-                          Text(Constants.Men),
-                          Text(Constants.kides)
-                        ]),
+                    color: themeChange.darkTheme
+                        ? Colors.black
+                        : const Color(0xffFFFFFF),
+                    child: TabBar(indicatorColor: Color(0xffDB3022), tabs: [
+                      Text(Constants.women),
+                      Text(Constants.Men),
+                      Text(Constants.kides)
+                    ]),
                   ),
                   Expanded(
                     child: TabBarView(
@@ -92,7 +86,7 @@ class _MyShopePageState extends State<MyShopePage> {
                       child: Text(
                         Constants.NEW,
                         style: Text_Style.text_Theme(
-                            Constants.black_text, 18, FontWeight.bold),
+                            Constants.black_text, 18, FontWeight.bold, context),
                       ),
                     ),
                     Image.network(

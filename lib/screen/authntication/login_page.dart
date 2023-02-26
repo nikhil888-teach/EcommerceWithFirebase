@@ -33,8 +33,8 @@ class _MyLoginPageState extends State<MyLoginPage> {
                         height: 34,
                       ),
                       Text(Constants.LOGIN,
-                          style: Text_Style.text_Theme(
-                              Constants.black_text, 34, FontWeight.bold)),
+                          style: Text_Style.text_Theme(Constants.black_text, 34,
+                              FontWeight.bold, context)),
                       const SizedBox(
                         height: 74,
                       ),
@@ -52,8 +52,8 @@ class _MyLoginPageState extends State<MyLoginPage> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(Constants.FORGOT_PASSWORD,
-                              style: Text_Style.text_Theme(
-                                  Constants.black_text, 14, FontWeight.normal)),
+                              style: Text_Style.text_Theme(Constants.black_text,
+                                  14, FontWeight.normal, context)),
                           Icon(
                             Icons.arrow_right_alt,
                             color: Colors.red,

@@ -1,9 +1,11 @@
 import 'package:ecommerce/screen/aftercheckout/add_address_page.dart';
 import 'package:ecommerce/screen/aftercheckout/success_page.dart';
+import 'package:ecommerce/theme/themeprovider.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MyCheckOut extends StatefulWidget {
   const MyCheckOut({Key? key}) : super(key: key);
@@ -21,6 +23,7 @@ class _MyCheckOutState extends State<MyCheckOut> {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<ThemeProvider>(context);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -28,11 +31,10 @@ class _MyCheckOutState extends State<MyCheckOut> {
           centerTitle: true,
           leading: Icon(
             Icons.arrow_back_ios,
-            color: Colors.black,
           ),
           title: Text("Checkout",
               style: Text_Style.text_Theme(
-                  Constants.black_text, 18, FontWeight.bold)),
+                  Constants.black_text, 18, FontWeight.bold, context)),
         ),
         body: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
@@ -50,7 +52,7 @@ class _MyCheckOutState extends State<MyCheckOut> {
                       child: Text(
                         Constants.shipping_address,
                         style: Text_Style.text_Theme(
-                            Constants.black_text, 16, FontWeight.bold),
+                            Constants.black_text, 16, FontWeight.bold, context),
                       ),
                     ),
                     Card(
@@ -68,7 +70,8 @@ class _MyCheckOutState extends State<MyCheckOut> {
                                   style: Text_Style.text_Theme(
                                       Constants.black_text,
                                       14,
-                                      FontWeight.w600),
+                                      FontWeight.w600,
+                                      context),
                                 ),
                                 GestureDetector(
                                   onTap: () {
@@ -77,13 +80,11 @@ class _MyCheckOutState extends State<MyCheckOut> {
                                       builder: (context) => MyAddressPage(),
                                     ));
                                   },
-                                  child: Text(
-                                    Constants.change,
-                                    style: Text_Style.text_Theme(
-                                        Constants.red_text,
-                                        14,
-                                        FontWeight.w600),
-                                  ),
+                                  child: Text(Constants.change,
+                                      style: TextStyle(
+                                          color: Color(Constants.red_text),
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600)),
                                 )
                               ],
                             ),
@@ -94,14 +95,16 @@ class _MyCheckOutState extends State<MyCheckOut> {
                                 style: Text_Style.text_Theme(
                                     Constants.black_text,
                                     14,
-                                    FontWeight.normal),
+                                    FontWeight.normal,
+                                    context),
                               ),
                             ),
                             Text("Chino Hills, CA 91709, United States",
                                 style: Text_Style.text_Theme(
                                     Constants.black_text,
                                     14,
-                                    FontWeight.normal))
+                                    FontWeight.normal,
+                                    context))
                           ],
                         ),
                       ),
@@ -119,8 +122,8 @@ class _MyCheckOutState extends State<MyCheckOut> {
                         padding: const EdgeInsets.only(bottom: 15, right: 20),
                         child: Text(
                           Constants.payment,
-                          style: Text_Style.text_Theme(
-                              Constants.black_text, 16, FontWeight.bold),
+                          style: Text_Style.text_Theme(Constants.black_text, 16,
+                              FontWeight.bold, context),
                         ),
                       ),
                       Card(
@@ -144,7 +147,7 @@ class _MyCheckOutState extends State<MyCheckOut> {
                       child: Text(
                         Constants.delivery_method,
                         style: Text_Style.text_Theme(
-                            Constants.black_text, 16, FontWeight.bold),
+                            Constants.black_text, 16, FontWeight.bold, context),
                       ),
                     ),
                     Container(
@@ -154,7 +157,10 @@ class _MyCheckOutState extends State<MyCheckOut> {
                         itemCount: delivery.length,
                         itemBuilder: (context, index) {
                           return Ink(
-                            decoration: BoxDecoration(color: Colors.white),
+                            decoration: BoxDecoration(
+                                color: themeChange.darkTheme
+                                    ? Colors.black
+                                    : Colors.white),
                             child: InkWell(
                               onTap: () {},
                               splashColor: Colors.red.shade100,
@@ -171,7 +177,8 @@ class _MyCheckOutState extends State<MyCheckOut> {
                                       style: Text_Style.text_Theme(
                                           Constants.grey_text,
                                           12,
-                                          FontWeight.normal),
+                                          FontWeight.normal,
+                                          context),
                                     )
                                   ],
                                 ),
@@ -194,13 +201,13 @@ class _MyCheckOutState extends State<MyCheckOut> {
                         children: [
                           Text(
                             Constants.order,
-                            style: Text_Style.text_Theme(
-                                Constants.grey_text, 14, FontWeight.normal),
+                            style: Text_Style.text_Theme(Constants.grey_text,
+                                14, FontWeight.normal, context),
                           ),
                           Text(
                             "112\$",
-                            style: Text_Style.text_Theme(
-                                Constants.black_text, 16, FontWeight.bold),
+                            style: Text_Style.text_Theme(Constants.black_text,
+                                16, FontWeight.bold, context),
                           )
                         ],
                       ),
@@ -211,13 +218,13 @@ class _MyCheckOutState extends State<MyCheckOut> {
                           children: [
                             Text(
                               Constants.delivery,
-                              style: Text_Style.text_Theme(
-                                  Constants.grey_text, 14, FontWeight.normal),
+                              style: Text_Style.text_Theme(Constants.grey_text,
+                                  14, FontWeight.normal, context),
                             ),
                             Text(
                               "15\$",
-                              style: Text_Style.text_Theme(
-                                  Constants.black_text, 16, FontWeight.bold),
+                              style: Text_Style.text_Theme(Constants.black_text,
+                                  16, FontWeight.bold, context),
                             )
                           ],
                         ),
@@ -227,13 +234,13 @@ class _MyCheckOutState extends State<MyCheckOut> {
                         children: [
                           Text(
                             Constants.summary,
-                            style: Text_Style.text_Theme(
-                                Constants.grey_text, 16, FontWeight.w500),
+                            style: Text_Style.text_Theme(Constants.grey_text,
+                                16, FontWeight.w500, context),
                           ),
                           Text(
                             "127\$",
-                            style: Text_Style.text_Theme(
-                                Constants.black_text, 16, FontWeight.bold),
+                            style: Text_Style.text_Theme(Constants.black_text,
+                                16, FontWeight.bold, context),
                           )
                         ],
                       )

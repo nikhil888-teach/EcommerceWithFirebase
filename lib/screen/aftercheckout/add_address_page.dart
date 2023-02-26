@@ -1,10 +1,12 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:ecommerce/screen/aftercheckout/checkout_page.dart';
+import 'package:ecommerce/theme/themeprovider.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:ecommerce/widgets/textformfield_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MyAddressPage extends StatefulWidget {
   const MyAddressPage({Key? key}) : super(key: key);
@@ -30,6 +32,7 @@ class _MyAddressPageState extends State<MyAddressPage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<ThemeProvider>(context);
     return SafeArea(
         child: Scaffold(
       resizeToAvoidBottomInset: false,
@@ -38,11 +41,10 @@ class _MyAddressPageState extends State<MyAddressPage> {
         centerTitle: true,
         leading: Icon(
           Icons.arrow_back_ios,
-          color: Colors.black,
         ),
         title: Text("Shipping Addresses",
             style: Text_Style.text_Theme(
-                Constants.black_text, 18, FontWeight.bold)),
+                Constants.black_text, 18, FontWeight.bold, context)),
       ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
@@ -73,27 +75,35 @@ class _MyAddressPageState extends State<MyAddressPage> {
               Container(
                 decoration: BoxDecoration(),
                 child: Card(
+                    color: Colors.white,
                     child: TextFormField(
-                  readOnly: true,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(borderSide: BorderSide.none)),
-                  controller: TextEditingController(
-                      text: _country?.displayNameNoCountryCode ??
-                          "Select Country"),
-                  onTap: () {
-                    FocusManager.instance.primaryFocus?.unfocus();
-                    showCountryPicker(
-                      context: context,
-                      showPhoneCode: true,
-                      onSelect: (Country country) {
-                        if (!mounted) return;
-                        setState(() {
-                          _country = country;
-                        });
+                      readOnly: true,
+                      decoration: InputDecoration(
+                          border:
+                              OutlineInputBorder(borderSide: BorderSide.none)),
+                      controller: TextEditingController(
+                          text: _country?.displayNameNoCountryCode ??
+                              "Select Country"),
+                      onTap: () {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        showCountryPicker(
+                          context: context,
+                          showPhoneCode: true,
+                          showSearch: false,
+                          countryListTheme: CountryListThemeData(
+                              textStyle: TextStyle(
+                                  color: themeChange.darkTheme
+                                      ? Colors.white
+                                      : Colors.black)),
+                          onSelect: (Country country) {
+                            if (!mounted) return;
+                            setState(() {
+                              _country = country;
+                            });
+                          },
+                        );
                       },
-                    );
-                  },
-                )),
+                    )),
               ),
               const SizedBox(
                 height: 8,

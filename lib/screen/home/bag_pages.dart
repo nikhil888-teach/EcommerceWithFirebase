@@ -20,7 +20,7 @@ class _MyBagPageState extends State<MyBagPage> {
       appBar: AppBar(
         title: Text(Constants.My_Bag,
             style: Text_Style.text_Theme(
-                Constants.black_text, 20, FontWeight.bold)),
+                Constants.black_text, 20, FontWeight.bold, context)),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 5),
@@ -28,7 +28,6 @@ class _MyBagPageState extends State<MyBagPage> {
                 onPressed: () {},
                 icon: const Icon(
                   Icons.search,
-                  color: Colors.black,
                   size: 24,
                 )),
           )
@@ -92,7 +91,8 @@ class _MyBagPageState extends State<MyBagPage> {
                                               style: Text_Style.text_Theme(
                                                   Constants.black_text,
                                                   16,
-                                                  FontWeight.bold),
+                                                  FontWeight.bold,
+                                                  context),
                                             ),
                                             Container(
                                               height: 25,
@@ -125,7 +125,8 @@ class _MyBagPageState extends State<MyBagPage> {
                                               style: Text_Style.text_Theme(
                                                   Constants.grey_text,
                                                   13,
-                                                  FontWeight.normal),
+                                                  FontWeight.normal,
+                                                  context),
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.only(
@@ -135,7 +136,8 @@ class _MyBagPageState extends State<MyBagPage> {
                                                 style: Text_Style.text_Theme(
                                                     Constants.black_text,
                                                     13,
-                                                    FontWeight.normal),
+                                                    FontWeight.normal,
+                                                    context),
                                               ),
                                             ),
                                             Text(
@@ -143,7 +145,8 @@ class _MyBagPageState extends State<MyBagPage> {
                                               style: Text_Style.text_Theme(
                                                   Constants.grey_text,
                                                   13,
-                                                  FontWeight.normal),
+                                                  FontWeight.normal,
+                                                  context),
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.only(
@@ -153,7 +156,8 @@ class _MyBagPageState extends State<MyBagPage> {
                                                 style: Text_Style.text_Theme(
                                                     Constants.black_text,
                                                     13,
-                                                    FontWeight.normal),
+                                                    FontWeight.normal,
+                                                    context),
                                               ),
                                             )
                                           ],
@@ -199,7 +203,8 @@ class _MyBagPageState extends State<MyBagPage> {
                                                   style: Text_Style.text_Theme(
                                                       Constants.black_text,
                                                       14,
-                                                      FontWeight.bold),
+                                                      FontWeight.bold,
+                                                      context),
                                                 ),
                                               ),
                                               ClipOval(
@@ -237,7 +242,8 @@ class _MyBagPageState extends State<MyBagPage> {
                                                 style: Text_Style.text_Theme(
                                                     Constants.black_text,
                                                     20,
-                                                    FontWeight.bold),
+                                                    FontWeight.bold,
+                                                    context),
                                               ))
                                         ],
                                       )
@@ -270,12 +276,12 @@ class _MyBagPageState extends State<MyBagPage> {
                   Text(
                     Constants.total_amount,
                     style: Text_Style.text_Theme(
-                        Constants.grey_text, 14, FontWeight.w500),
+                        Constants.grey_text, 14, FontWeight.w500, context),
                   ),
                   Text(
                     "124\$",
                     style: Text_Style.text_Theme(
-                        Constants.black_text, 18, FontWeight.w900),
+                        Constants.black_text, 18, FontWeight.w900, context),
                   )
                 ],
               ),

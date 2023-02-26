@@ -21,7 +21,7 @@ List pagess = <Widget>[
   const MyShopePage(),
   const MyBagPage(),
   const MyFavoritePage(),
-  const MyFavoritePage(),
+  const MyProfilePage(),
 ];
 
 class _MyMainPageState extends State<MyMainPage> {
@@ -41,47 +41,39 @@ class _MyMainPageState extends State<MyMainPage> {
             },
             showUnselectedLabels: true,
             showSelectedLabels: true,
-            selectedItemColor: const Color(0xffDB3022),
             unselectedItemColor: Colors.grey,
             unselectedLabelStyle: Text_Style.text_Theme(
-                Constants.grey_text, 10, FontWeight.normal),
-            selectedLabelStyle: Text_Style.text_Theme(
-                Constants.red_text, 10, FontWeight.normal),
+                Constants.grey_text, 10, FontWeight.normal, context),
             items: const [
               BottomNavigationBarItem(
                   label: Constants.HOME,
                   icon: Icon(Icons.home),
                   activeIcon: Icon(
                     Icons.home,
-                    color: Colors.red,
                   )),
               BottomNavigationBarItem(
                   label: Constants.shop,
                   icon: Icon(CupertinoIcons.shopping_cart),
                   activeIcon: Icon(
                     CupertinoIcons.shopping_cart,
-                    color: Colors.red,
                   )),
               BottomNavigationBarItem(
                   label: Constants.bag,
                   icon: Icon(CupertinoIcons.bag),
                   activeIcon: Icon(
                     CupertinoIcons.bag_fill,
-                    color: Colors.red,
                   )),
               BottomNavigationBarItem(
                   label: Constants.Favorites,
                   icon: Icon(CupertinoIcons.heart),
                   activeIcon: Icon(
                     CupertinoIcons.heart_fill,
-                    color: Colors.red,
                   )),
               BottomNavigationBarItem(
                   label: Constants.Profile,
                   icon: Icon(CupertinoIcons.profile_circled),
                   activeIcon: Icon(
                     CupertinoIcons.profile_circled,
-                    color: Colors.red,
                   )),
             ]),
       ),

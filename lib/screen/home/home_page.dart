@@ -1,9 +1,11 @@
 import 'package:ecommerce/screen/products/product_view.dart';
+import 'package:ecommerce/theme/themeprovider.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -15,6 +17,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<ThemeProvider>(context);
     return SafeArea(
         child: Scaffold(
       resizeToAvoidBottomInset: false,
@@ -37,12 +40,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(Constants.FASHION,
-                          style: Text_Style.text_Theme(
-                              Constants.white_text, 48, FontWeight.bold)),
+                          style: Text_Style.text_Theme(Constants.white_text, 48,
+                              FontWeight.bold, context)),
                       Text(
                         Constants.SALE,
                         style: Text_Style.text_Theme(
-                            Constants.white_text, 48, FontWeight.bold),
+                            Constants.white_text, 48, FontWeight.bold, context),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 24),
@@ -72,10 +75,19 @@ class _MyHomePageState extends State<MyHomePage> {
                           children: [
                             Text(Constants.NEW,
                                 style: Text_Style.text_Theme(
-                                    Constants.black_text, 34, FontWeight.bold)),
-                            const Padding(
-                              padding: EdgeInsets.only(top: 10, right: 15),
-                              child: Text("View all"),
+                                    Constants.black_text,
+                                    34,
+                                    FontWeight.bold,
+                                    context)),
+                            Padding(
+                              padding: EdgeInsets.only(top: 10, right: 10),
+                              child: Text(
+                                "View all",
+                                style: TextStyle(
+                                    color: themeChange.darkTheme
+                                        ? Colors.grey
+                                        : Colors.black),
+                              ),
                             )
                           ],
                         ),
@@ -83,8 +95,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 15),
                         child: Text(Constants.you_never_before,
-                            style: Text_Style.text_Theme(
-                                Constants.grey_text, 11, FontWeight.normal)),
+                            style: Text_Style.text_Theme(Constants.grey_text,
+                                11, FontWeight.normal, context)),
                       ),
                       Container(
                         height: 300,
@@ -147,7 +159,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                             Constants
                                                                 .white_text,
                                                             11,
-                                                            FontWeight.bold)),
+                                                            FontWeight.bold,
+                                                            context)),
                                               ),
                                             ),
                                           ),
@@ -181,8 +194,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 7),
+                                            padding: const EdgeInsets.only(
+                                                top: 7, bottom: 7),
                                             child: Row(
                                               children: [
                                                 for (int i = 0; i < 5; i++)
@@ -193,15 +206,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   ),
                                                 Padding(
                                                   padding: EdgeInsets.only(
-                                                      left: 2, bottom: 8),
+                                                      left: 2, bottom: 0),
                                                   child: Text("(10)",
                                                       style:
                                                           Text_Style.text_Theme(
                                                               Constants
                                                                   .grey_text,
                                                               10,
-                                                              FontWeight
-                                                                  .normal)),
+                                                              FontWeight.normal,
+                                                              context)),
                                                 )
                                               ],
                                             ),
@@ -211,7 +224,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                             style: Text_Style.text_Theme(
                                                 Constants.grey_text,
                                                 11,
-                                                FontWeight.normal),
+                                                FontWeight.normal,
+                                                context),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.only(
@@ -220,7 +234,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 style: Text_Style.text_Theme(
                                                     Constants.black_text,
                                                     16,
-                                                    FontWeight.bold)),
+                                                    FontWeight.bold,
+                                                    context)),
                                           ),
                                           Row(
                                             children: [
@@ -228,17 +243,22 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 padding:
                                                     EdgeInsets.only(right: 4),
                                                 child: Text("15\$",
-                                                    style:
-                                                        Text_Style.text_Theme(
-                                                            Constants.grey_text,
-                                                            14,
+                                                    style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration
+                                                                .lineThrough,
+                                                        color: Color(Constants
+                                                            .grey_text),
+                                                        fontSize: 14,
+                                                        fontWeight:
                                                             FontWeight.bold)),
                                               ),
                                               Text("12\$",
                                                   style: Text_Style.text_Theme(
                                                       Constants.red_text,
                                                       14,
-                                                      FontWeight.bold)),
+                                                      FontWeight.bold,
+                                                      context)),
                                             ],
                                           ),
                                         ],

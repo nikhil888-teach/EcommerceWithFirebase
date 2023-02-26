@@ -40,15 +40,15 @@ class _MySuccessPageState extends State<MySuccessPage> {
                       child: Text(
                         Constants.success,
                         style: Text_Style.text_Theme(
-                            Constants.black_text, 34, FontWeight.bold),
+                            Constants.black_text, 34, FontWeight.bold, context),
                       ),
                     ),
                     Expanded(
                       child: Text(
                         textAlign: TextAlign.center,
                         Constants.succ_text,
-                        style: Text_Style.text_Theme(
-                            Constants.black_text, 15, FontWeight.normal),
+                        style: Text_Style.text_Theme(Constants.black_text, 15,
+                            FontWeight.normal, context),
                       ),
                     ),
                   ],

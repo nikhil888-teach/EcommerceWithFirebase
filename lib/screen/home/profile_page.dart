@@ -47,7 +47,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                       child: Text(
                         Constants.my_profile,
                         style: Text_Style.text_Theme(
-                            Constants.black_text, 34, FontWeight.bold),
+                            Constants.black_text, 34, FontWeight.bold, context),
                       ),
                     ),
                     Row(
@@ -71,12 +71,18 @@ class _MyProfilePageState extends State<MyProfilePage> {
                               Text(
                                 "Matilda Brown",
                                 style: Text_Style.text_Theme(
-                                    Constants.black_text, 18, FontWeight.bold),
+                                    Constants.black_text,
+                                    18,
+                                    FontWeight.bold,
+                                    context),
                               ),
                               Text(
                                 "matildabrown@mail.com",
                                 style: Text_Style.text_Theme(
-                                    Constants.grey_text, 14, FontWeight.normal),
+                                    Constants.grey_text,
+                                    14,
+                                    FontWeight.normal,
+                                    context),
                               )
                             ],
                           ),
@@ -99,8 +105,8 @@ class _MyProfilePageState extends State<MyProfilePage> {
                             },
                             title: Text(
                               map.entries.elementAt(index).value,
-                              style: Text_Style.text_Theme(
-                                  Constants.black_text, 20, FontWeight.w500),
+                              style: Text_Style.text_Theme(Constants.black_text,
+                                  20, FontWeight.w500, context),
                             ),
                             trailing: const Icon(
                               CupertinoIcons.forward,

@@ -20,11 +20,10 @@ class _MyProcessingProductState extends State<MyProcessingProduct> {
         centerTitle: true,
         leading: Icon(
           Icons.arrow_back_ios,
-          color: Colors.black,
         ),
         title: Text("Order Details",
             style: Text_Style.text_Theme(
-                Constants.black_text, 18, FontWeight.bold)),
+                Constants.black_text, 18, FontWeight.bold, context)),
       ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
@@ -39,16 +38,16 @@ class _MyProcessingProductState extends State<MyProcessingProduct> {
                   Row(
                     children: [
                       Text(Constants.orderNo,
-                          style: Text_Style.text_Theme(
-                              Constants.black_text, 16, FontWeight.bold)),
+                          style: Text_Style.text_Theme(Constants.black_text, 16,
+                              FontWeight.bold, context)),
                       Text("102003",
-                          style: Text_Style.text_Theme(
-                              Constants.black_text, 16, FontWeight.bold))
+                          style: Text_Style.text_Theme(Constants.black_text, 16,
+                              FontWeight.bold, context))
                     ],
                   ),
                   Text("05-12-2019",
                       style: Text_Style.text_Theme(
-                          Constants.grey_text, 16, FontWeight.normal))
+                          Constants.grey_text, 16, FontWeight.normal, context))
                 ],
               ),
               Padding(
@@ -56,11 +55,11 @@ class _MyProcessingProductState extends State<MyProcessingProduct> {
                 child: Row(
                   children: [
                     Text(Constants.trackingNo,
-                        style: Text_Style.text_Theme(
-                            Constants.grey_text, 16, FontWeight.normal)),
+                        style: Text_Style.text_Theme(Constants.grey_text, 16,
+                            FontWeight.normal, context)),
                     Text("IW3475453455",
                         style: Text_Style.text_Theme(
-                            Constants.black_text, 16, FontWeight.w500))
+                            Constants.black_text, 16, FontWeight.w500, context))
                   ],
                 ),
               ),
@@ -70,18 +69,19 @@ class _MyProcessingProductState extends State<MyProcessingProduct> {
                   Row(
                     children: [
                       Text("3",
-                          style: Text_Style.text_Theme(
-                              Constants.black_text, 16, FontWeight.normal)),
+                          style: Text_Style.text_Theme(Constants.black_text, 16,
+                              FontWeight.normal, context)),
                       Text(Constants.item,
-                          style: Text_Style.text_Theme(
-                              Constants.black_text, 16, FontWeight.normal)),
+                          style: Text_Style.text_Theme(Constants.black_text, 16,
+                              FontWeight.normal, context)),
                     ],
                   ),
-                  Text(
-                    Constants.processing,
-                    style: Text_Style.text_Theme(
-                        Constants.green_text, 14, FontWeight.w500),
-                  )
+                  Text(Constants.processing,
+                      style: TextStyle(
+                        color: Colors.green,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ))
                 ],
               ),
               Padding(
@@ -129,7 +129,8 @@ class _MyProcessingProductState extends State<MyProcessingProduct> {
                                         style: Text_Style.text_Theme(
                                             Constants.black_text,
                                             16,
-                                            FontWeight.bold),
+                                            FontWeight.bold,
+                                            context),
                                       ),
                                     ),
                                     Padding(
@@ -142,7 +143,8 @@ class _MyProcessingProductState extends State<MyProcessingProduct> {
                                             style: Text_Style.text_Theme(
                                                 Constants.grey_text,
                                                 13,
-                                                FontWeight.normal),
+                                                FontWeight.normal,
+                                                context),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.only(
@@ -152,7 +154,8 @@ class _MyProcessingProductState extends State<MyProcessingProduct> {
                                               style: Text_Style.text_Theme(
                                                   Constants.black_text,
                                                   13,
-                                                  FontWeight.normal),
+                                                  FontWeight.normal,
+                                                  context),
                                             ),
                                           ),
                                           Text(
@@ -160,7 +163,8 @@ class _MyProcessingProductState extends State<MyProcessingProduct> {
                                             style: Text_Style.text_Theme(
                                                 Constants.grey_text,
                                                 13,
-                                                FontWeight.normal),
+                                                FontWeight.normal,
+                                                context),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.only(
@@ -170,7 +174,8 @@ class _MyProcessingProductState extends State<MyProcessingProduct> {
                                               style: Text_Style.text_Theme(
                                                   Constants.black_text,
                                                   13,
-                                                  FontWeight.normal),
+                                                  FontWeight.normal,
+                                                  context),
                                             ),
                                           )
                                         ],
@@ -187,14 +192,16 @@ class _MyProcessingProductState extends State<MyProcessingProduct> {
                                               style: Text_Style.text_Theme(
                                                   Constants.grey_text,
                                                   13,
-                                                  FontWeight.normal),
+                                                  FontWeight.normal,
+                                                  context),
                                             ),
                                             Text(
                                               "1",
                                               style: Text_Style.text_Theme(
                                                   Constants.black_text,
                                                   14,
-                                                  FontWeight.bold),
+                                                  FontWeight.bold,
+                                                  context),
                                             ),
                                           ],
                                         ),
@@ -205,7 +212,8 @@ class _MyProcessingProductState extends State<MyProcessingProduct> {
                                               style: Text_Style.text_Theme(
                                                   Constants.black_text,
                                                   20,
-                                                  FontWeight.bold),
+                                                  FontWeight.bold,
+                                                  context),
                                             ))
                                       ],
                                     ),
@@ -223,7 +231,7 @@ class _MyProcessingProductState extends State<MyProcessingProduct> {
               Text(
                 Constants.ord_info,
                 style: Text_Style.text_Theme(
-                    Constants.black_text, 14, FontWeight.w600),
+                    Constants.black_text, 14, FontWeight.w600, context),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 15, bottom: 10),
@@ -234,15 +242,15 @@ class _MyProcessingProductState extends State<MyProcessingProduct> {
                     Text(
                       Constants.shipp_add,
                       style: Text_Style.text_Theme(
-                          Constants.grey_text, 14, FontWeight.w200),
+                          Constants.grey_text, 14, FontWeight.w200, context),
                     ),
                     Expanded(
                       child: Text(
                         textAlign: TextAlign.right,
                         softWrap: true,
                         "3 Newbridge Court ,Chino Hills, CA 91709, United States",
-                        style: Text_Style.text_Theme(
-                            Constants.black_text, 14, FontWeight.normal),
+                        style: Text_Style.text_Theme(Constants.black_text, 14,
+                            FontWeight.normal, context),
                       ),
                     )
                   ],
@@ -254,7 +262,7 @@ class _MyProcessingProductState extends State<MyProcessingProduct> {
                   Text(
                     Constants.pay_meth,
                     style: Text_Style.text_Theme(
-                        Constants.grey_text, 14, FontWeight.w200),
+                        Constants.grey_text, 14, FontWeight.w200, context),
                   ),
                 ],
               ),
@@ -267,13 +275,13 @@ class _MyProcessingProductState extends State<MyProcessingProduct> {
                     Text(
                       Constants.del_method,
                       style: Text_Style.text_Theme(
-                          Constants.grey_text, 14, FontWeight.w200),
+                          Constants.grey_text, 14, FontWeight.w200, context),
                     ),
                     Text(
                       softWrap: true,
                       "FedEx, 3 days, 15\$",
                       style: Text_Style.text_Theme(
-                          Constants.black_text, 14, FontWeight.normal),
+                          Constants.black_text, 14, FontWeight.normal, context),
                     )
                   ],
                 ),
@@ -285,13 +293,13 @@ class _MyProcessingProductState extends State<MyProcessingProduct> {
                   Text(
                     Constants.discount,
                     style: Text_Style.text_Theme(
-                        Constants.grey_text, 14, FontWeight.w200),
+                        Constants.grey_text, 14, FontWeight.w200, context),
                   ),
                   Text(
                     softWrap: true,
                     "10%, Personal promo code",
                     style: Text_Style.text_Theme(
-                        Constants.black_text, 14, FontWeight.normal),
+                        Constants.black_text, 14, FontWeight.normal, context),
                   )
                 ],
               ),
@@ -304,13 +312,13 @@ class _MyProcessingProductState extends State<MyProcessingProduct> {
                     Text(
                       Constants.total_amount,
                       style: Text_Style.text_Theme(
-                          Constants.grey_text, 14, FontWeight.w200),
+                          Constants.grey_text, 14, FontWeight.w200, context),
                     ),
                     Text(
                       softWrap: true,
                       "133\$",
                       style: Text_Style.text_Theme(
-                          Constants.black_text, 14, FontWeight.normal),
+                          Constants.black_text, 14, FontWeight.normal, context),
                     )
                   ],
                 ),
@@ -319,12 +327,6 @@ class _MyProcessingProductState extends State<MyProcessingProduct> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   OutlinedButton(
-                      style: ButtonStyle(
-                          shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                  side: BorderSide(
-                                      color: Color(Constants.black_text)),
-                                  borderRadius: BorderRadius.circular(24)))),
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => MyProcessingProduct(),
@@ -335,8 +337,8 @@ class _MyProcessingProductState extends State<MyProcessingProduct> {
                             horizontal: 20, vertical: 15),
                         child: Text(
                           Constants.reorder,
-                          style: Text_Style.text_Theme(
-                              Constants.black_text, 17, FontWeight.w600),
+                          style: Text_Style.text_Theme(Constants.black_text, 17,
+                              FontWeight.w600, context),
                         ),
                       )),
                   Button_Style.button_Theme(Constants.lea_feed)

@@ -35,11 +35,10 @@ class _MySettingPageState extends State<MySettingPage> {
         centerTitle: true,
         leading: Icon(
           Icons.arrow_back_ios,
-          color: Colors.black,
         ),
         title: Text("Settings",
             style: Text_Style.text_Theme(
-                Constants.black_text, 18, FontWeight.bold)),
+                Constants.black_text, 18, FontWeight.bold, context)),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -50,7 +49,7 @@ class _MySettingPageState extends State<MySettingPage> {
               Text(
                 Constants.pers_info,
                 style: Text_Style.text_Theme(
-                    Constants.black_text, 14, FontWeight.w600),
+                    Constants.black_text, 14, FontWeight.w600, context),
               ),
               const SizedBox(
                 height: 8,
@@ -69,7 +68,7 @@ class _MySettingPageState extends State<MySettingPage> {
                   Text(
                     Constants.PASSWORD,
                     style: Text_Style.text_Theme(
-                        Constants.black_text, 14, FontWeight.w600),
+                        Constants.black_text, 14, FontWeight.w600, context),
                   ),
                   GestureDetector(
                     onTap: () {
@@ -78,7 +77,6 @@ class _MySettingPageState extends State<MySettingPage> {
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(34),
                                 topRight: Radius.circular(34))),
-                        backgroundColor: Color(Constants.white_text),
                         isScrollControlled: true,
                         context: context,
                         builder: (context) {
@@ -112,7 +110,8 @@ class _MySettingPageState extends State<MySettingPage> {
                                     style: Text_Style.text_Theme(
                                         Constants.black_text,
                                         18,
-                                        FontWeight.bold),
+                                        FontWeight.bold,
+                                        context),
                                   ),
                                 ),
                                 Textformfield_style.textField(
@@ -126,7 +125,8 @@ class _MySettingPageState extends State<MySettingPage> {
                                         style: Text_Style.text_Theme(
                                             Constants.grey_text,
                                             14,
-                                            FontWeight.normal)),
+                                            FontWeight.normal,
+                                            context)),
                                   ),
                                 ),
                                 Textformfield_style.textField(
@@ -136,7 +136,10 @@ class _MySettingPageState extends State<MySettingPage> {
                                 SizedBox(
                                   height: 15,
                                 ),
-                                Button_Style.button_Theme(Constants.save_pass)
+                                Button_Style.button_Theme(Constants.save_pass),
+                                SizedBox(
+                                  height: 15,
+                                ),
                               ],
                             ),
                           );
@@ -145,8 +148,10 @@ class _MySettingPageState extends State<MySettingPage> {
                     },
                     child: Text(
                       Constants.change,
-                      style: Text_Style.text_Theme(
-                          Constants.red_text, 14, FontWeight.w600),
+                      style: TextStyle(
+                          color: Color(Constants.red_text),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600),
                     ),
                   )
                 ],
@@ -162,7 +167,7 @@ class _MySettingPageState extends State<MySettingPage> {
               Text(
                 Constants.notification,
                 style: Text_Style.text_Theme(
-                    Constants.black_text, 14, FontWeight.w600),
+                    Constants.black_text, 14, FontWeight.w600, context),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -170,7 +175,7 @@ class _MySettingPageState extends State<MySettingPage> {
                   Text(
                     Constants.sales,
                     style: Text_Style.text_Theme(
-                        Constants.black_text, 14, FontWeight.normal),
+                        Constants.black_text, 14, FontWeight.normal, context),
                   ),
                   Switch(
                     activeColor: Colors.green,
@@ -189,7 +194,7 @@ class _MySettingPageState extends State<MySettingPage> {
                   Text(
                     Constants.new_arr,
                     style: Text_Style.text_Theme(
-                        Constants.black_text, 14, FontWeight.normal),
+                        Constants.black_text, 14, FontWeight.normal, context),
                   ),
                   Switch(
                     activeColor: Colors.green,
@@ -208,7 +213,7 @@ class _MySettingPageState extends State<MySettingPage> {
                   Text(
                     Constants.delivery_status,
                     style: Text_Style.text_Theme(
-                        Constants.black_text, 14, FontWeight.normal),
+                        Constants.black_text, 14, FontWeight.normal, context),
                   ),
                   Switch(
                     activeColor: Colors.green,
@@ -227,7 +232,7 @@ class _MySettingPageState extends State<MySettingPage> {
                   Text(
                     Constants.darktheme,
                     style: Text_Style.text_Theme(
-                        Constants.black_text, 14, FontWeight.normal),
+                        Constants.black_text, 14, FontWeight.normal, context),
                   ),
                   Switch(
                     activeColor: Colors.green,

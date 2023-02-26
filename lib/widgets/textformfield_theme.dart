@@ -4,6 +4,7 @@ class Textformfield_style {
   static Card textField(
       TextEditingController textEditingController, String hintText) {
     return Card(
+      color: Colors.white,
       elevation: 2,
       child: TextFormField(
         controller: textEditingController,

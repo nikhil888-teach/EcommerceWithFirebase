@@ -20,11 +20,10 @@ class _MyShippingAddressState extends State<MyShippingAddress> {
         centerTitle: true,
         leading: Icon(
           Icons.arrow_back_ios,
-          color: Colors.black,
         ),
         title: Text("Shipping Addresses",
             style: Text_Style.text_Theme(
-                Constants.black_text, 18, FontWeight.bold)),
+                Constants.black_text, 18, FontWeight.bold, context)),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
@@ -60,8 +59,8 @@ class _MyShippingAddressState extends State<MyShippingAddress> {
                             padding: const EdgeInsets.symmetric(vertical: 7),
                             child: Text(
                               "Jane Doe",
-                              style: Text_Style.text_Theme(
-                                  Constants.black_text, 14, FontWeight.w600),
+                              style: Text_Style.text_Theme(Constants.black_text,
+                                  14, FontWeight.w600, context),
                             ),
                           ),
                           InkWell(
@@ -74,8 +73,8 @@ class _MyShippingAddressState extends State<MyShippingAddress> {
                             },
                             child: Text(
                               Constants.edit,
-                              style: Text_Style.text_Theme(
-                                  Constants.red_text, 14, FontWeight.w600),
+                              style: Text_Style.text_Theme(Constants.red_text,
+                                  14, FontWeight.w600, context),
                             ),
                           )
                         ],
@@ -84,15 +83,15 @@ class _MyShippingAddressState extends State<MyShippingAddress> {
                         padding: const EdgeInsets.only(top: 5),
                         child: Text(
                           "3 Newbridge Court",
-                          style: Text_Style.text_Theme(
-                              Constants.black_text, 14, FontWeight.normal),
+                          style: Text_Style.text_Theme(Constants.black_text, 14,
+                              FontWeight.normal, context),
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 7),
                         child: Text("Chino Hills, CA 91709, United States",
-                            style: Text_Style.text_Theme(
-                                Constants.black_text, 14, FontWeight.normal)),
+                            style: Text_Style.text_Theme(Constants.black_text,
+                                14, FontWeight.normal, context)),
                       ),
                       Row(
                         children: [

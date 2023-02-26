@@ -1,9 +1,11 @@
 import 'package:ecommerce/profileoptions/myorders/tabs/cancelled/cancelled_page.dart';
 import 'package:ecommerce/profileoptions/myorders/tabs/delivered/delivered_page.dart';
 import 'package:ecommerce/profileoptions/myorders/tabs/processing/process_page.dart';
+import 'package:ecommerce/theme/themeprovider.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MyOrderPage extends StatefulWidget {
   const MyOrderPage({Key? key}) : super(key: key);
@@ -15,6 +17,7 @@ class MyOrderPage extends StatefulWidget {
 class _MyOrderPageState extends State<MyOrderPage> {
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<ThemeProvider>(context);
     return DefaultTabController(
       length: 3,
       child: SafeArea(
@@ -24,11 +27,10 @@ class _MyOrderPageState extends State<MyOrderPage> {
             centerTitle: true,
             leading: Icon(
               Icons.arrow_back_ios,
-              color: Colors.black,
             ),
             title: Text("My Orders",
                 style: Text_Style.text_Theme(
-                    Constants.black_text, 18, FontWeight.bold)),
+                    Constants.black_text, 18, FontWeight.bold, context)),
           ),
           body: Column(
             children: [
@@ -38,15 +40,28 @@ class _MyOrderPageState extends State<MyOrderPage> {
                   child: TabBar(
                       labelPadding: EdgeInsets.symmetric(vertical: 7),
                       indicator: BoxDecoration(
-                        color: Colors.black,
+                        color:
+                            themeChange.darkTheme ? Colors.white : Colors.black,
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      unselectedLabelColor: Color(0xff222222),
-                      unselectedLabelStyle: Text_Style.text_Theme(
-                          Constants.black_text, 16, FontWeight.normal),
-                      labelColor: Color(Constants.white_text),
-                      labelStyle: Text_Style.text_Theme(
-                          Constants.black_text, 16, FontWeight.bold),
+                      unselectedLabelColor: themeChange.darkTheme
+                          ? Colors.white
+                          : Color(0xff222222),
+                      unselectedLabelStyle: TextStyle(
+                          color: themeChange.darkTheme
+                              ? Colors.white
+                              : Color(Constants.black_text),
+                          fontSize: 16,
+                          fontWeight: FontWeight.normal),
+                      labelColor: themeChange.darkTheme
+                          ? Colors.black
+                          : Color(Constants.white_text),
+                      labelStyle: TextStyle(
+                          color: themeChange.darkTheme
+                              ? Colors.white
+                              : Color(Constants.black_text),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
                       tabs: [
                         Text(Constants.delivered),
                         Text(Constants.processing),
