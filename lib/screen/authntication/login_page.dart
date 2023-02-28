@@ -19,7 +19,6 @@ class _MyLoginPageState extends State<MyLoginPage> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            backgroundColor: const Color(0xffF9F9F9),
             resizeToAvoidBottomInset: false,
             body: Padding(
               padding: const EdgeInsets.all(16),
@@ -45,6 +44,8 @@ class _MyLoginPageState extends State<MyLoginPage> {
                       const SizedBox(
                         height: 8,
                       ),
+                      Textformfield_style.textField(
+                          password, Constants.PASSWORD),
                       const SizedBox(
                         height: 16,
                       ),
@@ -78,7 +79,12 @@ class _MyLoginPageState extends State<MyLoginPage> {
                     crossAxisAlignment: WrapCrossAlignment.center,
                     alignment: WrapAlignment.center,
                     children: [
-                      const Center(child: Text(Constants.OR_SIGN_WITH_SOCIAL)),
+                      Center(
+                          child: Text(
+                        Constants.OR_SIGN_WITH_SOCIAL,
+                        style: Text_Style.text_Theme(Constants.black_text, 14,
+                            FontWeight.normal, context),
+                      )),
                       Padding(
                         padding: const EdgeInsets.only(top: 20),
                         child: Card(

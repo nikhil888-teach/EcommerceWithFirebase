@@ -1,4 +1,4 @@
-import 'package:ecommerce/screen/home/main_page.dart';
+import 'package:ecommerce/splash/splash_page.dart';
 import 'package:ecommerce/theme/themeprovider.dart';
 import 'package:ecommerce/theme/thmedata.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
           title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
           theme: Style.themeData(value.darkTheme, context),
-          home: const MyMainPage(),
+          home: const MySplashPage(),
         ),
       ),
     );

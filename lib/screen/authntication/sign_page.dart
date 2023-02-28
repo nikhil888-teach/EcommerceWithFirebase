@@ -1,11 +1,10 @@
 import 'package:ecommerce/screen/authntication/login_page.dart';
+import 'package:ecommerce/screen/home/main_page.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:ecommerce/widgets/textformfield_theme.dart';
 import 'package:flutter/material.dart';
-
-import '../home/main_page.dart';
 
 class MySignInPage extends StatefulWidget {
   const MySignInPage({Key? key}) : super(key: key);
@@ -22,7 +21,6 @@ class _MySignInPageState extends State<MySignInPage> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            backgroundColor: const Color(0xffF9F9F9),
             resizeToAvoidBottomInset: false,
             body: Padding(
               padding: const EdgeInsets.all(16),
@@ -94,7 +92,10 @@ class _MySignInPageState extends State<MySignInPage> {
                     crossAxisAlignment: WrapCrossAlignment.center,
                     alignment: WrapAlignment.center,
                     children: [
-                      const Center(child: Text(Constants.OR_SIGN_WITH_SOCIAL)),
+                      Center(
+                          child: Text(Constants.OR_SIGN_WITH_SOCIAL,
+                              style: Text_Style.text_Theme(Constants.black_text,
+                                  14, FontWeight.normal, context))),
                       Padding(
                         padding: const EdgeInsets.only(top: 20),
                         child: Card(

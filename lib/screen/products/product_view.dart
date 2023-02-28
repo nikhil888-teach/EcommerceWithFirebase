@@ -369,7 +369,7 @@ class _MyProductPageState extends State<MyProductPage> {
                         ),
                         Container(
                           decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: Colors.red,
                               borderRadius: BorderRadius.circular(29)),
                           child: const Padding(
                               padding: EdgeInsets.all(10.0),
