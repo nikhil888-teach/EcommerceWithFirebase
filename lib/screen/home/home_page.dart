@@ -176,8 +176,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                               child: const Padding(
                                                   padding: EdgeInsets.all(10.0),
                                                   child: Icon(
-                                                    CupertinoIcons.heart,
-                                                    color: Colors.grey,
+                                                    CupertinoIcons.heart_fill,
+                                                    color: Colors.white,
                                                     size: 14,
                                                   )),
                                             ),

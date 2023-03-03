@@ -60,12 +60,15 @@ class _MyProductPageState extends State<MyProductPage> {
                 padding: const EdgeInsets.only(bottom: 12),
                 child: Hero(
                   tag: UniqueKey(),
-                  child: Image.network(
-                    "https://m.media-amazon.com/images/I/61XdzIyV6hL._UY741_.jpg",
-                    fit: BoxFit.fill,
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.grey.shade300,
-                    colorBlendMode: BlendMode.multiply,
+                  child: InteractiveViewer(
+                    panEnabled: true,
+                    child: Image.network(
+                      "https://m.media-amazon.com/images/I/61XdzIyV6hL._UY741_.jpg",
+                      fit: BoxFit.fill,
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.grey.shade300,
+                      colorBlendMode: BlendMode.multiply,
+                    ),
                   ),
                 ),
               ),
@@ -374,8 +377,8 @@ class _MyProductPageState extends State<MyProductPage> {
                           child: const Padding(
                               padding: EdgeInsets.all(10.0),
                               child: Icon(
-                                CupertinoIcons.heart,
-                                color: Colors.grey,
+                                CupertinoIcons.heart_fill,
+                                color: Colors.white,
                                 size: 24,
                               )),
                         ),
