@@ -56,6 +56,7 @@ class _MyProductPageState extends State<MyProductPage> {
         child: Container(
           child: Column(
             children: [
+              
               Padding(
                 padding: const EdgeInsets.only(bottom: 12),
                 child: Hero(

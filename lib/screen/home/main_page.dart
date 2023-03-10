@@ -76,6 +76,7 @@ class _MyMainPageState extends State<MyMainPage> {
                     CupertinoIcons.profile_circled,
                   )),
             ]),
+      
       ),
     );
   }
