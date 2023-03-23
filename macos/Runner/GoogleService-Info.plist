@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>75123193741-u9aganh01588pau96gk1g1la5i7fkpnu.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.75123193741-u9aganh01588pau96gk1g1la5i7fkpnu</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>75123193741-2nq59m9fm5sr0jjha1dt26vio4m3o9r4.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBWZim25hn8y5V_u_jkFfuhuuW4deiRqmI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>75123193741</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.ecommerce</string>
+	<key>PROJECT_ID</key>
+	<string>topecommerce-fab5d</string>
+	<key>STORAGE_BUCKET</key>
+	<string>topecommerce-fab5d.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:75123193741:ios:717012a7fbf4807df66fc4</string>
+	<key>DATABASE_URL</key>
+	<string>https://topecommerce-fab5d-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>

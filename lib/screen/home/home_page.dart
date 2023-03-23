@@ -109,11 +109,11 @@ class _MyHomePageState extends State<MyHomePage> {
                             padding: const EdgeInsets.only(top: 22, right: 20),
                             child: InkWell(
                               onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => MyProductPage(),
-                                    ));
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //       builder: (context) => MyProductPage(),
+                                //     ));
                               },
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
