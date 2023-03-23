@@ -5,7 +5,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MyProductPage extends StatefulWidget {
-  const MyProductPage({Key? key}) : super(key: key);
+  MyProductPage(
+      {Key? key,
+      required this.name,
+      required this.brand,
+      required this.price,
+      required this.decription,
+      required this.images})
+      : super(key: key);
+  final List images;
+  final String name;
+  final String brand;
+  final String price;
+  final String decription;
 
   @override
   State<MyProductPage> createState() => _MyProductPageState();
@@ -44,7 +56,7 @@ class _MyProductPageState extends State<MyProductPage> {
       appBar: AppBar(
         elevation: 1,
         centerTitle: true,
-        title: Text("Short dress",
+        title: Text(widget.name,
             style: Text_Style.text_Theme(
                 Constants.black_text, 18, FontWeight.bold, context)),
         actions: const [
@@ -72,7 +84,7 @@ class _MyProductPageState extends State<MyProductPage> {
                           selectedImageIndex = value;
                         });
                       },
-                      itemCount: 3,
+                      itemCount: widget.images.length,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, imageIndex) {
                         return Hero(
@@ -80,7 +92,7 @@ class _MyProductPageState extends State<MyProductPage> {
                           child: InteractiveViewer(
                             panEnabled: true,
                             child: Image.network(
-                              "https://m.media-amazon.com/images/I/61XdzIyV6hL._UY741_.jpg",
+                              widget.images[imageIndex],
                               fit: BoxFit.fill,
                               width: MediaQuery.of(context).size.width,
                               color: Colors.grey.shade300,
@@ -420,12 +432,12 @@ class _MyProductPageState extends State<MyProductPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Evening Dress",
+                            widget.name,
                             style: Text_Style.text_Theme(
                                 0xff222222, 24, FontWeight.bold, context),
                           ),
                           Text(
-                            "\$19.99",
+                            "\$" + widget.price,
                             style: Text_Style.text_Theme(
                                 0xff222222, 24, FontWeight.bold, context),
                           ),
@@ -433,7 +445,7 @@ class _MyProductPageState extends State<MyProductPage> {
                       ),
                     ),
                     Text(
-                      "Dorothy Perkins",
+                      widget.brand,
                       style: const TextStyle(
                           color: Color(0xff9B9B9B),
                           fontSize: 11,
@@ -459,8 +471,7 @@ class _MyProductPageState extends State<MyProductPage> {
                         ],
                       ),
                     ),
-                    Text(
-                        "Short dress in soft cotton jersey with decorative buttons down the front and a wide, frill-trimmed square neckline with concealed elastication. Elasticated seam under the bust and short puff sleeves with a small frill trim.",
+                    Text(widget.decription,
                         style: Text_Style.text_Theme(Constants.grey_text, 14,
                             FontWeight.normal, context)),
                     Padding(
@@ -480,11 +491,11 @@ class _MyProductPageState extends State<MyProductPage> {
                           padding: const EdgeInsets.only(top: 22, right: 20),
                           child: InkWell(
                             onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => MyProductPage(),
-                                  ));
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //       builder: (context) => MyProductPage(),
+                              //     ));
                             },
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
