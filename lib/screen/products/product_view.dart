@@ -5,7 +5,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MyProductPage extends StatefulWidget {
-  const MyProductPage({Key? key}) : super(key: key);
+  MyProductPage(
+      {Key? key,
+      required this.name,
+      required this.brand,
+      required this.price,
+      required this.decription,
+      required this.images})
+      : super(key: key);
+  final List images;
+  final String name;
+  final String brand;
+  final String price;
+  final String decription;
 
   @override
   State<MyProductPage> createState() => _MyProductPageState();
@@ -44,7 +56,7 @@ class _MyProductPageState extends State<MyProductPage> {
       appBar: AppBar(
         elevation: 1,
         centerTitle: true,
-        title: Text("Short dress",
+        title: Text(widget.name,
             style: Text_Style.text_Theme(
                 Constants.black_text, 18, FontWeight.bold, context)),
         actions: const [
@@ -72,7 +84,7 @@ class _MyProductPageState extends State<MyProductPage> {
                           selectedImageIndex = value;
                         });
                       },
-                      itemCount: 3,
+                      itemCount: widget.images.length,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, imageIndex) {
                         return Hero(
@@ -80,7 +92,7 @@ class _MyProductPageState extends State<MyProductPage> {
                           child: InteractiveViewer(
                             panEnabled: true,
                             child: Image.network(
-                              "https://m.media-amazon.com/images/I/61XdzIyV6hL._UY741_.jpg",
+                              widget.images[imageIndex],
                               fit: BoxFit.fill,
                               width: MediaQuery.of(context).size.width,
                               color: Colors.grey.shade300,
@@ -103,16 +115,20 @@ class _MyProductPageState extends State<MyProductPage> {
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, dotIndex) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 3),
-                      child: Container(
-                        height: 20,
-                        width: selectedImageIndex == dotIndex ? 30 : 20,
-                        decoration: BoxDecoration(
-                            color: selectedImageIndex == dotIndex
+                      padding: const EdgeInsets.symmetric(horizontal: 0),
+                      child: ClipOval(
+                          child: Container(
+                        height: 8,
+                        width: selectedImageIndex == dotIndex ? 12 : 8,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 2),
+                          child: CircleAvatar(
+                            backgroundColor: selectedImageIndex == dotIndex
                                 ? Colors.red
                                 : Colors.grey,
-                            borderRadius: BorderRadius.circular(20)),
-                      ),
+                          ),
+                        ),
+                      )),
                     );
                   },
                 ),
@@ -176,39 +192,33 @@ class _MyProductPageState extends State<MyProductPage> {
                                                   padding:
                                                       const EdgeInsets.only(
                                                           top: 15),
-                                                  child: Expanded(
-                                                    flex: 1,
-                                                    child: OutlinedButton(
-                                                        style: ButtonStyle(
-                                                            backgroundColor:
-                                                                MaterialStateProperty
-                                                                    .all(Colors
-                                                                        .white)),
-                                                        onPressed: () {
-                                                          if (!mounted) return;
-                                                          setState(() {
-                                                            selectedsize = size
-                                                                .entries
-                                                                .elementAt(
-                                                                    index)
-                                                                .value;
-                                                          });
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        child: Text(
-                                                            size.entries
-                                                                .elementAt(
-                                                                    index)
-                                                                .value,
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .black,
-                                                                fontSize: 14,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500))),
-                                                  ),
+                                                  child: OutlinedButton(
+                                                      style: ButtonStyle(
+                                                          backgroundColor:
+                                                              MaterialStateProperty
+                                                                  .all(Colors
+                                                                      .white)),
+                                                      onPressed: () {
+                                                        if (!mounted) return;
+                                                        setState(() {
+                                                          selectedsize = size
+                                                              .entries
+                                                              .elementAt(index)
+                                                              .value;
+                                                        });
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text(
+                                                          size.entries
+                                                              .elementAt(index)
+                                                              .value,
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500))),
                                                 )),
                                       )
                                     ],
@@ -271,79 +281,95 @@ class _MyProductPageState extends State<MyProductPage> {
                                           ),
                                         ),
                                       ),
-                                      Text(
-                                        "Select color",
-                                        style: Text_Style.text_Theme(
-                                            Constants.black_text,
-                                            18,
-                                            FontWeight.bold,
-                                            context),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 2),
+                                        child: Text(
+                                          "Select color",
+                                          style: Text_Style.text_Theme(
+                                              Constants.black_text,
+                                              18,
+                                              FontWeight.bold,
+                                              context),
+                                        ),
                                       ),
                                       Wrap(
                                         spacing: 20,
                                         direction: Axis.horizontal,
                                         children: List.generate(
                                             color.length,
-                                            (index) => Expanded(
-                                                  flex: 1,
-                                                  child: OutlinedButton(
-                                                      style: ButtonStyle(
-                                                          shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          24),
-                                                              side: BorderSide(
-                                                                  color: Colors
-                                                                      .white))),
-                                                          backgroundColor:
-                                                              MaterialStateProperty
-                                                                  .all(Colors
-                                                                      .white)),
-                                                      onPressed: () {
-                                                        if (!mounted) return;
-                                                        setState(() {
-                                                          selectedcolor = color
-                                                              .entries
-                                                              .elementAt(index)
-                                                              .value;
-                                                          selectedindexcolor =
-                                                              color.entries
-                                                                  .elementAt(
-                                                                      index)
-                                                                  .key;
-                                                        });
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child: Row(
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    right: 5),
-                                                            child: Icon(
-                                                              Icons.circle,
-                                                              color: Color(
-                                                                  displaycolor
-                                                                      .elementAt(
-                                                                          index)),
+                                            (index) => Container(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height /
+                                                      14,
+                                                  width: 100,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 10),
+                                                    child: OutlinedButton(
+                                                        style: ButtonStyle(
+                                                            shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            24),
+                                                                side: BorderSide(
+                                                                    color: Colors
+                                                                        .white))),
+                                                            backgroundColor:
+                                                                MaterialStateProperty
+                                                                    .all(Colors
+                                                                        .white)),
+                                                        onPressed: () {
+                                                          if (!mounted) return;
+                                                          setState(() {
+                                                            selectedcolor =
+                                                                color.entries
+                                                                    .elementAt(
+                                                                        index)
+                                                                    .value;
+                                                            selectedindexcolor =
+                                                                color.entries
+                                                                    .elementAt(
+                                                                        index)
+                                                                    .key;
+                                                          });
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child: Row(
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      right: 5),
+                                                              child: Icon(
+                                                                Icons.circle,
+                                                                color: Color(
+                                                                    displaycolor
+                                                                        .elementAt(
+                                                                            index)),
+                                                              ),
                                                             ),
-                                                          ),
-                                                          Text(
-                                                              color.entries
-                                                                  .elementAt(
-                                                                      index)
-                                                                  .value,
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontSize: 14,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500)),
-                                                        ],
-                                                      )),
+                                                            Text(
+                                                                color.entries
+                                                                    .elementAt(
+                                                                        index)
+                                                                    .value,
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontSize:
+                                                                        14,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500)),
+                                                          ],
+                                                        )),
+                                                  ),
                                                 )),
                                       )
                                     ],
@@ -406,12 +432,12 @@ class _MyProductPageState extends State<MyProductPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Evening Dress",
+                            widget.name,
                             style: Text_Style.text_Theme(
                                 0xff222222, 24, FontWeight.bold, context),
                           ),
                           Text(
-                            "\$19.99",
+                            "\$" + widget.price,
                             style: Text_Style.text_Theme(
                                 0xff222222, 24, FontWeight.bold, context),
                           ),
@@ -419,7 +445,7 @@ class _MyProductPageState extends State<MyProductPage> {
                       ),
                     ),
                     Text(
-                      "Dorothy Perkins",
+                      widget.brand,
                       style: const TextStyle(
                           color: Color(0xff9B9B9B),
                           fontSize: 11,
@@ -445,8 +471,7 @@ class _MyProductPageState extends State<MyProductPage> {
                         ],
                       ),
                     ),
-                    Text(
-                        "Short dress in soft cotton jersey with decorative buttons down the front and a wide, frill-trimmed square neckline with concealed elastication. Elasticated seam under the bust and short puff sleeves with a small frill trim.",
+                    Text(widget.decription,
                         style: Text_Style.text_Theme(Constants.grey_text, 14,
                             FontWeight.normal, context)),
                     Padding(
@@ -466,11 +491,11 @@ class _MyProductPageState extends State<MyProductPage> {
                           padding: const EdgeInsets.only(top: 22, right: 20),
                           child: InkWell(
                             onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => MyProductPage(),
-                                  ));
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //       builder: (context) => MyProductPage(),
+                              //     ));
                             },
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
