@@ -3,9 +3,12 @@ import 'package:ecommerce/theme/themeprovider.dart';
 import 'package:ecommerce/theme/thmedata.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
 }
 
 class MyApp extends StatefulWidget {
