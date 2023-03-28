@@ -25,11 +25,7 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
                   Constants.black_text, 20, FontWeight.bold, context)),
         ),
         body: StreamBuilder(
-          stream: FirebaseDatabase.instance
-              .ref(widget.category)
-              .child(widget.subCategory)
-              .child(Constants.dProducts)
-              .onValue,
+          stream: FirebaseDatabase.instance.ref(Constants.dProducts).onValue,
           builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
             if (!snapshot.hasData) {
               return Center(
@@ -43,7 +39,12 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
                 snapshot.data!.snapshot.value as dynamic;
             List<dynamic> list = [];
             list.clear();
-            list = data.values.toList();
+            for (var element in data.values) {
+              if (element['Type'] == widget.subCategory &&
+                  element['Gender'] == widget.category) {
+                list.add(element);
+              }
+            }
 
             return Container(
               height: MediaQuery.of(context).size.height,
@@ -51,7 +52,7 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
                 child: GridView.builder(
-                  itemCount: snapshot.data!.snapshot.children.length,
+                  itemCount: list.length,
                   gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                     maxCrossAxisExtent: 200,
                     crossAxisSpacing: 10,
@@ -65,11 +66,16 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => MyProductPage(
+                          category: widget.category,
+                          subCategory: widget.subCategory,
+                          color: list[index][Constants.dColor],
+                          size: list[index][Constants.dSize],
+                          id: list[index][Constants.dId],
                           images: list[index][Constants.dimages],
                           brand: list[index][Constants.dBrand],
                           decription: list[index][Constants.dDesc],
                           name: list[index][Constants.dPname],
-                          price: list[index][Constants.dPrice],
+                          price: list[index][Constants.dSPrice],
                         ),
                       ));
                     },
@@ -187,7 +193,7 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
                                               fontWeight: FontWeight.bold)),
                                     ),
                                     Text(
-                                        list[index][Constants.dPrice]
+                                        list[index][Constants.dSPrice]
                                                 .toString() +
                                             "\$",
                                         style: Text_Style.text_Theme(

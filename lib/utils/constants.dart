@@ -116,21 +116,41 @@ class Constants {
   static const reorder = "Reorder";
   static const lea_feed = "Leave feedback";
 
-//database path name
   static const dSubCategoryImage = "subcgimage";
   static const dSubCategoryName = "subcgName";
   static const dProducts = "Products";
   static const dMale = "Male";
   static const dFemale = "Female";
   static const dKids = "Kids";
+
+  // products
+
   static const dimages = "images";
   static const dPname = "Pname";
-  static const dPrice = "Price";
+  static const dSPrice = "Price";
   static const ddPrice = "DisPrice";
   static const dBrand = "Brand";
   static const dDesc = "Description";
   static const dcategory = "Category";
   static const dsubCategory = "SubCategory";
+  static const dType = "Type";
+  static const dGender = "Gender";
+  static const dDate = "Date";
+  static const dId = "ID";
+  static const dUser = "User";
+  static const dColor = "Color";
+  static const dSize = "Size";
+
+  //add to cart
+  static const dAddToCart = "AddToCart";
+  static const dPid = "ProductId";
+  static const dQuantity = "Quantity";
+  static const dtotamt = "Total";
+
+  //user
+  static const duname = "Name";
+  static const dProimage = "ProfileIamge";
+  static const demail = "Email";
 
   //COLOR
   static const red_text = 0xffDB3022;

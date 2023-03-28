@@ -1,6 +1,7 @@
 import 'package:ecommerce/splash/splash_page.dart';
 import 'package:ecommerce/theme/themeprovider.dart';
 import 'package:ecommerce/theme/thmedata.dart';
+import 'package:ecommerce/trystepper/stepperpage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -40,7 +41,7 @@ class _MyAppState extends State<MyApp> {
           title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
           theme: Style.themeData(value.darkTheme, context),
-          home: const MySplashPage(),
+          home: const MyStepperPage(),
         ),
       ),
     );

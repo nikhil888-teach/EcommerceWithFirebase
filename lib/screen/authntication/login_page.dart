@@ -1,9 +1,11 @@
 import 'package:ecommerce/screen/home/main_page.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
+import 'package:ecommerce/widgets/scafoldmsg_theme.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:ecommerce/widgets/textformfield_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class MyLoginPage extends StatefulWidget {
   const MyLoginPage({Key? key}) : super(key: key);
@@ -15,6 +17,7 @@ class MyLoginPage extends StatefulWidget {
 class _MyLoginPageState extends State<MyLoginPage> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -66,13 +69,38 @@ class _MyLoginPageState extends State<MyLoginPage> {
                       ),
                       GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const MyMainPage(),
-                                ));
+                            setState(() {
+                              loading = true;
+                            });
+                            FirebaseAuth.instance
+                                .signInWithEmailAndPassword(
+                                    email: email.text.trim(),
+                                    password: password.text.trim())
+                                .then((value) {
+                              Scaffold_msg.toastMessage(
+                                  context, "Sign in successfully");
+                              setState(() {
+                                loading = false;
+                              });
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const MyMainPage(),
+                                  ));
+                            }).catchError((onError) {
+                              setState(() {
+                                loading = false;
+                              });
+                              Scaffold_msg.toastMessage(context, onError);
+                            });
                           },
-                          child: Button_Style.button_Theme(Constants.LOGIN)),
+                          child: loading
+                              ? Center(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.red,
+                                  ),
+                                )
+                              : Button_Style.button_Theme(Constants.LOGIN)),
                     ],
                   ),
                   Wrap(
