@@ -141,6 +141,12 @@ class Constants {
   static const dColor = "Color";
   static const dSize = "Size";
 
+  //add to cart
+  static const dAddToCart = "AddToCart";
+  static const dPid = "ProductId";
+  static const dQuantity = "Quantity";
+  static const dtotamt = "Total";
+
   //user
   static const duname = "Name";
   static const dProimage = "ProfileIamge";

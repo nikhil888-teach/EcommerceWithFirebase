@@ -66,6 +66,8 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => MyProductPage(
+                          category: widget.category,
+                          subCategory: widget.subCategory,
                           color: list[index][Constants.dColor],
                           size: list[index][Constants.dSize],
                           id: list[index][Constants.dId],

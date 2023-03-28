@@ -73,7 +73,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                               loading = true;
                             });
                             FirebaseAuth.instance
-                                .createUserWithEmailAndPassword(
+                                .signInWithEmailAndPassword(
                                     email: email.text.trim(),
                                     password: password.text.trim())
                                 .then((value) {

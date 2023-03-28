@@ -1,9 +1,12 @@
 import 'package:ecommerce/theme/themeprovider.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
+import 'package:ecommerce/widgets/scafoldmsg_theme.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:provider/provider.dart';
 
 class MyProductPage extends StatefulWidget {
@@ -14,18 +17,22 @@ class MyProductPage extends StatefulWidget {
       required this.price,
       required this.decription,
       required this.images,
-      required this.id,
+      required this.category,
+      required this.subCategory,
+      required this.color,
       required this.size,
-      required this.color})
+      required this.id})
       : super(key: key);
+  final String category;
+  final String subCategory;
   final List images;
   final String name;
   final String brand;
   final String price;
   final String decription;
-  final String id;
-  final bool size;
   final bool color;
+  final bool size;
+  final String id;
 
   @override
   State<MyProductPage> createState() => _MyProductPageState();
@@ -46,13 +53,16 @@ class _MyProductPageState extends State<MyProductPage> {
     0xff0000FF,
     0xff808080
   };
+  String? userId;
   String? selectedcolor;
+  bool loading = false;
   @override
   void initState() {
     selectedsize = "Size";
     // _pageController = PageController(initialPage: 0);
     print(_pageController?.initialPage);
     selectedcolor = "Color";
+    userId = FirebaseAuth.instance.currentUser!.uid;
     super.initState();
   }
 
@@ -532,169 +542,229 @@ class _MyProductPageState extends State<MyProductPage> {
                               FontWeight.bold, context)),
                     ),
                     Container(
-                      height: 300,
-                      child: ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 3,
-                        itemBuilder: (context, index) => Padding(
-                          padding: const EdgeInsets.only(top: 22, right: 20),
-                          child: InkWell(
-                            onTap: () {
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //       builder: (context) => MyProductPage(),
-                              //     ));
-                            },
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: Stack(
+                        height: 300,
+                        child: StreamBuilder(
+                            stream: FirebaseDatabase.instance
+                                .ref(Constants.dProducts)
+                                .onValue,
+                            builder: (context,
+                                AsyncSnapshot<DatabaseEvent> snapshot) {
+                              if (!snapshot.hasData) {
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.red,
+                                  ),
+                                );
+                              }
+
+                              Map<dynamic, dynamic> data =
+                                  snapshot.data!.snapshot.value as dynamic;
+                              List<dynamic> list = [];
+                              list.clear();
+                              for (var element in data.values) {
+                                if (element['Type'] == widget.subCategory &&
+                                    element['Gender'] == widget.category) {
+                                  list.add(element);
+                                }
+                              }
+                              return ListView.builder(
+                                physics: const BouncingScrollPhysics(),
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: list.length,
+                                itemBuilder: (context, index) => Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: 22, right: 20),
+                                  child: InkWell(
+                                    onTap: () {
+                                      // Navigator.push(
+                                      //     context,
+                                      //     MaterialPageRoute(
+                                      //       builder: (context) => MyProductPage(),
+                                      //     ));
+                                    },
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        Ink(
-                                            decoration:
-                                                const BoxDecoration(boxShadow: [
-                                              BoxShadow(
-                                                  color: Colors.black12,
-                                                  offset: Offset(0, 0),
-                                                  blurRadius: 5),
-                                            ]),
-                                            child: Image.network(
-                                              "https://m.media-amazon.com/images/I/61XdzIyV6hL._UY741_.jpg",
-                                              fit: BoxFit.fill,
-                                              color: Colors.grey.shade300,
-                                              colorBlendMode:
-                                                  BlendMode.multiply,
-                                              scale: 4,
-                                            )),
-                                        Positioned(
-                                          left: 8,
-                                          top: 8,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                color: Colors.black,
-                                                borderRadius:
-                                                    BorderRadius.circular(29)),
-                                            child: Padding(
-                                              padding: EdgeInsets.all(6.0),
-                                              child: Text(Constants.NEW,
-                                                  style: Text_Style.text_Theme(
-                                                      Constants.white_text,
-                                                      11,
-                                                      FontWeight.bold,
-                                                      context)),
+                                        Container(
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            child: Stack(
+                                              children: [
+                                                Container(
+                                                  height: 200,
+                                                  width: 150,
+                                                  child: Ink(
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                              boxShadow: [
+                                                            BoxShadow(
+                                                                color: Colors
+                                                                    .black12,
+                                                                offset: Offset(
+                                                                    0, 0),
+                                                                blurRadius: 5),
+                                                          ]),
+                                                      child: Image.network(
+                                                        list[index][Constants
+                                                            .dimages][0],
+                                                        fit: BoxFit.fill,
+                                                        color: Colors
+                                                            .grey.shade300,
+                                                        colorBlendMode:
+                                                            BlendMode.multiply,
+                                                        scale: 4,
+                                                      )),
+                                                ),
+                                                Positioned(
+                                                  left: 8,
+                                                  top: 8,
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.black,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(29)),
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsets.all(6.0),
+                                                      child: Text(Constants.NEW,
+                                                          style: Text_Style
+                                                              .text_Theme(
+                                                                  Constants
+                                                                      .white_text,
+                                                                  11,
+                                                                  FontWeight
+                                                                      .bold,
+                                                                  context)),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  bottom: 5,
+                                                  right: 5,
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(29)),
+                                                    child: const Padding(
+                                                        padding: EdgeInsets.all(
+                                                            10.0),
+                                                        child: Icon(
+                                                          CupertinoIcons.heart,
+                                                          color: Colors.grey,
+                                                          size: 14,
+                                                        )),
+                                                  ),
+                                                )
+                                              ],
                                             ),
                                           ),
                                         ),
-                                        Positioned(
-                                          bottom: 5,
-                                          right: 5,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(29)),
-                                            child: const Padding(
-                                                padding: EdgeInsets.all(10.0),
-                                                child: Icon(
-                                                  CupertinoIcons.heart,
-                                                  color: Colors.grey,
-                                                  size: 14,
-                                                )),
+                                        Expanded(
+                                          flex: 1,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 7),
+                                                child: Row(
+                                                  children: [
+                                                    for (int i = 0; i < 5; i++)
+                                                      const Icon(
+                                                        Icons.star,
+                                                        size: 14,
+                                                        color: Colors.yellow,
+                                                      ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 2,
+                                                              bottom: 0),
+                                                      child: Text(
+                                                        "(10)",
+                                                        style: Text_Style
+                                                            .text_Theme(
+                                                                Constants
+                                                                    .grey_text,
+                                                                10,
+                                                                FontWeight
+                                                                    .normal,
+                                                                context),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                              Text(
+                                                list[index][Constants.dBrand],
+                                                style: const TextStyle(
+                                                    color: Color(0xff9B9B9B),
+                                                    fontSize: 11,
+                                                    fontWeight:
+                                                        FontWeight.normal),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 5, bottom: 3),
+                                                child: Text(
+                                                  list[index][Constants.dPname],
+                                                  style: Text_Style.text_Theme(
+                                                      Constants.black_text,
+                                                      16,
+                                                      FontWeight.bold,
+                                                      context),
+                                                ),
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 4),
+                                                    child: Text(
+                                                      list[index][Constants
+                                                              .ddPrice] +
+                                                          "\$",
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .lineThrough,
+                                                          color: Color(Constants
+                                                              .grey_text),
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                      list[index][Constants
+                                                              .dSPrice] +
+                                                          "\$",
+                                                      style:
+                                                          Text_Style.text_Theme(
+                                                              Constants
+                                                                  .red_text,
+                                                              14,
+                                                              FontWeight.bold,
+                                                              context)),
+                                                ],
+                                              ),
+                                            ],
                                           ),
-                                        )
+                                        ),
                                       ],
                                     ),
                                   ),
                                 ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 7),
-                                        child: Row(
-                                          children: [
-                                            for (int i = 0; i < 5; i++)
-                                              const Icon(
-                                                Icons.star,
-                                                size: 14,
-                                                color: Colors.yellow,
-                                              ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 2, bottom: 0),
-                                              child: Text(
-                                                "(10)",
-                                                style: Text_Style.text_Theme(
-                                                    Constants.grey_text,
-                                                    10,
-                                                    FontWeight.normal,
-                                                    context),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Text(
-                                        "Dorothy Perkins",
-                                        style: const TextStyle(
-                                            color: Color(0xff9B9B9B),
-                                            fontSize: 11,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 5, bottom: 3),
-                                        child: Text(
-                                          "Evening Dress",
-                                          style: Text_Style.text_Theme(
-                                              Constants.black_text,
-                                              16,
-                                              FontWeight.bold,
-                                              context),
-                                        ),
-                                      ),
-                                      Row(
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(right: 4),
-                                            child: Text(
-                                              "15\$",
-                                              style: TextStyle(
-                                                  decoration: TextDecoration
-                                                      .lineThrough,
-                                                  color: Color(
-                                                      Constants.grey_text),
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                          Text("12\$",
-                                              style: Text_Style.text_Theme(
-                                                  Constants.red_text,
-                                                  14,
-                                                  FontWeight.bold,
-                                                  context)),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
+                              );
+                            }))
                   ],
                 ),
               )
@@ -707,12 +777,113 @@ class _MyProductPageState extends State<MyProductPage> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                addData();
+              },
               child: Container(
                   height: 48,
-                  child: Button_Style.button_Theme(Constants.add_cart))),
+                  child: loading
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.red,
+                          ),
+                        )
+                      : Button_Style.button_Theme(Constants.add_cart))),
         ),
       ),
     ));
+  }
+
+  void addData() {
+    setState(() {
+      loading = true;
+    });
+    DatabaseReference databaseReference =
+        FirebaseDatabase.instance.ref(Constants.dUser).child(userId.toString());
+    databaseReference.once().then((value) {
+      if (value.snapshot.hasChild(Constants.dAddToCart)) {
+        checkDataAlreadyAddorNot();
+      } else {
+        addDataToAddToCart();
+      }
+    });
+  }
+
+  void addDataToAddToCart() {
+    DatabaseReference databaseReference = FirebaseDatabase.instance
+        .ref(Constants.dUser)
+        .child(userId.toString())
+        .child(Constants.dAddToCart)
+        .push();
+    if (widget.color || widget.size) {
+      if (selectedcolor != "Color" && selectedsize != "Size") {
+        databaseReference.update({
+          Constants.dPid: widget.id,
+          Constants.dPname: widget.name,
+          Constants.dQuantity: 1,
+          Constants.dSize: selectedsize,
+          Constants.dColor: selectedcolor,
+          Constants.dtotamt: widget.price,
+          Constants.dimages: widget.images[0],
+          Constants.dSPrice: widget.price,
+        }).then((value) {
+          Scaffold_msg.toastMessage(context, "Added to cart");
+          setState(() {
+            loading = false;
+          });
+        });
+      } else {
+        Scaffold_msg.toastMessage(context, "Please select color and size");
+        setState(() {
+          loading = false;
+        });
+      }
+    } else {
+      databaseReference.update({
+        Constants.dPid: widget.id,
+        Constants.dQuantity: 1,
+        Constants.dtotamt: widget.price,
+        Constants.dimages: widget.images[0],
+        Constants.dSPrice: widget.price,
+        Constants.dPname: widget.name
+      }).then((value) {
+        Scaffold_msg.toastMessage(context, "Added to cart");
+
+        setState(() {
+          loading = false;
+        });
+      });
+    }
+  }
+
+  void checkDataAlreadyAddorNot() {
+    DatabaseReference databaseReference = FirebaseDatabase.instance
+        .ref(Constants.dUser)
+        .child(userId.toString())
+        .child(Constants.dAddToCart);
+
+    databaseReference.orderByKey().once().then((value) {
+      bool isExis = false;
+      value.snapshot.children.forEach((element) {
+        if (element.child(Constants.dPid).value.toString() == widget.id) {
+          isExis = true;
+          print("pid" +
+              element.child(Constants.dPid).value.toString() +
+              "\nwidgetid" +
+              "pid" +
+              widget.id.toString() +
+              "\nmatch" +
+              isExis.toString());
+        }
+      });
+      if (isExis) {
+        Scaffold_msg.toastMessage(context, "Already Added");
+        setState(() {
+          loading = false;
+        });
+      } else {
+        addDataToAddToCart();
+      }
+    });
   }
 }

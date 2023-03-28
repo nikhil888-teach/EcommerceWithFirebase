@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:ecommerce/screen/authntication/sign_page.dart';
-import 'package:ecommerce/screen/home/home_page.dart';
 import 'package:ecommerce/screen/home/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,6 +14,7 @@ class MySplashPage extends StatefulWidget {
 
 class _MySplashPageState extends State<MySplashPage> {
   Timer? timer;
+
   @override
   void initState() {
     timer = Timer(Duration(seconds: 3), () {
