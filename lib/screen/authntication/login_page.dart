@@ -18,6 +18,17 @@ class _MyLoginPageState extends State<MyLoginPage> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   bool loading = false;
+  final _formKey = GlobalKey<FormState>();
+
+  void validateAndSave() {
+    final form = _formKey.currentState;
+    if (form!.validate()) {
+      print('Form is valid');
+    } else {
+      print('form is invalid');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -28,80 +39,99 @@ class _MyLoginPageState extends State<MyLoginPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const SizedBox(
-                        height: 34,
-                      ),
-                      Text(Constants.LOGIN,
-                          style: Text_Style.text_Theme(Constants.black_text, 34,
-                              FontWeight.bold, context)),
-                      const SizedBox(
-                        height: 74,
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Textformfield_style.textField(email, Constants.EMAIL),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Textformfield_style.textField(
-                          password, Constants.PASSWORD),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(Constants.FORGOT_PASSWORD,
-                              style: Text_Style.text_Theme(Constants.black_text,
-                                  14, FontWeight.normal, context)),
-                          Icon(
-                            Icons.arrow_right_alt,
-                            color: Colors.red,
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 28,
-                      ),
-                      GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              loading = true;
-                            });
-                            FirebaseAuth.instance
-                                .signInWithEmailAndPassword(
-                                    email: email.text.trim(),
-                                    password: password.text.trim())
-                                .then((value) {
-                              Scaffold_msg.toastMessage(
-                                  context, "Sign in successfully");
-                              setState(() {
-                                loading = false;
-                              });
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const MyMainPage(),
-                                  ));
-                            }).catchError((onError) {
-                              setState(() {
-                                loading = false;
-                              });
-                              Scaffold_msg.toastMessage(context, onError);
-                            });
-                          },
-                          child: loading
-                              ? Center(
-                                  child: CircularProgressIndicator(
-                                    color: Colors.red,
-                                  ),
-                                )
-                              : Button_Style.button_Theme(Constants.LOGIN)),
-                    ],
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(
+                          height: 34,
+                        ),
+                        Text(Constants.LOGIN,
+                            style: Text_Style.text_Theme(Constants.black_text,
+                                34, FontWeight.bold, context)),
+                        const SizedBox(
+                          height: 74,
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Textformfield_style.textField(
+                            email, Constants.EMAIL, TextInputType.emailAddress),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Textformfield_style.textField(password,
+                            Constants.PASSWORD, TextInputType.visiblePassword),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(Constants.FORGOT_PASSWORD,
+                                style: Text_Style.text_Theme(
+                                    Constants.black_text,
+                                    14,
+                                    FontWeight.normal,
+                                    context)),
+                            Icon(
+                              Icons.arrow_right_alt,
+                              color: Colors.red,
+                            )
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 28,
+                        ),
+                        GestureDetector(
+                            onTap: () {
+                              validateAndSave();
+                              if (email.text.isEmpty || password.text.isEmpty) {
+                                ScaffoldMessenger.of(context)
+                                  ..hideCurrentSnackBar()
+                                  ..showSnackBar(const SnackBar(
+                                      content:
+                                          Text("Please fill all the field")));
+                              } else {
+                                setState(() {
+                                  loading = true;
+                                });
+
+                                FirebaseAuth.instance
+                                    .signInWithEmailAndPassword(
+                                        email: email.text.trim(),
+                                        password: password.text.trim())
+                                    .then((value) {
+                                  Scaffold_msg.toastMessage(
+                                      context, "Sign in successfully");
+                                  setState(() {
+                                    loading = false;
+                                  });
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const MyMainPage(),
+                                      ));
+                                }).catchError((onError) {
+                                  setState(() {
+                                    loading = false;
+                                  });
+                                  Scaffold_msg.toastMessage(
+                                      context, onError.toString());
+                                });
+                              }
+                            },
+                            child: loading
+                                ? Center(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.red,
+                                    ),
+                                  )
+                                : Button_Style.button_Theme(Constants.LOGIN)),
+                      ],
+                    ),
                   ),
                   Wrap(
                     crossAxisAlignment: WrapCrossAlignment.center,
