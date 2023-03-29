@@ -158,6 +158,7 @@ class Constants {
   static const dState = "State";
   static const dZcode = "ZipCode";
   static const dCountry = "Country";
+  static const daddressId = "AddressID";
 
   //COLOR
   static const red_text = 0xffDB3022;

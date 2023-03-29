@@ -53,6 +53,7 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
             content: Container()),
       ];
   Razorpay? razorpay;
+  int selectedRadio = 0;
 
   @override
   void initState() {
@@ -65,6 +66,12 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
   }
 
   int price = 432;
+  // Changes the selected value on 'onChanged' click on each radio button
+  setSelectedRadio(int val) {
+    setState(() {
+      selectedRadio = val;
+    });
+  }
 
   void openCheckout() async {
     var options = {
@@ -146,25 +153,13 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
             switch (stepIndex) {
               case 0:
                 if (isExis) {
+                  print(isExis.toString() + "lalalalalalala");
                   return myStepperAddress();
                 } else {
+                  print(isExis.toString() + "lalalalalalala");
+
                   return myStepAddAddress();
                 }
-              // checkAddress().then((value) {
-              // if (!mounted) return;
-              // setState(() {});
-              // if (value) {
-              //   check = true;
-              // } else {
-              //   check = false;
-              // }
-              // });
-
-              // if (check) {
-              //   return myStepperAddress();
-              // } else {
-              //   return myStepAddAddress();
-              // }
 
               case 1:
                 return myStepperPayment();
@@ -188,13 +183,16 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
       print(value.snapshot.hasChild(Constants.dAddress));
 
       if (value.snapshot.hasChild(Constants.dAddress)) {
+        if (!mounted) return;
         setState(() {
           isExis = true;
         });
-      } else
+      } else {
+        if (!mounted) return;
         setState(() {
           isExis = false;
         });
+      }
     });
 
     // return isExis;
@@ -272,12 +270,14 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                   setState(() {
                     loading = true;
                   });
-                  FirebaseDatabase.instance
+                  DatabaseReference databaseReference = FirebaseDatabase
+                      .instance
                       .ref(Constants.dUser)
                       .child(FirebaseAuth.instance.currentUser!.uid)
                       .child(Constants.dAddress)
-                      .push()
-                      .update({
+                      .push();
+                  databaseReference.update({
+                    Constants.daddressId: databaseReference.key,
                     Constants.dfname: fname.text.trim(),
                     Constants.dSAddress: streetAddress.text.trim(),
                     Constants.dCity: city.text.trim(),
@@ -288,12 +288,8 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                     if (!mounted) return;
                     setState(() {
                       loading = false;
+                      isExis = true;
                     });
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MyStepperCheckOutPage(),
-                        ));
                   }).catchError((onError) {
                     if (!mounted) return;
                     setState(() {
@@ -315,8 +311,6 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
   }
 
   Widget myStepperAddress() {
-    bool checkaddress = true;
-
     return StreamBuilder(
         stream: FirebaseDatabase.instance
             .ref(Constants.dUser)
@@ -324,11 +318,23 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
             .child(Constants.dAddress)
             .onValue,
         builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(
+                color: Colors.red,
+              ),
+            );
+          }
+
           Map<dynamic, dynamic> data = snapshot.data!.snapshot.value as dynamic;
           List<dynamic> list = [];
           list.clear();
-          list.add(data);
+          for (var element in data.values) {
+            list.add(element);
+          }
+
           return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 height: MediaQuery.of(context).size.height / 1.6,
@@ -365,12 +371,8 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                                     ),
                                     InkWell(
                                       onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  MyAddressPage(),
-                                            ));
+                                        print(
+                                            list[index][Constants.daddressId]);
                                       },
                                       child: Text(
                                         Constants.edit,
@@ -401,6 +403,7 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                                           ", " +
                                           list[index][Constants.dState]
                                               .toString() +
+                                          " " +
                                           list[index][Constants.dZcode]
                                               .toString() +
                                           ", " +
@@ -412,27 +415,21 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                                           FontWeight.normal,
                                           context)),
                                 ),
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      height: 24,
-                                      width: 24,
-                                      child: Checkbox(
-                                        activeColor: Colors.black,
-                                        value: checkaddress,
-                                        onChanged: (value) {
-                                          if (!mounted) return;
-                                          setState(() {
-                                            checkaddress = value!;
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 5),
-                                      child: Text(Constants.use_add),
-                                    )
-                                  ],
+                                RadioListTile<dynamic>(
+                                  title: Text(
+                                    Constants.use_add,
+                                    style: Text_Style.text_Theme(
+                                        Constants.black_text,
+                                        14,
+                                        FontWeight.normal,
+                                        context),
+                                  ),
+                                  activeColor: Colors.black,
+                                  value: index,
+                                  groupValue: selectedRadio,
+                                  onChanged: (value) {
+                                    setSelectedRadio(value);
+                                  },
                                 )
                               ],
                             ),
@@ -455,9 +452,13 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: InkWell(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => MyAddressPage(),
-                      ));
+                      if (!mounted) return;
+                      setState(() {
+                        isExis = false;
+                      });
+                      // Navigator.of(context).push(MaterialPageRoute(
+                      //   builder: (context) => MyAddressPage(),
+                      // ));
                     },
                     child: Button_Style.button_Theme("Add a New Address")),
               )
