@@ -151,6 +151,13 @@ class Constants {
   static const duname = "Name";
   static const dProimage = "ProfileIamge";
   static const demail = "Email";
+  static const dAddress = "FullAddress";
+  static const dfname = "FullName";
+  static const dSAddress = "Address";
+  static const dCity = "City";
+  static const dState = "State";
+  static const dZcode = "ZipCode";
+  static const dCountry = "Country";
 
   //COLOR
   static const red_text = 0xffDB3022;

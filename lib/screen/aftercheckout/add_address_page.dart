@@ -16,7 +16,6 @@ class MyAddressPage extends StatefulWidget {
 }
 
 class _MyAddressPageState extends State<MyAddressPage> {
-  String country = "Country";
   TextEditingController fname = TextEditingController();
   TextEditingController streetAddress = TextEditingController();
   TextEditingController city = TextEditingController();
@@ -24,7 +23,6 @@ class _MyAddressPageState extends State<MyAddressPage> {
   TextEditingController code = TextEditingController();
   @override
   void initState() {
-    country = "Country";
     super.initState();
   }
 

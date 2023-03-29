@@ -15,16 +15,6 @@ class _MyShippingAddressState extends State<MyShippingAddress> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 1,
-        centerTitle: true,
-        leading: Icon(
-          Icons.arrow_back_ios,
-        ),
-        title: Text("Shipping Addresses",
-            style: Text_Style.text_Theme(
-                Constants.black_text, 18, FontWeight.bold, context)),
-      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         onPressed: () {
@@ -40,7 +30,7 @@ class _MyShippingAddressState extends State<MyShippingAddress> {
         ),
       ),
       body: ListView.builder(
-        itemCount: 3,
+        itemCount: 2,
         itemBuilder: (context, index) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,

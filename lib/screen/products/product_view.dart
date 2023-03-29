@@ -703,7 +703,7 @@ class _MyProductPageState extends State<MyProductPage> {
                                                 ),
                                               ),
                                               Text(
-                                                "Dorothy Perkins",
+                                                list[index][Constants.dBrand],
                                                 style: const TextStyle(
                                                     color: Color(0xff9B9B9B),
                                                     fontSize: 11,
@@ -714,7 +714,7 @@ class _MyProductPageState extends State<MyProductPage> {
                                                 padding: const EdgeInsets.only(
                                                     top: 5, bottom: 3),
                                                 child: Text(
-                                                  "Evening Dress",
+                                                  list[index][Constants.dPname],
                                                   style: Text_Style.text_Theme(
                                                       Constants.black_text,
                                                       16,
@@ -729,7 +729,9 @@ class _MyProductPageState extends State<MyProductPage> {
                                                         const EdgeInsets.only(
                                                             right: 4),
                                                     child: Text(
-                                                      "15\$",
+                                                      list[index][Constants
+                                                              .ddPrice] +
+                                                          "\$",
                                                       style: TextStyle(
                                                           decoration:
                                                               TextDecoration
@@ -741,7 +743,10 @@ class _MyProductPageState extends State<MyProductPage> {
                                                               FontWeight.bold),
                                                     ),
                                                   ),
-                                                  Text("12\$",
+                                                  Text(
+                                                      list[index][Constants
+                                                              .dSPrice] +
+                                                          "\$",
                                                       style:
                                                           Text_Style.text_Theme(
                                                               Constants
@@ -818,7 +823,7 @@ class _MyProductPageState extends State<MyProductPage> {
           Constants.dQuantity: 1,
           Constants.dSize: selectedsize,
           Constants.dColor: selectedcolor,
-          Constants.dtotamt: 0,
+          Constants.dtotamt: widget.price,
           Constants.dimages: widget.images[0],
           Constants.dSPrice: widget.price,
         }).then((value) {
@@ -837,7 +842,7 @@ class _MyProductPageState extends State<MyProductPage> {
       databaseReference.update({
         Constants.dPid: widget.id,
         Constants.dQuantity: 1,
-        Constants.dtotamt: 0,
+        Constants.dtotamt: widget.price,
         Constants.dimages: widget.images[0],
         Constants.dSPrice: widget.price,
         Constants.dPname: widget.name
