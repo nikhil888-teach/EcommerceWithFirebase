@@ -181,6 +181,7 @@ class _MySettingPageState extends State<MySettingPage> {
                     activeColor: Colors.green,
                     value: checkSales,
                     onChanged: (value) {
+                      if (!mounted) return;
                       setState(() {
                         checkSales = value;
                       });
@@ -200,6 +201,7 @@ class _MySettingPageState extends State<MySettingPage> {
                     activeColor: Colors.green,
                     value: checkArr,
                     onChanged: (value) {
+                      if (!mounted) return;
                       setState(() {
                         checkArr = value;
                       });
@@ -219,6 +221,7 @@ class _MySettingPageState extends State<MySettingPage> {
                     activeColor: Colors.green,
                     value: checkStaus,
                     onChanged: (value) {
+                      if (!mounted) return;
                       setState(() {
                         checkStaus = value;
                       });
@@ -238,6 +241,7 @@ class _MySettingPageState extends State<MySettingPage> {
                     activeColor: Colors.green,
                     value: themeChange.darkTheme,
                     onChanged: (value) {
+                      if (!mounted) return;
                       setState(() {
                         themeChange.darkTheme = value;
                         themeChange.themePreference.setDarkTheme(value);

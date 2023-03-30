@@ -1,4 +1,3 @@
-import 'package:ecommerce/screen/aftercheckout/checkout_page.dart';
 import 'package:ecommerce/screen/aftercheckout/steppercheckout_page.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
@@ -8,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
-import 'package:flutter/services.dart';
 
 class MyBagPage extends StatefulWidget {
   const MyBagPage({Key? key}) : super(key: key);
@@ -460,6 +458,7 @@ class _MyBagPageState extends State<MyBagPage> {
         .child(FirebaseAuth.instance.currentUser!.uid)
         .child(Constants.dAddToCart);
     databaseReference.orderByKey().once().then((value) {
+      if (!mounted) return;
       setState(() {
         if (value.snapshot.children.isEmpty) {
           total = 0;

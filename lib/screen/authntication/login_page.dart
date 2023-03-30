@@ -69,6 +69,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                       ),
                       GestureDetector(
                           onTap: () {
+                            if (!mounted) return;
                             setState(() {
                               loading = true;
                             });
@@ -79,6 +80,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                                 .then((value) {
                               Scaffold_msg.toastMessage(
                                   context, "Sign in successfully");
+                              if (!mounted) return;
                               setState(() {
                                 loading = false;
                               });
@@ -88,6 +90,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                                     builder: (context) => const MyMainPage(),
                                   ));
                             }).catchError((onError) {
+                              if (!mounted) return;
                               setState(() {
                                 loading = false;
                               });

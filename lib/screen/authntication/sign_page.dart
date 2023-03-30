@@ -192,6 +192,7 @@ class _MySignInPageState extends State<MySignInPage> {
 
   void signUpAndAddData(
       String name, String email, String password, XFile file) {
+    if (!mounted) return;
     setState(() {
       loading = true;
     });
@@ -211,6 +212,7 @@ class _MySignInPageState extends State<MySignInPage> {
           Constants.dProimage: imageLink,
           Constants.duname: name,
         }).then((value) {
+          if (!mounted) return;
           setState(() {
             loading = false;
           });
@@ -221,6 +223,7 @@ class _MySignInPageState extends State<MySignInPage> {
                 builder: (context) => const MyMainPage(),
               ));
         }).catchError((onError) {
+          if (!mounted) return;
           setState(() {
             loading = false;
           });
@@ -228,6 +231,7 @@ class _MySignInPageState extends State<MySignInPage> {
         });
       });
     }).catchError((onError) {
+      if (!mounted) return;
       setState(() {
         loading = false;
       });

@@ -70,6 +70,7 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
   int price = 432;
   // Changes the selected value on 'onChanged' click on each radio button
   setSelectedRadio(int val) {
+    if (!mounted) return;
     setState(() {
       selectedRadio = val;
     });
