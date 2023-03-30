@@ -1,6 +1,6 @@
 import 'package:country_picker/country_picker.dart';
-import 'package:ecommerce/profileoptions/settings_page.dart';
-import 'package:ecommerce/screen/aftercheckout/add_address_page.dart';
+import 'package:ecommerce/profileoptions/myorders/myorder_page.dart';
+import 'package:ecommerce/screen/home/main_page.dart';
 import 'package:ecommerce/theme/themeprovider.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
@@ -25,13 +25,15 @@ enum PaymentOptions { cashonDelivery, onlinePayment }
 Country? _country;
 
 class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
-  TextEditingController fname = TextEditingController();
-  TextEditingController streetAddress = TextEditingController();
-  TextEditingController city = TextEditingController();
-  TextEditingController state = TextEditingController();
-  TextEditingController code = TextEditingController();
+  TextEditingController fnameController = TextEditingController();
+  TextEditingController streetAddressController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
+  TextEditingController stateController = TextEditingController();
+  TextEditingController codeController = TextEditingController();
+  TextEditingController countryController = TextEditingController();
   int stepIndex = 0;
   bool isExis = false;
+  bool isPaymentSuccess = false;
   List<Step> getStep() => [
         Step(
             state: stepIndex > 0 ? StepState.complete : StepState.indexed,
@@ -99,6 +101,7 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
     if (!mounted) return;
     setState(() {
       stepIndex++;
+      isPaymentSuccess = true;
     });
   }
 
@@ -106,6 +109,11 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(content: Text(response.code.toString())));
+    if (!mounted) return;
+    setState(() {
+      stepIndex++;
+      isPaymentSuccess = false;
+    });
 
     // Fluttertoast.showToast(
     //     msg: "ERROR: " + response.code.toString() + " - " + response.message,
@@ -116,10 +124,16 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(content: Text(response.walletName.toString())));
-    stepIndex++;
+    if (!mounted) return;
+    setState(() {
+      stepIndex++;
+      isPaymentSuccess = true;
+    });
     // Fluttertoast.showToast(
     //     msg: "EXTERNAL_WALLET: " + response.walletName, timeInSecForIos: 4);
   }
+
+  dynamic selectId;
 
   @override
   Widget build(BuildContext context) {
@@ -153,22 +167,90 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
             switch (stepIndex) {
               case 0:
                 if (isExis) {
-                  print(isExis.toString() + "lalalalalalala");
                   return myStepperAddress();
                 } else {
-                  print(isExis.toString() + "lalalalalalala");
-
-                  return myStepAddAddress();
+                  return myStepAddAddress(selectId ?? null);
                 }
 
               case 1:
                 return myStepperPayment();
               case 2:
-                return Container();
+                return myFinalPage();
               default:
                 return myStepperAddress();
             }
           },
+        ),
+      ),
+    );
+  }
+
+  Widget myFinalPage() {
+    return Container(
+      height: MediaQuery.of(context).size.height / 2,
+      width: MediaQuery.of(context).size.width,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Expanded(
+                flex: 6,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Image.asset(
+                        isPaymentSuccess
+                            ? "assets/image/success.png"
+                            : "assets/image/failed.png",
+                        scale: 2,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 15),
+                      child: Text(
+                        isPaymentSuccess ? Constants.success : Constants.failed,
+                        style: Text_Style.text_Theme(
+                            Constants.black_text, 34, FontWeight.bold, context),
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        textAlign: TextAlign.center,
+                        isPaymentSuccess
+                            ? Constants.succ_text
+                            : Constants.fail_msg,
+                        style: Text_Style.text_Theme(Constants.black_text, 15,
+                            FontWeight.normal, context),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 15),
+                child: GestureDetector(
+                    onTap: () {
+                      if (isPaymentSuccess) {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => MyOrderPage(),
+                        ));
+                      } else {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => MyMainPage(),
+                        ));
+                      }
+                    },
+                    child: Button_Style.button_Theme(isPaymentSuccess
+                        ? Constants.conti_shop
+                        : Constants.try_again)),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -198,9 +280,32 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
     // return isExis;
   }
 
-  Widget myStepAddAddress() {
+  var countryname;
+
+  Widget myStepAddAddress(String? id) {
     bool loading = false;
     final themeChange = Provider.of<ThemeProvider>(context);
+    if (id != null) {
+      DatabaseReference databaseReference = FirebaseDatabase.instance
+          .ref(Constants.dUser)
+          .child(FirebaseAuth.instance.currentUser!.uid)
+          .child(Constants.dAddress)
+          .child(id.toString());
+      databaseReference.once().then((value) {
+        fnameController.text =
+            value.snapshot.child(Constants.dfname).value.toString();
+        streetAddressController.text =
+            value.snapshot.child(Constants.dSAddress).value.toString();
+        cityController.text =
+            value.snapshot.child(Constants.dCity).value.toString();
+        stateController.text =
+            value.snapshot.child(Constants.dState).value.toString();
+        codeController.text =
+            value.snapshot.child(Constants.dZcode).value.toString();
+        countryController.text =
+            value.snapshot.child(Constants.dCountry).value.toString();
+      });
+    }
 
     return SingleChildScrollView(
       physics: BouncingScrollPhysics(),
@@ -208,23 +313,24 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
         padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
         child: Column(
           children: [
-            Textformfield_style.textField(fname, Constants.full_name),
+            Textformfield_style.textField(fnameController, Constants.full_name),
             const SizedBox(
               height: 8,
             ),
-            Textformfield_style.textField(streetAddress, Constants.address),
+            Textformfield_style.textField(
+                streetAddressController, Constants.address),
             const SizedBox(
               height: 8,
             ),
-            Textformfield_style.textField(city, Constants.city),
+            Textformfield_style.textField(cityController, Constants.city),
             const SizedBox(
               height: 8,
             ),
-            Textformfield_style.textField(state, Constants.state),
+            Textformfield_style.textField(stateController, Constants.state),
             const SizedBox(
               height: 8,
             ),
-            Textformfield_style.textField(code, Constants.code),
+            Textformfield_style.textField(codeController, Constants.code),
             const SizedBox(
               height: 8,
             ),
@@ -237,9 +343,7 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                     decoration: InputDecoration(
                         border:
                             OutlineInputBorder(borderSide: BorderSide.none)),
-                    controller: TextEditingController(
-                        text: _country?.displayNameNoCountryCode ??
-                            "Select Country"),
+                    controller: countryController,
                     onTap: () {
                       FocusManager.instance.primaryFocus?.unfocus();
                       showCountryPicker(
@@ -270,19 +374,25 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                   setState(() {
                     loading = true;
                   });
-                  DatabaseReference databaseReference = FirebaseDatabase
-                      .instance
-                      .ref(Constants.dUser)
-                      .child(FirebaseAuth.instance.currentUser!.uid)
-                      .child(Constants.dAddress)
-                      .push();
+                  DatabaseReference databaseReference = id != null
+                      ? FirebaseDatabase.instance
+                          .ref(Constants.dUser)
+                          .child(FirebaseAuth.instance.currentUser!.uid)
+                          .child(Constants.dAddress)
+                          .child(id)
+                      : FirebaseDatabase.instance
+                          .ref(Constants.dUser)
+                          .child(FirebaseAuth.instance.currentUser!.uid)
+                          .child(Constants.dAddress)
+                          .push();
+
                   databaseReference.update({
                     Constants.daddressId: databaseReference.key,
-                    Constants.dfname: fname.text.trim(),
-                    Constants.dSAddress: streetAddress.text.trim(),
-                    Constants.dCity: city.text.trim(),
-                    Constants.dState: state.text.trim(),
-                    Constants.dZcode: code.text.trim(),
+                    Constants.dfname: fnameController.text.trim(),
+                    Constants.dSAddress: streetAddressController.text.trim(),
+                    Constants.dCity: cityController.text.trim(),
+                    Constants.dState: stateController.text.trim(),
+                    Constants.dZcode: codeController.text.trim(),
                     Constants.dCountry: _country!.name.toString().trim()
                   }).then((value) {
                     if (!mounted) return;
@@ -303,7 +413,9 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                           color: Colors.red,
                         ),
                       )
-                    : Button_Style.button_Theme(Constants.save_address))
+                    : Button_Style.button_Theme(id == null
+                        ? Constants.save_address
+                        : Constants.update_address))
           ],
         ),
       ),
@@ -326,10 +438,10 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
             );
           }
 
-          Map<dynamic, dynamic> data = snapshot.data!.snapshot.value as dynamic;
+          Map<dynamic, dynamic> id = snapshot.data!.snapshot.value as dynamic;
           List<dynamic> list = [];
           list.clear();
-          for (var element in data.values) {
+          for (var element in id.values) {
             list.add(element);
           }
 
@@ -371,8 +483,14 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                                     ),
                                     InkWell(
                                       onTap: () {
-                                        print(
-                                            list[index][Constants.daddressId]);
+                                        if (!mounted) return;
+                                        setState(() {
+                                          isExis = false;
+                                          print(list[index]
+                                              [Constants.daddressId]);
+                                          selectId =
+                                              list[index][Constants.daddressId];
+                                        });
                                       },
                                       child: Text(
                                         Constants.edit,
@@ -456,9 +574,6 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                       setState(() {
                         isExis = false;
                       });
-                      // Navigator.of(context).push(MaterialPageRoute(
-                      //   builder: (context) => MyAddressPage(),
-                      // ));
                     },
                     child: Button_Style.button_Theme("Add a New Address")),
               )
@@ -508,6 +623,7 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                 if (!mounted) return;
                 setState(() {
                   stepIndex++;
+                  isPaymentSuccess = true;
                 });
               } else {
                 Scaffold_msg.toastMessage(context, "Please select options");

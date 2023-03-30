@@ -59,6 +59,7 @@ class Constants {
   static const save_address = "SAVE ADDRESS";
   static const change = "Change";
   static const payment = "Payment";
+  static const update_address = "UPDATE ADDRESS";
 
   //checkout page
   static const shipping_address = "Shipping address";
@@ -74,6 +75,12 @@ class Constants {
       "Your order will be delivered soon.Thank you for choosing our app!";
   static const conti_shop = "CONTINUE SHOPPING";
   static const use_add = "Use as the shipping address";
+
+  //failed page
+  static const failed = "Failed!";
+  static const fail_msg =
+      "Your transaction has failed due to some technical error!";
+  static const try_again = "Try Again";
 
   //all address
   static const edit = "Edit";
