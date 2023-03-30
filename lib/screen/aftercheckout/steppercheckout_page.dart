@@ -316,24 +316,28 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
         padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
         child: Column(
           children: [
-            Textformfield_style.textField(fnameController, Constants.full_name),
+            Textformfield_style.textField(
+                fnameController, Constants.full_name, TextInputType.name),
+            const SizedBox(
+              height: 8,
+            ),
+            Textformfield_style.textField(streetAddressController,
+                Constants.address, TextInputType.streetAddress),
             const SizedBox(
               height: 8,
             ),
             Textformfield_style.textField(
-                streetAddressController, Constants.address),
+                cityController, Constants.city, TextInputType.streetAddress),
             const SizedBox(
               height: 8,
             ),
-            Textformfield_style.textField(cityController, Constants.city),
+            Textformfield_style.textField(
+                stateController, Constants.state, TextInputType.streetAddress),
             const SizedBox(
               height: 8,
             ),
-            Textformfield_style.textField(stateController, Constants.state),
-            const SizedBox(
-              height: 8,
-            ),
-            Textformfield_style.textField(codeController, Constants.code),
+            Textformfield_style.textField(
+                codeController, Constants.code, TextInputType.streetAddress),
             const SizedBox(
               height: 8,
             ),

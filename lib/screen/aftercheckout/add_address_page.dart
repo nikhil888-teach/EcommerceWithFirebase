@@ -50,23 +50,28 @@ class _MyAddressPageState extends State<MyAddressPage> {
           padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
           child: Column(
             children: [
-              Textformfield_style.textField(fname, Constants.full_name),
+              Textformfield_style.textField(
+                  fname, Constants.full_name, TextInputType.name),
               const SizedBox(
                 height: 8,
               ),
-              Textformfield_style.textField(streetAddress, Constants.address),
+              Textformfield_style.textField(streetAddress, Constants.address,
+                  TextInputType.streetAddress),
               const SizedBox(
                 height: 8,
               ),
-              Textformfield_style.textField(city, Constants.city),
+              Textformfield_style.textField(
+                  city, Constants.city, TextInputType.streetAddress),
               const SizedBox(
                 height: 8,
               ),
-              Textformfield_style.textField(state, Constants.state),
+              Textformfield_style.textField(
+                  state, Constants.state, TextInputType.streetAddress),
               const SizedBox(
                 height: 8,
               ),
-              Textformfield_style.textField(code, Constants.code),
+              Textformfield_style.textField(
+                  code, Constants.code, TextInputType.number),
               const SizedBox(
                 height: 8,
               ),

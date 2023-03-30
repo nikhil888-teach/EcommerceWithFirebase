@@ -338,7 +338,8 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
       Constants.dPname: name,
       Constants.dSPrice: price,
       Constants.dimages: images,
-      Constants.dFavId: databaseReference.key
+      Constants.dFavId: databaseReference.key,
+      Constants.dFavDate: DateTime.now().toString()
     }).then((value) {
       if (!mounted) return;
       setState(() {

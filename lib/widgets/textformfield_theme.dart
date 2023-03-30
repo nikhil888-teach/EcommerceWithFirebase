@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Textformfield_style {
-  static Card textField(
-      TextEditingController textEditingController, String hintText) {
+  static Card textField(TextEditingController textEditingController,
+      String hintText, TextInputType textInputType) {
     return Card(
       color: Colors.white,
       elevation: 2,

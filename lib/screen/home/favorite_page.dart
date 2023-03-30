@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:lottie/lottie.dart';
 
 class MyFavoritePage extends StatefulWidget {
   const MyFavoritePage({Key? key}) : super(key: key);
@@ -23,7 +24,7 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
     3: 'highest to low'
   };
 
-  int? sortIndex = 2;
+  int? sortIndex = 0;
   String? selectedSort;
 
   @override
@@ -228,6 +229,10 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                             child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            Center(
+                                child: Lottie.asset(
+                              "assets/image/emptywishlist.json",
+                            )),
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 10),
                               child: Text(
@@ -240,7 +245,13 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                               ),
                             ),
                             Text(
-                                "Tap heart button to start saving your favorite items.")
+                                "Tap heart button to start saving your favorite items.",
+                                textAlign: TextAlign.center,
+                                style: Text_Style.text_Theme(
+                                    Constants.black_text,
+                                    14,
+                                    FontWeight.normal,
+                                    context))
                           ],
                         ));
                       }
@@ -252,8 +263,27 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                       for (var element in map.values) {
                         list.add(element);
                       }
-                      list.sort((a, b) =>
-                          a[Constants.dSPrice].compareTo(b[Constants.dSPrice]));
+                      switch (sortIndex) {
+                        case 0:
+                          list.sort((a, b) => b[Constants.dFavDate]
+                              .compareTo(a[Constants.dFavDate]));
+                          break;
+                        case 1:
+                          list.sort((a, b) => a[Constants.dFavDate]
+                              .compareTo(b[Constants.dFavDate]));
+                          break;
+                        case 2:
+                          list.sort((a, b) => a[Constants.dSPrice]
+                              .compareTo(b[Constants.dSPrice]));
+                          break;
+                        case 3:
+                          list.sort((a, b) => b[Constants.dSPrice]
+                              .compareTo(a[Constants.dSPrice]));
+                          break;
+                        default:
+                          list.sort((a, b) => b[Constants.dFavDate]
+                              .compareTo(a[Constants.dFavDate]));
+                      }
 
                       return GridView.builder(
                           itemCount: list.length,

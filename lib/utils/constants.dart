@@ -170,6 +170,7 @@ class Constants {
   //FAVORITE
   static const dFavorite = "Favorite";
   static const dFavId = "FavId";
+  static const dFavDate = "FavDate";
 
   //COLOR
   static const red_text = 0xffDB3022;
