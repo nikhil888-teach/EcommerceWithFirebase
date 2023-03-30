@@ -18,6 +18,17 @@ class _MyLoginPageState extends State<MyLoginPage> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   bool loading = false;
+  final _formKey = GlobalKey<FormState>();
+
+  void validateAndSave() {
+    final form = _formKey.currentState;
+    if (form!.validate()) {
+      print('Form is valid');
+    } else {
+      print('form is invalid');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -69,7 +80,6 @@ class _MyLoginPageState extends State<MyLoginPage> {
                       ),
                       GestureDetector(
                           onTap: () {
-                            if (!mounted) return;
                             setState(() {
                               loading = true;
                             });
@@ -80,7 +90,6 @@ class _MyLoginPageState extends State<MyLoginPage> {
                                 .then((value) {
                               Scaffold_msg.toastMessage(
                                   context, "Sign in successfully");
-                              if (!mounted) return;
                               setState(() {
                                 loading = false;
                               });
@@ -90,7 +99,6 @@ class _MyLoginPageState extends State<MyLoginPage> {
                                     builder: (context) => const MyMainPage(),
                                   ));
                             }).catchError((onError) {
-                              if (!mounted) return;
                               setState(() {
                                 loading = false;
                               });

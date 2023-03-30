@@ -1,5 +1,7 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:ecommerce/profileoptions/myorders/myorder_page.dart';
+import 'package:ecommerce/profileoptions/settings_page.dart';
+import 'package:ecommerce/screen/aftercheckout/add_address_page.dart';
 import 'package:ecommerce/screen/home/main_page.dart';
 import 'package:ecommerce/theme/themeprovider.dart';
 import 'package:ecommerce/utils/constants.dart';
