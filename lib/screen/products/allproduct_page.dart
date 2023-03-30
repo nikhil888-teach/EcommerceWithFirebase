@@ -1,9 +1,11 @@
 import 'package:ecommerce/screen/products/product_view.dart';
 import 'package:ecommerce/utils/constants.dart';
+import 'package:ecommerce/widgets/scafoldmsg_theme.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class MyCategoryProducts extends StatefulWidget {
   const MyCategoryProducts(
@@ -16,6 +18,8 @@ class MyCategoryProducts extends StatefulWidget {
 }
 
 class _MyCategoryProductsState extends State<MyCategoryProducts> {
+  bool isFv = false;
+  String? selectedId;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +79,8 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
                           brand: list[index][Constants.dBrand],
                           decription: list[index][Constants.dDesc],
                           name: list[index][Constants.dPname],
-                          price: list[index][Constants.dSPrice],
+                          price: int.parse(
+                              list[index][Constants.dSPrice].toString()),
                         ),
                       ));
                     },
@@ -109,17 +114,61 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
                               Positioned(
                                 bottom: 5,
                                 right: 5,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.red,
-                                      borderRadius: BorderRadius.circular(29)),
-                                  child: const Padding(
-                                      padding: EdgeInsets.all(10.0),
-                                      child: Icon(
-                                        CupertinoIcons.heart_fill,
-                                        color: Colors.white,
-                                        size: 14,
-                                      )),
+                                child: InkWell(
+                                  onTap: () async {
+                                    if (!mounted) return;
+                                    setState(() {
+                                      selectedId = list[index][Constants.dId];
+                                    });
+                                    if (await isFavorite()) {
+                                      if (await checkAlreadyAddOrNot()) {
+                                        Scaffold_msg.toastMessage(
+                                            context, "Already Added");
+                                      } else {
+                                        addToFaviratePage(
+                                          category: widget.category,
+                                          subCategory: widget.subCategory,
+                                          color: list[index][Constants.dColor],
+                                          size: list[index][Constants.dSize],
+                                          id: list[index][Constants.dId],
+                                          images: list[index]
+                                              [Constants.dimages],
+                                          brand: list[index][Constants.dBrand],
+                                          decription: list[index]
+                                              [Constants.dDesc],
+                                          name: list[index][Constants.dPname],
+                                          price: list[index][Constants.dSPrice],
+                                        );
+                                      }
+                                    } else {
+                                      addToFaviratePage(
+                                        category: widget.category,
+                                        subCategory: widget.subCategory,
+                                        color: list[index][Constants.dColor],
+                                        size: list[index][Constants.dSize],
+                                        id: list[index][Constants.dId],
+                                        images: list[index][Constants.dimages],
+                                        brand: list[index][Constants.dBrand],
+                                        decription: list[index]
+                                            [Constants.dDesc],
+                                        name: list[index][Constants.dPname],
+                                        price: list[index][Constants.dSPrice],
+                                      );
+                                    }
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        borderRadius:
+                                            BorderRadius.circular(29)),
+                                    child: const Padding(
+                                        padding: EdgeInsets.all(10.0),
+                                        child: Icon(
+                                          CupertinoIcons.heart_fill,
+                                          color: Colors.white,
+                                          size: 14,
+                                        )),
+                                  ),
                                 ),
                               )
                             ],
@@ -215,5 +264,88 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
             );
           },
         ));
+  }
+
+  Future<bool> isFavorite() async {
+    DatabaseReference reference = FirebaseDatabase.instance
+        .ref(Constants.dUser)
+        .child(FirebaseAuth.instance.currentUser!.uid);
+    bool isChild = false;
+
+    await reference.once().then((value) {
+      if (value.snapshot.hasChild(Constants.dFavorite)) {
+        if (!mounted) return;
+        setState(() {
+          isChild = true;
+        });
+      } else {
+        if (!mounted) return;
+        setState(() {
+          isChild = false;
+        });
+      }
+    });
+    print(isChild);
+    return isChild;
+  }
+
+  Future<bool> checkAlreadyAddOrNot() async {
+    DatabaseReference databaseReference = FirebaseDatabase.instance
+        .ref(Constants.dUser)
+        .child(FirebaseAuth.instance.currentUser!.uid)
+        .child(Constants.dFavorite);
+
+    bool isExis = false;
+    await databaseReference.orderByKey().once().then((value) {
+      value.snapshot.children.forEach((element) {
+        if (element.child(Constants.dPid).value == selectedId) {
+          if (!mounted) return;
+          setState(() {
+            isExis = true;
+          });
+        }
+      });
+    });
+
+    return isExis;
+  }
+
+  void addToFaviratePage(
+      {required String category,
+      required String subCategory,
+      required color,
+      required size,
+      required id,
+      required images,
+      required brand,
+      required decription,
+      required name,
+      required price}) {
+    DatabaseReference databaseReference = FirebaseDatabase.instance
+        .ref(Constants.dUser)
+        .child(FirebaseAuth.instance.currentUser!.uid)
+        .child(Constants.dFavorite)
+        .push();
+
+    databaseReference.update({
+      Constants.dcategory: category,
+      Constants.dSubCategoryName: subCategory,
+      Constants.dColor: color,
+      Constants.dSize: size,
+      Constants.dPid: id,
+      Constants.dBrand: brand,
+      Constants.dDesc: decription,
+      Constants.dPname: name,
+      Constants.dSPrice: price,
+      Constants.dimages: images,
+      Constants.dFavId: databaseReference.key,
+      Constants.dFavDate: DateTime.now().toString()
+    }).then((value) {
+      if (!mounted) return;
+      setState(() {
+        isFv = false;
+      });
+      Scaffold_msg.toastMessage(context, "Added to Facorite");
+    });
   }
 }

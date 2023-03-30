@@ -1,4 +1,3 @@
-import 'package:ecommerce/screen/products/product_view.dart';
 import 'package:ecommerce/theme/themeprovider.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';

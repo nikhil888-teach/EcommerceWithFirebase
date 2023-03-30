@@ -63,15 +63,15 @@ class _MyOrderPageState extends State<MyOrderPage> {
                           fontSize: 16,
                           fontWeight: FontWeight.bold),
                       tabs: [
-                        Text(Constants.delivered),
                         Text(Constants.processing),
+                        Text(Constants.delivered),
                         Text(Constants.cancelled)
                       ]),
                 ),
               ),
               Expanded(
                   child: TabBarView(
-                      children: [MyDelivered(), MyProcess(), MyCancelled()]))
+                      children: [MyProcess(), MyDelivered(), MyCancelled()]))
             ],
           ),
         ),

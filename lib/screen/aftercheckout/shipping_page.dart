@@ -92,6 +92,7 @@ class _MyShippingAddressState extends State<MyShippingAddress> {
                               activeColor: Colors.black,
                               value: checkaddress,
                               onChanged: (value) {
+                                if (!mounted) return;
                                 setState(() {
                                   checkaddress = value;
                                 });

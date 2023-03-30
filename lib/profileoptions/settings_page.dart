@@ -54,11 +54,13 @@ class _MySettingPageState extends State<MySettingPage> {
               const SizedBox(
                 height: 8,
               ),
-              Textformfield_style.textField(fname, Constants.full_name),
+              Textformfield_style.textField(
+                  fname, Constants.full_name, TextInputType.visiblePassword),
               const SizedBox(
                 height: 8,
               ),
-              Textformfield_style.textField(email, Constants.EMAIL),
+              Textformfield_style.textField(
+                  email, Constants.EMAIL, TextInputType.visiblePassword),
               const SizedBox(
                 height: 30,
               ),
@@ -115,7 +117,9 @@ class _MySettingPageState extends State<MySettingPage> {
                                   ),
                                 ),
                                 Textformfield_style.textField(
-                                    cPassword, Constants.old_pass),
+                                    cPassword,
+                                    Constants.old_pass,
+                                    TextInputType.visiblePassword),
                                 Padding(
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 15),
@@ -130,9 +134,13 @@ class _MySettingPageState extends State<MySettingPage> {
                                   ),
                                 ),
                                 Textformfield_style.textField(
-                                    nPassword, Constants.new_pass),
+                                    nPassword,
+                                    Constants.new_pass,
+                                    TextInputType.visiblePassword),
                                 Textformfield_style.textField(
-                                    rPassword, Constants.repeat_pass),
+                                    rPassword,
+                                    Constants.repeat_pass,
+                                    TextInputType.visiblePassword),
                                 SizedBox(
                                   height: 15,
                                 ),
@@ -158,8 +166,8 @@ class _MySettingPageState extends State<MySettingPage> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20),
-                child: Textformfield_style.textField(
-                    cPassword, Constants.PASSWORD),
+                child: Textformfield_style.textField(cPassword,
+                    Constants.PASSWORD, TextInputType.visiblePassword),
               ),
               const SizedBox(
                 height: 30,
@@ -181,6 +189,7 @@ class _MySettingPageState extends State<MySettingPage> {
                     activeColor: Colors.green,
                     value: checkSales,
                     onChanged: (value) {
+                      if (!mounted) return;
                       setState(() {
                         checkSales = value;
                       });
@@ -200,6 +209,7 @@ class _MySettingPageState extends State<MySettingPage> {
                     activeColor: Colors.green,
                     value: checkArr,
                     onChanged: (value) {
+                      if (!mounted) return;
                       setState(() {
                         checkArr = value;
                       });
@@ -219,6 +229,7 @@ class _MySettingPageState extends State<MySettingPage> {
                     activeColor: Colors.green,
                     value: checkStaus,
                     onChanged: (value) {
+                      if (!mounted) return;
                       setState(() {
                         checkStaus = value;
                       });
@@ -238,6 +249,7 @@ class _MySettingPageState extends State<MySettingPage> {
                     activeColor: Colors.green,
                     value: themeChange.darkTheme,
                     onChanged: (value) {
+                      if (!mounted) return;
                       setState(() {
                         themeChange.darkTheme = value;
                         themeChange.themePreference.setDarkTheme(value);

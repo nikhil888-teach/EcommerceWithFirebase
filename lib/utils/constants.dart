@@ -167,6 +167,11 @@ class Constants {
   static const dCountry = "Country";
   static const daddressId = "AddressID";
 
+  //FAVORITE
+  static const dFavorite = "Favorite";
+  static const dFavId = "FavId";
+  static const dFavDate = "FavDate";
+
   //COLOR
   static const red_text = 0xffDB3022;
   static const white_text = 0xffFFFFFF;

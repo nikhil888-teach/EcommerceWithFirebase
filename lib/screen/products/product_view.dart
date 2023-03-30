@@ -28,7 +28,7 @@ class MyProductPage extends StatefulWidget {
   final List images;
   final String name;
   final String brand;
-  final String price;
+  final int price;
   final String decription;
   final bool color;
   final bool size;
@@ -40,7 +40,6 @@ class MyProductPage extends StatefulWidget {
 
 class _MyProductPageState extends State<MyProductPage> {
   Map size = {0: "XS", 1: "S", 2: "M", 3: "L", 4: "XL"};
-  PageController? _pageController;
 
   String? selectedsize;
   int? selectedindexcolor;
@@ -60,7 +59,6 @@ class _MyProductPageState extends State<MyProductPage> {
   void initState() {
     selectedsize = "Size";
     // _pageController = PageController(initialPage: 0);
-    print(_pageController?.initialPage);
     selectedcolor = "Color";
     userId = FirebaseAuth.instance.currentUser!.uid;
     super.initState();
@@ -498,7 +496,7 @@ class _MyProductPageState extends State<MyProductPage> {
                                 0xff222222, 24, FontWeight.bold, context),
                           ),
                           Text(
-                            "\$" + widget.price,
+                            "\$" + widget.price.toString(),
                             style: Text_Style.text_Theme(
                                 0xff222222, 24, FontWeight.bold, context),
                           ),
@@ -577,11 +575,23 @@ class _MyProductPageState extends State<MyProductPage> {
                                       const EdgeInsets.only(top: 22, right: 20),
                                   child: InkWell(
                                     onTap: () {
-                                      // Navigator.push(
-                                      //     context,
-                                      //     MaterialPageRoute(
-                                      //       builder: (context) => MyProductPage(),
-                                      //     ));
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                        builder: (context) => MyProductPage(
+                                          category: widget.category,
+                                          subCategory: widget.subCategory,
+                                          color: list[index][Constants.dColor],
+                                          size: list[index][Constants.dSize],
+                                          id: list[index][Constants.dId],
+                                          images: list[index]
+                                              [Constants.dimages],
+                                          brand: list[index][Constants.dBrand],
+                                          decription: list[index]
+                                              [Constants.dDesc],
+                                          name: list[index][Constants.dPname],
+                                          price: list[index][Constants.dSPrice],
+                                        ),
+                                      ));
                                     },
                                     child: Column(
                                       crossAxisAlignment:
@@ -730,7 +740,8 @@ class _MyProductPageState extends State<MyProductPage> {
                                                             right: 4),
                                                     child: Text(
                                                       list[index][Constants
-                                                              .ddPrice] +
+                                                                  .ddPrice]
+                                                              .toString() +
                                                           "\$",
                                                       style: TextStyle(
                                                           decoration:
@@ -745,7 +756,8 @@ class _MyProductPageState extends State<MyProductPage> {
                                                   ),
                                                   Text(
                                                       list[index][Constants
-                                                              .dSPrice] +
+                                                                  .dSPrice]
+                                                              .toString() +
                                                           "\$",
                                                       style:
                                                           Text_Style.text_Theme(
@@ -795,6 +807,7 @@ class _MyProductPageState extends State<MyProductPage> {
   }
 
   void addData() {
+    if (!mounted) return;
     setState(() {
       loading = true;
     });
@@ -828,12 +841,14 @@ class _MyProductPageState extends State<MyProductPage> {
           Constants.dSPrice: widget.price,
         }).then((value) {
           Scaffold_msg.toastMessage(context, "Added to cart");
+          if (!mounted) return;
           setState(() {
             loading = false;
           });
         });
       } else {
         Scaffold_msg.toastMessage(context, "Please select color and size");
+        if (!mounted) return;
         setState(() {
           loading = false;
         });
@@ -848,7 +863,7 @@ class _MyProductPageState extends State<MyProductPage> {
         Constants.dPname: widget.name
       }).then((value) {
         Scaffold_msg.toastMessage(context, "Added to cart");
-
+        if (!mounted) return;
         setState(() {
           loading = false;
         });
@@ -878,6 +893,7 @@ class _MyProductPageState extends State<MyProductPage> {
       });
       if (isExis) {
         Scaffold_msg.toastMessage(context, "Already Added");
+        if (!mounted) return;
         setState(() {
           loading = false;
         });
