@@ -28,17 +28,6 @@ class _MySignInPageState extends State<MySignInPage> {
   bool loading = false;
   XFile? file;
   ImagePicker imagePicker = ImagePicker();
-  final _formKey = GlobalKey<FormState>();
-
-  void validateAndSave() {
-    final form = _formKey.currentState;
-    if (form!.validate()) {
-      print('Form is valid');
-    } else {
-      print('form is invalid');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -47,181 +36,155 @@ class _MySignInPageState extends State<MySignInPage> {
             body: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(16),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          const SizedBox(
-                            height: 34,
-                          ),
-                          Text(Constants.SIGNUP,
-                              style: Text_Style.text_Theme(Constants.black_text,
-                                  34, FontWeight.bold, context)),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          Center(
-                            child: ClipOval(
-                              child: Container(
-                                color: Colors.red,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: InkWell(
-                                    onTap: () async {
-                                      var image = await imagePicker.pickImage(
-                                          source: ImageSource.gallery);
-                                      if (!mounted) return;
-                                      setState(() {
-                                        if (image == null) {
-                                          ScaffoldMessenger.of(context)
-                                            ..hideCurrentSnackBar()
-                                            ..showSnackBar(const SnackBar(
-                                                content: Text(
-                                                    "Please select images")));
-                                        } else {
-                                          file = image;
-                                        }
-                                      });
-                                    },
-                                    child: ClipOval(
-                                      child: file == null
-                                          ? const SizedBox(
-                                              height: 100,
-                                              width: 100,
-                                              child: Icon(
-                                                CupertinoIcons.profile_circled,
-                                                color: Colors.white,
-                                                size: 40,
-                                              ),
-                                            )
-                                          : Image.file(
-                                              File(file!.path),
-                                              fit: BoxFit.cover,
-                                              height: 100,
-                                              width: 100,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(
+                          height: 34,
+                        ),
+                        Text(Constants.SIGNUP,
+                            style: Text_Style.text_Theme(Constants.black_text,
+                                34, FontWeight.bold, context)),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Center(
+                          child: ClipOval(
+                            child: Container(
+                              color: Colors.red,
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: ClipOval(
+                                  child: file == null
+                                      ? InkWell(
+                                          onTap: () async {
+                                            var image =
+                                                await imagePicker.pickImage(
+                                                    source:
+                                                        ImageSource.gallery);
+                                            if (!mounted) return;
+                                            setState(() {
+                                              file = image;
+                                            });
+                                          },
+                                          child: const SizedBox(
+                                            height: 100,
+                                            width: 100,
+                                            child: Icon(
+                                              CupertinoIcons.profile_circled,
+                                              color: Colors.white,
+                                              size: 40,
                                             ),
-                                    ),
-                                  ),
+                                          ),
+                                        )
+                                      : Image.file(
+                                          File(file!.path),
+                                          fit: BoxFit.cover,
+                                          height: 100,
+                                          width: 100,
+                                        ),
                                 ),
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            height: 8,
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Textformfield_style.textField(name, Constants.NAME),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Textformfield_style.textField(email, Constants.EMAIL),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Textformfield_style.textField(
+                            password, Constants.PASSWORD),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const MyLoginPage(),
+                            ));
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(Constants.ALREADY_ACCOUNT,
+                                  style: Text_Style.text_Theme(
+                                      Constants.black_text,
+                                      14,
+                                      FontWeight.normal,
+                                      context)),
+                              const Icon(
+                                Icons.arrow_right_alt,
+                                color: Colors.red,
+                              )
+                            ],
                           ),
-                          Textformfield_style.textField(
-                              name, Constants.NAME, TextInputType.name),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Textformfield_style.textField(email, Constants.EMAIL,
-                              TextInputType.emailAddress),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Textformfield_style.textField(
-                              password,
-                              Constants.PASSWORD,
-                              TextInputType.visiblePassword),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          GestureDetector(
+                        ),
+                        const SizedBox(
+                          height: 28,
+                        ),
+                        GestureDetector(
                             onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const MyLoginPage(),
-                              ));
+                              signUpAndAddData(
+                                  name.text.trim(),
+                                  email.text.trim(),
+                                  password.text.trim(),
+                                  file!);
+                              name.clear();
+                              email.clear();
+                              password.clear();
+                              file = null;
                             },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(Constants.ALREADY_ACCOUNT,
-                                    style: Text_Style.text_Theme(
-                                        Constants.black_text,
-                                        14,
-                                        FontWeight.normal,
-                                        context)),
-                                const Icon(
-                                  Icons.arrow_right_alt,
-                                  color: Colors.red,
-                                )
-                              ],
+                            child: loading
+                                ? Center(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.red,
+                                    ),
+                                  )
+                                : Button_Style.button_Theme(Constants.SIGNUP)),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        alignment: WrapAlignment.center,
+                        children: [
+                          Center(
+                              child: Text(Constants.OR_SIGN_WITH_SOCIAL,
+                                  style: Text_Style.text_Theme(
+                                      Constants.black_text,
+                                      14,
+                                      FontWeight.normal,
+                                      context))),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(24)),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 24, horizontal: 34),
+                                child: Image.asset(
+                                  "assets/image/google.png",
+                                  scale: 1.5,
+                                ),
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 28,
-                          ),
-                          GestureDetector(
-                              onTap: () {
-                                validateAndSave();
-                                if (file == null ||
-                                    name.text.isEmpty ||
-                                    email.text.isEmpty ||
-                                    password.text.isEmpty) {
-                                  ScaffoldMessenger.of(context)
-                                    ..hideCurrentSnackBar()
-                                    ..showSnackBar(const SnackBar(
-                                        content:
-                                            Text("Please fill all the field")));
-                                } else {
-                                  signUpAndAddData(
-                                      name.text.trim(),
-                                      email.text.trim(),
-                                      password.text.trim(),
-                                      file!);
-                                  name.clear();
-                                  email.clear();
-                                  password.clear();
-                                  file = null;
-                                }
-                              },
-                              child: loading
-                                  ? Center(
-                                      child: CircularProgressIndicator(
-                                        color: Colors.red,
-                                      ),
-                                    )
-                                  : Button_Style.button_Theme(
-                                      Constants.SIGNUP)),
+                          )
                         ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          alignment: WrapAlignment.center,
-                          children: [
-                            Center(
-                                child: Text(Constants.OR_SIGN_WITH_SOCIAL,
-                                    style: Text_Style.text_Theme(
-                                        Constants.black_text,
-                                        14,
-                                        FontWeight.normal,
-                                        context))),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 20),
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(24)),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 24, horizontal: 34),
-                                  child: Image.asset(
-                                    "assets/image/google.png",
-                                    scale: 1.5,
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
+                    )
+                  ],
                 ),
               ),
             )));

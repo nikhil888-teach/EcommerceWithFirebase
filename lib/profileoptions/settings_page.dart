@@ -54,13 +54,11 @@ class _MySettingPageState extends State<MySettingPage> {
               const SizedBox(
                 height: 8,
               ),
-              Textformfield_style.textField(
-                  fname, Constants.full_name, TextInputType.name),
+              Textformfield_style.textField(fname, Constants.full_name),
               const SizedBox(
                 height: 8,
               ),
-              Textformfield_style.textField(
-                  email, Constants.EMAIL, TextInputType.emailAddress),
+              Textformfield_style.textField(email, Constants.EMAIL),
               const SizedBox(
                 height: 30,
               ),
@@ -117,9 +115,7 @@ class _MySettingPageState extends State<MySettingPage> {
                                   ),
                                 ),
                                 Textformfield_style.textField(
-                                    cPassword,
-                                    Constants.old_pass,
-                                    TextInputType.visiblePassword),
+                                    cPassword, Constants.old_pass),
                                 Padding(
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 15),
@@ -134,13 +130,9 @@ class _MySettingPageState extends State<MySettingPage> {
                                   ),
                                 ),
                                 Textformfield_style.textField(
-                                    nPassword,
-                                    Constants.new_pass,
-                                    TextInputType.visiblePassword),
+                                    nPassword, Constants.new_pass),
                                 Textformfield_style.textField(
-                                    rPassword,
-                                    Constants.repeat_pass,
-                                    TextInputType.visiblePassword),
+                                    rPassword, Constants.repeat_pass),
                                 SizedBox(
                                   height: 15,
                                 ),
@@ -166,8 +158,8 @@ class _MySettingPageState extends State<MySettingPage> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20),
-                child: Textformfield_style.textField(cPassword,
-                    Constants.PASSWORD, TextInputType.visiblePassword),
+                child: Textformfield_style.textField(
+                    cPassword, Constants.PASSWORD),
               ),
               const SizedBox(
                 height: 30,
