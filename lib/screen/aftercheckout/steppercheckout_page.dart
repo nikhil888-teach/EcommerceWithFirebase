@@ -17,9 +17,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class MyStepperCheckOutPage extends StatefulWidget {
   const MyStepperCheckOutPage(
-      {super.key, required this.id, required this.total});
+      {super.key,
+      required this.id,
+      required this.total,
+      required this.productLength});
   final String id;
   final int total;
+  final int productLength;
 
   @override
   State<MyStepperCheckOutPage> createState() => _MyStepperCheckOutPageState();
@@ -87,7 +91,7 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
   void openCheckout() async {
     var options = {
       'key': 'rzp_test_NNbwJ9tmM0fbxj',
-      'amount': "${price}00",
+      'amount': "${widget.total}00",
       'name': 'TestUser',
       'description': 'Payment',
       'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'},
@@ -444,6 +448,8 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
   }
 
   Widget myStepperAddress() {
+    final themeChange = Provider.of<ThemeProvider>(context);
+
     return StreamBuilder(
         stream: FirebaseDatabase.instance
             .ref(Constants.dUser)
@@ -477,6 +483,7 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                   itemBuilder: (context, index) {
                     selectedAddress =
                         list[index][Constants.dSAddress].toString() +
+                            ", " +
                             list[index][Constants.dCity].toString() +
                             ", " +
                             list[index][Constants.dState].toString() +
@@ -572,7 +579,9 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                                         FontWeight.normal,
                                         context),
                                   ),
-                                  activeColor: Colors.black,
+                                  activeColor: themeChange.darkTheme
+                                      ? Colors.white
+                                      : Colors.black,
                                   value: index,
                                   groupValue: selectedRadio,
                                   onChanged: (value) {
@@ -614,11 +623,17 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
 
   PaymentOptions? paymentOptions;
   Widget myStepperPayment() {
+    final themeChange = Provider.of<ThemeProvider>(context);
     return Column(
       children: [
         Card(
           child: RadioListTile<PaymentOptions>(
-            title: Text("Cash on Delivery"),
+            activeColor: themeChange.darkTheme ? Colors.white : Colors.black,
+            title: Text(
+              "Cash on Delivery",
+              style: Text_Style.text_Theme(
+                  Constants.black_text, 14, FontWeight.bold, context),
+            ),
             value: PaymentOptions.cashonDelivery,
             groupValue: paymentOptions,
             onChanged: (PaymentOptions? value) {
@@ -632,7 +647,12 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
         ),
         Card(
           child: RadioListTile<PaymentOptions>(
-            title: Text("Online Payment"),
+            activeColor: themeChange.darkTheme ? Colors.white : Colors.black,
+            title: Text(
+              "Online Payment",
+              style: Text_Style.text_Theme(
+                  Constants.black_text, 14, FontWeight.bold, context),
+            ),
             value: PaymentOptions.onlinePayment,
             groupValue: paymentOptions,
             onChanged: (PaymentOptions? value) {
@@ -657,6 +677,7 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                 if (!mounted) return;
                 setState(() {
                   stepIndex++;
+
                   isPaymentSuccess = true;
                 });
               } else {
@@ -669,6 +690,7 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
   }
 
   void addOrderToDatabase() {
+    paymentNo = 1000.toString() + Random().nextInt(1000000).toString();
     DatabaseReference databaseReference =
         FirebaseDatabase.instance.ref(Constants.dorder).push();
     databaseReference.update({
@@ -679,7 +701,9 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
       Constants.dtotal: widget.total,
       Constants.dPayment: selectedPaymentOptions,
       Constants.dUserid: FirebaseAuth.instance.currentUser!.uid,
-      Constants.dokey: databaseReference.key
+      Constants.dokey: databaseReference.key,
+      Constants.dstatus: Constants.dProcessing,
+      Constants.dTotalProduct: widget.productLength
     }).then((value) {
       DatabaseReference database = FirebaseDatabase.instance
           .ref(Constants.dUser)
@@ -696,7 +720,6 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                   Constants.dColor: element.child(Constants.dColor).value,
                   Constants.dimages: element.child(Constants.dimages).value,
                   Constants.dSPrice: element.child(Constants.dSPrice).value,
-                  Constants.dstatus: Constants.dProcessing,
                 }).whenComplete(() {
                   FirebaseDatabase.instance
                       .ref(Constants.dUser)
@@ -710,7 +733,6 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                   Constants.dQuantity: element.child(Constants.dQuantity).value,
                   Constants.dimages: element.child(Constants.dimages).value,
                   Constants.dSPrice: element.child(Constants.dSPrice).value,
-                  Constants.dstatus: Constants.dProcessing,
                 }).whenComplete(() {
                   FirebaseDatabase.instance
                       .ref(Constants.dUser)

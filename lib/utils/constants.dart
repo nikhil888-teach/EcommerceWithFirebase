@@ -147,6 +147,7 @@ class Constants {
   static const dUser = "User";
   static const dColor = "Color";
   static const dSize = "Size";
+  static const dCartId = "CarTId";
 
   //add to cart
   static const dAddToCart = "AddToCart";
@@ -188,6 +189,7 @@ class Constants {
   static const dCancelled = "Cancelled";
   static const dUserid = "UserId";
   static const dokey = "OrderKey";
+  static const dTotalProduct = "TotalProducts";
 
   //COLOR
   static const red_text = 0xffDB3022;
