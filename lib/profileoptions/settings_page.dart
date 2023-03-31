@@ -41,7 +41,9 @@ class _MySettingPageState extends State<MySettingPage> {
 
     return WillPopScope(
       onWillPop: () {
-        databaseReference.update({Constants.duname: fnameController.text});
+        if (fnameController.text.isNotEmpty) {
+          databaseReference.update({Constants.duname: fnameController.text});
+        }
         Navigator.push(
             context,
             MaterialPageRoute(

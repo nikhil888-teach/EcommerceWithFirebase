@@ -172,6 +172,23 @@ class Constants {
   static const dFavId = "FavId";
   static const dFavDate = "FavDate";
 
+  //orders
+  static const dcheckId = "CheckoutId";
+  static const dorder = "Orders";
+  static const dorderno = "OrderNo";
+  static const dtrackNum = "TrackNo";
+  static const dtotal = "Total";
+  static const dodate = "Date";
+  static const dShipAddress = "ShippingAddress";
+  static const dPayment = "Payment";
+  static const dDelMethod = "Delivery";
+  static const dstatus = "Status";
+  static const dAccepted = "Accepted";
+  static const dProcessing = "Processing";
+  static const dCancelled = "Cancelled";
+  static const dUserid = "UserId";
+  static const dokey = "OrderKey";
+
   //COLOR
   static const red_text = 0xffDB3022;
   static const white_text = 0xffFFFFFF;

@@ -1,7 +1,7 @@
+import 'dart:math';
+
 import 'package:country_picker/country_picker.dart';
 import 'package:ecommerce/profileoptions/myorders/myorder_page.dart';
-import 'package:ecommerce/profileoptions/settings_page.dart';
-import 'package:ecommerce/screen/aftercheckout/add_address_page.dart';
 import 'package:ecommerce/screen/home/main_page.dart';
 import 'package:ecommerce/theme/themeprovider.dart';
 import 'package:ecommerce/utils/constants.dart';
@@ -16,7 +16,10 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class MyStepperCheckOutPage extends StatefulWidget {
-  const MyStepperCheckOutPage({super.key});
+  const MyStepperCheckOutPage(
+      {super.key, required this.id, required this.total});
+  final String id;
+  final int total;
 
   @override
   State<MyStepperCheckOutPage> createState() => _MyStepperCheckOutPageState();
@@ -36,6 +39,9 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
   int stepIndex = 0;
   bool isExis = false;
   bool isPaymentSuccess = false;
+  String? paymentNo;
+  String? selectedAddress;
+  String? selectedPaymentOptions;
   List<Step> getStep() => [
         Step(
             state: stepIndex > 0 ? StepState.complete : StepState.indexed,
@@ -101,6 +107,8 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(content: Text(response.paymentId.toString())));
+    paymentNo = response.paymentId;
+    addOrderToDatabase();
     if (!mounted) return;
     setState(() {
       stepIndex++;
@@ -112,6 +120,8 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(content: Text(response.code.toString())));
+    paymentNo = response.code.toString();
+
     if (!mounted) return;
     setState(() {
       stepIndex++;
@@ -127,6 +137,10 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(content: Text(response.walletName.toString())));
+    paymentNo =
+        (response.walletName! + new Random().nextInt(100000).toString());
+    addOrderToDatabase();
+
     if (!mounted) return;
     setState(() {
       stepIndex++;
@@ -461,6 +475,15 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                 child: ListView.builder(
                   itemCount: list.length,
                   itemBuilder: (context, index) {
+                    selectedAddress =
+                        list[index][Constants.dSAddress].toString() +
+                            list[index][Constants.dCity].toString() +
+                            ", " +
+                            list[index][Constants.dState].toString() +
+                            " " +
+                            list[index][Constants.dZcode].toString() +
+                            ", " +
+                            list[index][Constants.dCountry].toString();
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -602,6 +625,7 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
               if (!mounted) return;
               setState(() {
                 paymentOptions = value;
+                selectedPaymentOptions = "Cash on Delivery";
               });
             },
           ),
@@ -615,6 +639,7 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
               if (!mounted) return;
               setState(() {
                 paymentOptions = value;
+                selectedPaymentOptions = "Online Payment";
               });
             },
           ),
@@ -627,6 +652,8 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
               if (paymentOptions == PaymentOptions.onlinePayment) {
                 openCheckout();
               } else if (paymentOptions == PaymentOptions.cashonDelivery) {
+                addOrderToDatabase();
+
                 if (!mounted) return;
                 setState(() {
                   stepIndex++;
@@ -639,5 +666,60 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
             child: Button_Style.button_Theme("Continue"))
       ],
     );
+  }
+
+  void addOrderToDatabase() {
+    DatabaseReference databaseReference =
+        FirebaseDatabase.instance.ref(Constants.dorder).push();
+    databaseReference.update({
+      Constants.dorderno: new Random().nextInt(10000),
+      Constants.dtrackNum: paymentNo,
+      Constants.dodate: DateTime.now().toString(),
+      Constants.dShipAddress: selectedAddress,
+      Constants.dtotal: widget.total,
+      Constants.dPayment: selectedPaymentOptions,
+      Constants.dUserid: FirebaseAuth.instance.currentUser!.uid,
+      Constants.dokey: databaseReference.key
+    }).then((value) {
+      DatabaseReference database = FirebaseDatabase.instance
+          .ref(Constants.dUser)
+          .child(FirebaseAuth.instance.currentUser!.uid)
+          .child(Constants.dAddToCart);
+      database.orderByKey().once().then((value) {
+        value.snapshot.children.forEach((element) {
+          element.hasChild(Constants.dColor)
+              ? databaseReference.child(Constants.dProducts).push().update({
+                  Constants.dPid: element.child(Constants.dPid).value,
+                  Constants.dPname: element.child(Constants.dPname).value,
+                  Constants.dQuantity: element.child(Constants.dQuantity).value,
+                  Constants.dSize: element.child(Constants.dSize).value,
+                  Constants.dColor: element.child(Constants.dColor).value,
+                  Constants.dimages: element.child(Constants.dimages).value,
+                  Constants.dSPrice: element.child(Constants.dSPrice).value,
+                  Constants.dstatus: Constants.dProcessing,
+                }).whenComplete(() {
+                  FirebaseDatabase.instance
+                      .ref(Constants.dUser)
+                      .child(FirebaseAuth.instance.currentUser!.uid)
+                      .child(Constants.dAddToCart)
+                      .remove();
+                })
+              : databaseReference.child(Constants.dProducts).push().update({
+                  Constants.dPid: element.child(Constants.dPid).value,
+                  Constants.dPname: element.child(Constants.dPname).value,
+                  Constants.dQuantity: element.child(Constants.dQuantity).value,
+                  Constants.dimages: element.child(Constants.dimages).value,
+                  Constants.dSPrice: element.child(Constants.dSPrice).value,
+                  Constants.dstatus: Constants.dProcessing,
+                }).whenComplete(() {
+                  FirebaseDatabase.instance
+                      .ref(Constants.dUser)
+                      .child(FirebaseAuth.instance.currentUser!.uid)
+                      .child(Constants.dAddToCart)
+                      .remove();
+                });
+        });
+      });
+    });
   }
 }

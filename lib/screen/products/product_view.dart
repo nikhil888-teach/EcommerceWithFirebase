@@ -839,6 +839,7 @@ class _MyProductPageState extends State<MyProductPage> {
           Constants.dtotamt: widget.price,
           Constants.dimages: widget.images[0],
           Constants.dSPrice: widget.price,
+          Constants.dcheckId: databaseReference.key
         }).then((value) {
           Scaffold_msg.toastMessage(context, "Added to cart");
           if (!mounted) return;
@@ -860,7 +861,8 @@ class _MyProductPageState extends State<MyProductPage> {
         Constants.dtotamt: widget.price,
         Constants.dimages: widget.images[0],
         Constants.dSPrice: widget.price,
-        Constants.dPname: widget.name
+        Constants.dPname: widget.name,
+        Constants.dcheckId: databaseReference.key
       }).then((value) {
         Scaffold_msg.toastMessage(context, "Added to cart");
         if (!mounted) return;

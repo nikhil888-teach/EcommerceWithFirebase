@@ -112,13 +112,7 @@ class _MyAddressPageState extends State<MyAddressPage> {
                 height: 8,
               ),
               GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MyStepperCheckOutPage(),
-                        ));
-                  },
+                  onTap: () {},
                   child: Button_Style.button_Theme(Constants.save_address))
             ],
           ),
