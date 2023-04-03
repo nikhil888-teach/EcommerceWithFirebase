@@ -72,6 +72,7 @@ class _MyForgotPassState extends State<MyForgotPass> {
                                       content:
                                           Text("Please fill all the field")));
                               } else {
+                                if (!mounted) return;
                                 setState(() {
                                   loading = true;
                                 });
@@ -82,11 +83,16 @@ class _MyForgotPassState extends State<MyForgotPass> {
                                     .then((value) {
                                   Scaffold_msg.toastMessage(
                                       context, "Sent Request Successfully");
+                                  if (!mounted) return;
+                                  if (!mounted) return;
+
                                   setState(() {
                                     loading = false;
                                   });
                                   Navigator.pop(context);
                                 }).catchError((onError) {
+                                  if (!mounted) return;
+
                                   setState(() {
                                     loading = false;
                                   });

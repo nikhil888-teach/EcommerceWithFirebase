@@ -104,6 +104,8 @@ class _MyLoginPageState extends State<MyLoginPage> {
                                       content:
                                           Text("Please fill all the field")));
                               } else {
+                                if (!mounted) return;
+
                                 setState(() {
                                   loading = true;
                                 });
@@ -115,6 +117,8 @@ class _MyLoginPageState extends State<MyLoginPage> {
                                     .then((value) {
                                   Scaffold_msg.toastMessage(
                                       context, "Sign in successfully");
+                                  if (!mounted) return;
+
                                   setState(() {
                                     loading = false;
                                   });
@@ -125,6 +129,8 @@ class _MyLoginPageState extends State<MyLoginPage> {
                                             const MyMainPage(),
                                       ));
                                 }).catchError((onError) {
+                                  if (!mounted) return;
+
                                   setState(() {
                                     loading = false;
                                   });

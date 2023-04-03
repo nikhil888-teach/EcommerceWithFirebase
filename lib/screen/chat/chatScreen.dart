@@ -2,13 +2,12 @@ import 'dart:convert';
 
 import 'package:ecommerce/screen/chat/chat_bubble.dart';
 import 'package:ecommerce/utils/constants.dart';
+import 'package:ecommerce/widgets/scafoldmsg_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 import 'package:http/http.dart' as http;
-
-import '../../widgets/scafoldmsg_theme.dart';
 
 class MyChatScreen extends StatefulWidget {
   const MyChatScreen({super.key});
@@ -334,10 +333,14 @@ class _MyChatScreenState extends State<MyChatScreen> {
     if (!isTyping) {
       if (questionIndex != null) {
         msg = defaultQuestionList[questionIndex];
+        if (!mounted) return;
+
         setState(() {
           _isShowChip = true;
         });
       } else {
+        if (!mounted) return;
+
         setState(() {
           _isShowChip = false;
         });
@@ -351,6 +354,8 @@ class _MyChatScreenState extends State<MyChatScreen> {
           Scaffold_msg.toastMessage(
               context, "please continue chat only shopping related");
           ;
+          if (!mounted) return;
+
           setState(() {
             isTyping = false;
           });
@@ -361,11 +366,15 @@ class _MyChatScreenState extends State<MyChatScreen> {
 
       messages.add(ChatMessage(
           messageContent: msg, messageType: 'sender', sendAt: curruntTime()));
+      if (!mounted) return;
+
       setState(() {
         isTyping = true;
       });
 
       Future.delayed(const Duration(milliseconds: 500), () {
+        if (!mounted) return;
+
         setState(() {
           scrollToBottom();
         });
@@ -385,10 +394,14 @@ class _MyChatScreenState extends State<MyChatScreen> {
           messageContent: response,
           messageType: 'receiver',
           sendAt: curruntTime()));
+      if (!mounted) return;
+
       setState(() {
         isTyping = false;
       });
       Future.delayed(const Duration(milliseconds: 500), () {
+        if (!mounted) return;
+
         setState(() {
           scrollToBottom();
         });

@@ -512,6 +512,8 @@ class _MyBagPageState extends State<MyBagPage> {
         .child(FirebaseAuth.instance.currentUser!.uid)
         .child(Constants.dAddToCart);
     databaseReference.orderByKey().once().then((value) {
+      if (!mounted) return;
+
       setState(() {
         if (value.snapshot.children.isEmpty) {
           total = 0;
