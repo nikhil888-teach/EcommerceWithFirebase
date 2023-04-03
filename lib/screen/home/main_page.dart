@@ -1,3 +1,5 @@
+import 'package:draggable_fab/draggable_fab.dart';
+import 'package:ecommerce/screen/chat/chatScreen.dart';
 import 'package:ecommerce/screen/home/bag_pages.dart';
 import 'package:ecommerce/screen/home/favorite_page.dart';
 import 'package:ecommerce/screen/home/home_page.dart';
@@ -30,6 +32,45 @@ class _MyMainPageState extends State<MyMainPage> {
     return SafeArea(
       child: Scaffold(
         body: pagess.elementAt(currentindex),
+        floatingActionButton: DraggableFab(
+          securityBottom: 30,
+          initPosition: Offset(double.infinity, double.infinity),
+          child: SizedBox(
+            height: 70,
+            width: 70,
+            child: FloatingActionButton(
+              onPressed: () {
+                showModalBottomSheet(
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(35),
+                    )),
+                    context: context,
+                    isScrollControlled: true,
+                    builder: (context) {
+                      return const ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30),
+                        ),
+                        child: FractionallySizedBox(
+                            heightFactor: 1, child: MyChatScreen()),
+                      );
+                    });
+
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => MyChatScreen()));
+              },
+              backgroundColor: Color.fromARGB(255, 224, 57, 57),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset(
+                  "assets/image/bot.png",
+                ),
+              ),
+            ),
+          ),
+        ),
         bottomNavigationBar: BottomNavigationBar(
             currentIndex: currentindex,
             type: BottomNavigationBarType.fixed,
@@ -76,7 +117,6 @@ class _MyMainPageState extends State<MyMainPage> {
                     CupertinoIcons.profile_circled,
                   )),
             ]),
-      
       ),
     );
   }

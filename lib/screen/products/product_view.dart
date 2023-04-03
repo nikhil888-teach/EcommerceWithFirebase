@@ -40,6 +40,8 @@ class MyProductPage extends StatefulWidget {
 
 class _MyProductPageState extends State<MyProductPage> {
   Map size = {0: "XS", 1: "S", 2: "M", 3: "L", 4: "XL"};
+  bool isFv = false;
+  String? selectedId;
 
   String? selectedsize;
   int? selectedindexcolor;
@@ -57,11 +59,56 @@ class _MyProductPageState extends State<MyProductPage> {
   bool loading = false;
   @override
   void initState() {
+    selectedId = widget.id;
     selectedsize = "Size";
     // _pageController = PageController(initialPage: 0);
     selectedcolor = "Color";
     userId = FirebaseAuth.instance.currentUser!.uid;
     super.initState();
+  }
+
+  Future<bool> isFavorite() async {
+    DatabaseReference reference = FirebaseDatabase.instance
+        .ref(Constants.dUser)
+        .child(FirebaseAuth.instance.currentUser!.uid);
+    bool isChild = false;
+
+    await reference.once().then((value) {
+      if (value.snapshot.hasChild(Constants.dFavorite)) {
+        if (!mounted) return;
+        setState(() {
+          isChild = true;
+        });
+      } else {
+        if (!mounted) return;
+        setState(() {
+          isChild = false;
+        });
+      }
+    });
+    print(isChild);
+    return isChild;
+  }
+
+  Future<bool> checkAlreadyAddOrNot() async {
+    DatabaseReference databaseReference = FirebaseDatabase.instance
+        .ref(Constants.dUser)
+        .child(FirebaseAuth.instance.currentUser!.uid)
+        .child(Constants.dFavorite);
+
+    bool isExis = false;
+    await databaseReference.orderByKey().once().then((value) {
+      value.snapshot.children.forEach((element) {
+        if (element.child(Constants.dPid).value == selectedId) {
+          if (!mounted) return;
+          setState(() {
+            isExis = true;
+          });
+        }
+      });
+    });
+
+    return isExis;
   }
 
   @override
@@ -471,17 +518,53 @@ class _MyProductPageState extends State<MyProductPage> {
                                 ),
                               )
                             : Container(),
-                        Container(
-                          decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(29)),
-                          child: const Padding(
-                              padding: EdgeInsets.all(10.0),
-                              child: Icon(
-                                CupertinoIcons.heart_fill,
-                                color: Colors.white,
-                                size: 24,
-                              )),
+                        GestureDetector(
+                          onTap: () async {
+                            if (await isFavorite()) {
+                              if (await checkAlreadyAddOrNot()) {
+                                Scaffold_msg.toastMessage(
+                                    context, "Already Added");
+                              } else {
+                                addToFaviratePage(
+                                  category: widget.category,
+                                  subCategory: widget.subCategory,
+                                  color: widget.color,
+                                  size: widget.size,
+                                  id: widget.id,
+                                  images: widget.images,
+                                  brand: widget.brand,
+                                  decription: widget.decription,
+                                  name: widget.name,
+                                  price: widget.price,
+                                );
+                              }
+                            } else {
+                              addToFaviratePage(
+                                category: widget.category,
+                                subCategory: widget.subCategory,
+                                color: widget.color,
+                                size: widget.size,
+                                id: widget.id,
+                                images: widget.images,
+                                brand: widget.brand,
+                                decription: widget.decription,
+                                name: widget.name,
+                                price: widget.price,
+                              );
+                            }
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(29)),
+                            child: const Padding(
+                                padding: EdgeInsets.all(10.0),
+                                child: Icon(
+                                  CupertinoIcons.heart_fill,
+                                  color: Colors.white,
+                                  size: 24,
+                                )),
+                          ),
                         ),
                       ],
                     ),
@@ -902,6 +985,45 @@ class _MyProductPageState extends State<MyProductPage> {
       } else {
         addDataToAddToCart();
       }
+    });
+  }
+
+  void addToFaviratePage(
+      {required String category,
+      required String subCategory,
+      required color,
+      required size,
+      required id,
+      required images,
+      required brand,
+      required decription,
+      required name,
+      required price}) {
+    DatabaseReference databaseReference = FirebaseDatabase.instance
+        .ref(Constants.dUser)
+        .child(FirebaseAuth.instance.currentUser!.uid)
+        .child(Constants.dFavorite)
+        .push();
+
+    databaseReference.update({
+      Constants.dcategory: category,
+      Constants.dSubCategoryName: subCategory,
+      Constants.dColor: color,
+      Constants.dSize: size,
+      Constants.dPid: id,
+      Constants.dBrand: brand,
+      Constants.dDesc: decription,
+      Constants.dPname: name,
+      Constants.dSPrice: price,
+      Constants.dimages: images,
+      Constants.dFavId: databaseReference.key,
+      Constants.dFavDate: DateTime.now().toString()
+    }).then((value) {
+      if (!mounted) return;
+      setState(() {
+        isFv = false;
+      });
+      Scaffold_msg.toastMessage(context, "Added to Favourite");
     });
   }
 }

@@ -63,8 +63,8 @@ class _MyBagPageState extends State<MyBagPage> {
                           } else if (!snapshot.data!.snapshot
                               .hasChild(Constants.dAddToCart)) {
                             return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 25),
                               child: Column(
                                 children: [
                                   Center(

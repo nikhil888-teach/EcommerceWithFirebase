@@ -37,8 +37,11 @@ class _MyCancelledProductState extends State<MyCancelledProduct> {
       appBar: AppBar(
         elevation: 1,
         centerTitle: true,
-        leading: Icon(
-          Icons.arrow_back_ios,
+        leading: GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: Icon(
+            Icons.arrow_back_ios,
+          ),
         ),
         title: Text("Order Details",
             style: Text_Style.text_Theme(

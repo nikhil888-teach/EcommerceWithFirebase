@@ -3,7 +3,6 @@ import 'package:ecommerce/widgets/button_theme.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 
@@ -39,8 +38,11 @@ class _MyDeliveredProductState extends State<MyDeliveredProduct> {
       appBar: AppBar(
         elevation: 1,
         centerTitle: true,
-        leading: Icon(
-          Icons.arrow_back_ios,
+        leading: GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: Icon(
+            Icons.arrow_back_ios,
+          ),
         ),
         title: Text("Order Details",
             style: Text_Style.text_Theme(

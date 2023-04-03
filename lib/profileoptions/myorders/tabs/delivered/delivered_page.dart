@@ -3,6 +3,7 @@ import 'package:ecommerce/theme/themeprovider.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -209,11 +210,29 @@ class _MyDeliveredState extends State<MyDelivered> {
                 },
               );
             } else {
-              return Center(
-                child: Text(
-                  "Empty",
-                  style: Text_Style.text_Theme(
-                      Constants.black_text, 14, FontWeight.bold, context),
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 50.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                        child: Lottie.asset("assets/image/process_order.json",
+                            height: 300)),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Text(
+                        "No order in Delivered",
+                        style: Text_Style.text_Theme(
+                            Constants.black_text, 20, FontWeight.bold, context),
+                      ),
+                    ),
+                    Text(
+                      "Looks like you have not added anything to you cart. Go ahead & explore top categories",
+                      textAlign: TextAlign.center,
+                      style: Text_Style.text_Theme(
+                          Constants.black_text, 14, FontWeight.normal, context),
+                    )
+                  ],
                 ),
               );
             }

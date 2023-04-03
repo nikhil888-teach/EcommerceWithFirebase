@@ -1,5 +1,3 @@
-import 'package:ecommerce/screen/authntication/forgot_pass.dart';
-import 'package:ecommerce/screen/home/main_page.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
 import 'package:ecommerce/widgets/scafoldmsg_theme.dart';
@@ -8,16 +6,15 @@ import 'package:ecommerce/widgets/textformfield_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class MyLoginPage extends StatefulWidget {
-  const MyLoginPage({Key? key}) : super(key: key);
+class MyForgotPass extends StatefulWidget {
+  const MyForgotPass({Key? key}) : super(key: key);
 
   @override
-  State<MyLoginPage> createState() => _MyLoginPageState();
+  State<MyForgotPass> createState() => _MyForgotPassState();
 }
 
-class _MyLoginPageState extends State<MyLoginPage> {
+class _MyForgotPassState extends State<MyForgotPass> {
   TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
   bool loading = false;
   final _formKey = GlobalKey<FormState>();
 
@@ -48,7 +45,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                         const SizedBox(
                           height: 34,
                         ),
-                        Text(Constants.LOGIN,
+                        Text(Constants.FORGOT_PASSWORD2,
                             style: Text_Style.text_Theme(Constants.black_text,
                                 34, FontWeight.bold, context)),
                         const SizedBox(
@@ -62,42 +59,13 @@ class _MyLoginPageState extends State<MyLoginPage> {
                         const SizedBox(
                           height: 8,
                         ),
-                        Textformfield_style.textField(password,
-                            Constants.PASSWORD, TextInputType.visiblePassword),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const MyForgotPass(),
-                                ));
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(Constants.FORGOT_PASSWORD,
-                                  style: Text_Style.text_Theme(
-                                      Constants.black_text,
-                                      14,
-                                      FontWeight.normal,
-                                      context)),
-                              Icon(
-                                Icons.arrow_right_alt,
-                                color: Colors.red,
-                              )
-                            ],
-                          ),
-                        ),
                         const SizedBox(
                           height: 28,
                         ),
                         GestureDetector(
                             onTap: () {
                               validateAndSave();
-                              if (email.text.isEmpty || password.text.isEmpty) {
+                              if (email.text.isEmpty) {
                                 ScaffoldMessenger.of(context)
                                   ..hideCurrentSnackBar()
                                   ..showSnackBar(const SnackBar(
@@ -109,21 +77,15 @@ class _MyLoginPageState extends State<MyLoginPage> {
                                 });
 
                                 FirebaseAuth.instance
-                                    .signInWithEmailAndPassword(
-                                        email: email.text.trim(),
-                                        password: password.text.trim())
+                                    .sendPasswordResetEmail(
+                                        email: email.text.trim())
                                     .then((value) {
                                   Scaffold_msg.toastMessage(
-                                      context, "Sign in successfully");
+                                      context, "Sent Request Successfully");
                                   setState(() {
                                     loading = false;
                                   });
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const MyMainPage(),
-                                      ));
+                                  Navigator.pop(context);
                                 }).catchError((onError) {
                                   setState(() {
                                     loading = false;
@@ -139,37 +101,11 @@ class _MyLoginPageState extends State<MyLoginPage> {
                                       color: Colors.red,
                                     ),
                                   )
-                                : Button_Style.button_Theme(Constants.LOGIN)),
+                                : Button_Style.button_Theme(
+                                    Constants.SEND_REQUEST)),
                       ],
                     ),
                   ),
-                  Wrap(
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    alignment: WrapAlignment.center,
-                    children: [
-                      Center(
-                          child: Text(
-                        Constants.OR_SIGN_WITH_SOCIAL,
-                        style: Text_Style.text_Theme(Constants.black_text, 14,
-                            FontWeight.normal, context),
-                      )),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24)),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 24, horizontal: 34),
-                            child: Image.asset(
-                              "assets/image/google.png",
-                              scale: 1.5,
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  )
                 ],
               ),
             )));

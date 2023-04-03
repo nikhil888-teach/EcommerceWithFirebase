@@ -23,11 +23,12 @@ class _MyShopePageState extends State<MyShopePage> {
       child: SafeArea(
           child: Scaffold(
               appBar: AppBar(
-                leading: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.arrow_back_ios,
-                    )),
+                leading: GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: Icon(
+                    Icons.arrow_back_ios,
+                  ),
+                ),
                 centerTitle: true,
                 title: Text(Constants.Categories,
                     style: Text_Style.text_Theme(
@@ -123,5 +124,4 @@ class _MyShopePageState extends State<MyShopePage> {
       ),
     );
   }
-
 }

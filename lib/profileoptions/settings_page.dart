@@ -1,3 +1,4 @@
+import 'package:ecommerce/screen/authntication/login_page.dart';
 import 'package:ecommerce/screen/home/main_page.dart';
 import 'package:ecommerce/theme/themeprovider.dart';
 import 'package:ecommerce/utils/constants.dart';
@@ -8,6 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import '../screen/authntication/forgot_pass.dart';
+import '../widgets/scafoldmsg_theme.dart';
 
 class MySettingPage extends StatefulWidget {
   const MySettingPage({Key? key}) : super(key: key);
@@ -25,6 +29,17 @@ class _MySettingPageState extends State<MySettingPage> {
   bool checkSales = true;
   bool checkArr = false;
   bool checkStaus = false;
+  User? user;
+
+  @override
+  void initState() {
+    super.initState();
+    getUser();
+  }
+
+  getUser() async {
+    user = await FirebaseAuth.instance.currentUser;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,8 +72,11 @@ class _MySettingPageState extends State<MySettingPage> {
         appBar: AppBar(
           elevation: 1,
           centerTitle: true,
-          leading: Icon(
-            Icons.arrow_back_ios,
+          leading: GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Icon(
+              Icons.arrow_back_ios,
+            ),
           ),
           title: Text("Settings",
               style: Text_Style.text_Theme(
@@ -144,17 +162,27 @@ class _MySettingPageState extends State<MySettingPage> {
                                       cPasswordController,
                                       Constants.old_pass,
                                       TextInputType.visiblePassword),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 15),
-                                    child: Align(
-                                      alignment: Alignment.centerRight,
-                                      child: Text(Constants.FORGOT_PASSWORD,
-                                          style: Text_Style.text_Theme(
-                                              Constants.grey_text,
-                                              14,
-                                              FontWeight.normal,
-                                              context)),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const MyForgotPass(),
+                                          ));
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 15),
+                                      child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Text(Constants.FORGOT_PASSWORD,
+                                            style: Text_Style.text_Theme(
+                                                Constants.grey_text,
+                                                14,
+                                                FontWeight.normal,
+                                                context)),
+                                      ),
                                     ),
                                   ),
                                   Textformfield_style.textField(
@@ -168,8 +196,14 @@ class _MySettingPageState extends State<MySettingPage> {
                                   SizedBox(
                                     height: 15,
                                   ),
-                                  Button_Style.button_Theme(
-                                      Constants.save_pass),
+                                  GestureDetector(
+                                    onTap: () {
+                                      _changePassword(cPasswordController.text,
+                                          rPasswordController.text);
+                                    },
+                                    child: Button_Style.button_Theme(
+                                        Constants.save_pass),
+                                  ),
                                   SizedBox(
                                     height: 15,
                                   ),
@@ -282,6 +316,27 @@ class _MySettingPageState extends State<MySettingPage> {
                       },
                     ),
                   ],
+                ),
+                GestureDetector(
+                  onTap: () {
+                    _signOut();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 15, right: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          Constants.LOGIN_OUT,
+                          style: Text_Style.text_Theme(Constants.black_text, 20,
+                              FontWeight.w600, context),
+                        ),
+                        Icon(
+                          Icons.logout,
+                        )
+                      ],
+                    ),
+                  ),
                 )
               ],
             ),
@@ -289,5 +344,33 @@ class _MySettingPageState extends State<MySettingPage> {
         ),
       )),
     );
+  }
+
+  void _changePassword(String currentPassword, String newPassword) {
+    Navigator.pop(context);
+    final cred = EmailAuthProvider.credential(
+        email: user?.email ?? '', password: currentPassword);
+
+    user?.reauthenticateWithCredential(cred).then((value) {
+      user?.updatePassword(newPassword).then((_) {
+        Scaffold_msg.toastMessage(context, "Chnaged Successfully");
+      }).catchError((error) {
+        Scaffold_msg.toastMessage(context, error.toString());
+        //Error, show something
+      });
+    }).catchError((err) {
+      Scaffold_msg.toastMessage(context, err.toString());
+    });
+  }
+
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut().then((value) => print(user));
+
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const MyLoginPage(),
+        ),
+        (Route<dynamic> route) => false);
   }
 }

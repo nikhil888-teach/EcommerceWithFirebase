@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 class Constants {
   static const APP_NAME = "E-Commerce";
 
@@ -9,10 +12,13 @@ class Constants {
 
   //LOGIN_PAGE
   static const LOGIN = "Login";
+  static const LOGIN_OUT = "LogOut";
   static const EMAIL = "Email";
   static const PASSWORD = "Password";
   static const FORGOT_PASSWORD = "Forgot password?";
+  static const FORGOT_PASSWORD2 = "Forgot password";
   static const OR_SIGN_WITH_SOCIAL = "Or sign up with Social account";
+  static const SEND_REQUEST = "Send Request";
 
   //SINGUP_PAGE
   static const SIGNUP = "Sign up";
@@ -197,4 +203,36 @@ class Constants {
   static const black_text = 0xff222222;
   static const grey_text = 0xff9B9B9B;
   static const green_text = 0xff2AA952;
+}
+
+class AppColor {
+  static const whiteColor = Color(0xFFFFFFFF);
+  static const blackColor = Color(0xFF000000);
+  static const textPrimaryColor = Color.fromARGB(255, 255, 255, 255);
+  static const textSecondaryColor = Color.fromARGB(255, 255, 255, 255);
+  static const darkBlueColor = Color(0xFF2D008D);
+  static const pinkColor = Color(0xFFED617B);
+  static const textBorderColor = Color.fromARGB(255, 0, 0, 0);
+  static const backgroundOutlineColor = Color.fromARGB(255, 216, 216, 216);
+  static const greyTextColor = Color.fromARGB(255, 255, 255, 255);
+  static const backgroundColor = Color.fromARGB(255, 255, 240, 240);
+  static const greenColor = Color.fromARGB(255, 36, 202, 31);
+  static const textColor = Color(0xFFFFFFFF);
+  static const backgroundPrimary = Color.fromARGB(255, 218, 35, 105);
+  static const senderbackground = Color.fromARGB(255, 218, 35, 105);
+  static const reciverbackground = Color.fromARGB(255, 182, 24, 63);
+
+  static const tranparent = Colors.transparent;
+}
+
+class AssetsPath {
+  static const String icProfile = "assets/icons/ic_profile.png";
+  static const String icSend = "assets/icons/ic_send.png";
+}
+
+String curruntTime() {
+  var now = DateTime.now();
+  DateFormat dateFormat = DateFormat('hh:mm:a');
+  String currunttime = dateFormat.format(now);
+  return currunttime;
 }
