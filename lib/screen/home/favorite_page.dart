@@ -337,7 +337,6 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                                               child: Image.network(
                                                 list[index][Constants.dimages]
                                                         [0]
-                                                    .toString()
                                                     .toString(),
                                                 fit: BoxFit.fill,
                                                 color: Colors.grey.shade300,
