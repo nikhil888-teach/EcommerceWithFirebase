@@ -250,10 +250,10 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
                             child: Row(
                               children: [
                                 for (int i = 0; i < 5; i++)
-                                  const Icon(
+                                  Icon(
                                     Icons.star,
                                     size: 14,
-                                    color: Colors.yellow,
+                                    color: Colors.yellow[800],
                                   ),
                                 Padding(
                                   padding:

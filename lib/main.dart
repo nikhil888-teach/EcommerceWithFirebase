@@ -1,3 +1,4 @@
+import 'package:ecommerce/rating/rating_view.dart';
 import 'package:ecommerce/splash/splash_page.dart';
 import 'package:ecommerce/theme/themeprovider.dart';
 import 'package:ecommerce/theme/thmedata.dart';
@@ -40,7 +41,7 @@ class _MyAppState extends State<MyApp> {
           title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
           theme: Style.themeData(value.darkTheme, context),
-          home: const MySplashPage(),
+          home: const MyRatingPage(),
         ),
       ),
     );
