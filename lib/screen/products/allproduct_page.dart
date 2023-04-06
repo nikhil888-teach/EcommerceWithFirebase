@@ -77,6 +77,8 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
                         color: Colors.red,
                       ),
                     );
+                  } else if (snapshot.hasError) {
+                    return Container();
                   }
 
                   Map<dynamic, dynamic> data =

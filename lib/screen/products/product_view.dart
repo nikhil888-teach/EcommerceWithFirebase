@@ -1,3 +1,4 @@
+import 'package:ecommerce/screen/home/main_page.dart';
 import 'package:ecommerce/theme/themeprovider.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
@@ -738,20 +739,68 @@ class _MyProductPageState extends State<MyProductPage> {
                                                 Positioned(
                                                   bottom: 5,
                                                   right: 5,
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(29)),
-                                                    child: const Padding(
-                                                        padding: EdgeInsets.all(
-                                                            10.0),
-                                                        child: Icon(
-                                                          CupertinoIcons.heart,
-                                                          color: Colors.grey,
-                                                          size: 14,
-                                                        )),
+                                                  child: InkWell(
+                                                    onTap: () async {
+                                                      if (await isFavorite()) {
+                                                        if (await checkAlreadyAddOrNot()) {
+                                                          Scaffold_msg
+                                                              .toastMessage(
+                                                                  context,
+                                                                  "Already Added");
+                                                        } else {
+                                                          addToFaviratePage(
+                                                            category:
+                                                                widget.category,
+                                                            subCategory: widget
+                                                                .subCategory,
+                                                            color: widget.color,
+                                                            size: widget.size,
+                                                            id: widget.id,
+                                                            images:
+                                                                widget.images,
+                                                            brand: widget.brand,
+                                                            decription: widget
+                                                                .decription,
+                                                            name: widget.name,
+                                                            price: widget.price,
+                                                          );
+                                                        }
+                                                      } else {
+                                                        addToFaviratePage(
+                                                          category:
+                                                              widget.category,
+                                                          subCategory: widget
+                                                              .subCategory,
+                                                          color: widget.color,
+                                                          size: widget.size,
+                                                          id: widget.id,
+                                                          images: widget.images,
+                                                          brand: widget.brand,
+                                                          decription:
+                                                              widget.decription,
+                                                          name: widget.name,
+                                                          price: widget.price,
+                                                        );
+                                                      }
+                                                    },
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.white,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      29)),
+                                                      child: const Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  10.0),
+                                                          child: Icon(
+                                                            CupertinoIcons
+                                                                .heart,
+                                                            color: Colors.grey,
+                                                            size: 14,
+                                                          )),
+                                                    ),
                                                   ),
                                                 )
                                               ],

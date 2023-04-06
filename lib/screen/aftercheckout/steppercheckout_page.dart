@@ -366,6 +366,7 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                   child: TextFormField(
                     readOnly: true,
                     decoration: InputDecoration(
+                        hintText: "Select Country",
                         border:
                             OutlineInputBorder(borderSide: BorderSide.none)),
                     controller: countryController,
@@ -384,6 +385,7 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                           if (!mounted) return;
                           setState(() {
                             _country = country;
+                            countryController.text = _country!.name;
                           });
                         },
                       );
@@ -418,7 +420,7 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                     Constants.dCity: cityController.text.trim(),
                     Constants.dState: stateController.text.trim(),
                     Constants.dZcode: codeController.text.trim(),
-                    Constants.dCountry: _country!.name.toString().trim()
+                    Constants.dCountry: countryController.text.toString().trim()
                   }).then((value) {
                     if (!mounted) return;
                     setState(() {

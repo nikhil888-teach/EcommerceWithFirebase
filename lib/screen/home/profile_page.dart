@@ -1,5 +1,6 @@
 import 'package:ecommerce/profileoptions/myorders/myorder_page.dart';
 import 'package:ecommerce/profileoptions/settings_page.dart';
+import 'package:ecommerce/screen/aftercheckout/shipping_page.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,17 +19,17 @@ class _MyProfilePageState extends State<MyProfilePage> {
   Map map = {
     0: "My orders",
     1: "Shipping addresses",
-    2: "Payment methods",
-    3: "Promocodes",
-    4: "My reviews",
-    5: "Settings"
+    // 2: "Payment methods",
+    // 3: "Promocodes",
+    // 4: "My reviews",
+    2: "Settings"
   };
   List pages = [
     MyOrderPage(),
-    MySettingPage(),
-    MySettingPage(),
-    MySettingPage(),
-    MySettingPage(),
+    MyShippingAddress(),
+    // MySettingPage(),
+    // MySettingPage(),
+    // MySettingPage(),
     MySettingPage()
   ];
   @override

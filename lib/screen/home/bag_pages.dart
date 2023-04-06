@@ -179,13 +179,15 @@ class _MyBagPageState extends State<MyBagPage> {
                                                           ),
                                                           itemBuilder:
                                                               (context) => [
-                                                            PopupMenuItem(
-                                                                child:
-                                                                    GestureDetector(
-                                                              onTap: () {},
-                                                              child: Text(Constants
-                                                                  .ADD_FAVORITE),
-                                                            )),
+                                                            // PopupMenuItem(
+                                                            //     child:
+                                                            //         GestureDetector(
+                                                            //   onTap: () {
+
+                                                            //   },
+                                                            //   child: Text(Constants
+                                                            //       .ADD_FAVORITE),
+                                                            // )),
                                                             PopupMenuItem(
                                                                 child:
                                                                     GestureDetector(

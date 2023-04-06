@@ -3,6 +3,9 @@ import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/material.dart';
 
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 class MyShippingAddress extends StatefulWidget {
   const MyShippingAddress({Key? key}) : super(key: key);
 
@@ -15,6 +18,14 @@ class _MyShippingAddressState extends State<MyShippingAddress> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          Constants.shipping_address,
+          style: Text_Style.text_Theme(
+              Constants.black_text, 16, FontWeight.bold, context),
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         onPressed: () {
@@ -29,90 +40,122 @@ class _MyShippingAddressState extends State<MyShippingAddress> {
           color: Colors.white,
         ),
       ),
-      body: ListView.builder(
-        itemCount: 2,
-        itemBuilder: (context, index) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Card(
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 7),
-                            child: Text(
-                              "Jane Doe",
-                              style: Text_Style.text_Theme(Constants.black_text,
-                                  14, FontWeight.w600, context),
-                            ),
+      body: StreamBuilder(
+          stream: FirebaseDatabase.instance
+              .ref(Constants.dUser)
+              .child(FirebaseAuth.instance.currentUser!.uid)
+              .child(Constants.dAddress)
+              .onValue,
+          builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(
+                  color: Colors.red,
+                ),
+              );
+            }
+
+            Map<dynamic, dynamic> id = snapshot.data!.snapshot.value as dynamic;
+            List<dynamic> list = [];
+            list.clear();
+            for (var element in id.values) {
+              list.add(element);
+            }
+
+            return ListView.builder(
+              itemCount: list.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 7),
+                                    child: Text(
+                                      list[index][Constants.dfname].toString(),
+                                      style: Text_Style.text_Theme(
+                                          Constants.black_text,
+                                          14,
+                                          FontWeight.w600,
+                                          context),
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => MyAddressPage(
+                                                id: list[index]
+                                                        [Constants.daddressId]
+                                                    .toString()),
+                                          ));
+                                    },
+                                    child: Text(
+                                      Constants.edit,
+                                      style: Text_Style.text_Theme(
+                                          Constants.red_text,
+                                          14,
+                                          FontWeight.w600,
+                                          context),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 5),
+                                child: Text(
+                                  list[index][Constants.dSAddress].toString(),
+                                  style: Text_Style.text_Theme(
+                                      Constants.black_text,
+                                      14,
+                                      FontWeight.normal,
+                                      context),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 7),
+                                child: Text(
+                                    list[index][Constants.dCity].toString() +
+                                        ", " +
+                                        list[index][Constants.dState]
+                                            .toString() +
+                                        " " +
+                                        list[index][Constants.dZcode]
+                                            .toString() +
+                                        ", " +
+                                        list[index][Constants.dCountry]
+                                            .toString(),
+                                    style: Text_Style.text_Theme(
+                                        Constants.black_text,
+                                        14,
+                                        FontWeight.normal,
+                                        context)),
+                              ),
+                            ],
                           ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => MyAddressPage(),
-                                  ));
-                            },
-                            child: Text(
-                              Constants.edit,
-                              style: Text_Style.text_Theme(Constants.red_text,
-                                  14, FontWeight.w600, context),
-                            ),
-                          )
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5),
-                        child: Text(
-                          "3 Newbridge Court",
-                          style: Text_Style.text_Theme(Constants.black_text, 14,
-                              FontWeight.normal, context),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 7),
-                        child: Text("Chino Hills, CA 91709, United States",
-                            style: Text_Style.text_Theme(Constants.black_text,
-                                14, FontWeight.normal, context)),
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            height: 24,
-                            width: 24,
-                            child: Checkbox(
-                              activeColor: Colors.black,
-                              value: checkaddress,
-                              onChanged: (value) {
-                                if (!mounted) return;
-                                setState(() {
-                                  checkaddress = value;
-                                });
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 5),
-                            child: Text(Constants.use_add),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              )
-            ],
-          );
-        },
-      ),
+                    )
+                  ],
+                );
+              },
+            );
+          }),
     );
   }
 }

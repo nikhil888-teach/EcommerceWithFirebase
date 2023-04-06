@@ -103,136 +103,189 @@ class _MyHomePageState extends State<MyHomePage> {
                             style: Text_Style.text_Theme(Constants.grey_text,
                                 11, FontWeight.normal, context)),
                       ),
-                      Container(
-                        height: 320,
-                        child: StreamBuilder(
-                            stream: FirebaseDatabase.instance
-                                .ref(Constants.dProducts)
-                                .onValue,
-                            builder: (context,
-                                AsyncSnapshot<DatabaseEvent> snapshot) {
-                              if (!snapshot.hasData) {
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    color: Colors.red,
-                                  ),
-                                );
-                              }
-                              Map<dynamic, dynamic> map =
-                                  snapshot.data!.snapshot.value as dynamic;
-                              List<dynamic> list = [];
-                              list.clear();
-                              for (var element in map.values) {
-                                list.add(element);
-                              }
-                              list.sort((a, b) => b[Constants.dDate]
-                                  .compareTo(a[Constants.dDate]));
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: Container(
+                          height: 320,
+                          child: StreamBuilder(
+                              stream: FirebaseDatabase.instance
+                                  .ref(Constants.dProducts)
+                                  .onValue,
+                              builder: (context,
+                                  AsyncSnapshot<DatabaseEvent> snapshot) {
+                                if (!snapshot.hasData) {
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.red,
+                                    ),
+                                  );
+                                } else if (snapshot.hasError) {
+                                  return Container();
+                                }
+                                Map<dynamic, dynamic> map =
+                                    snapshot.data!.snapshot.value as dynamic;
+                                List<dynamic> list = [];
+                                list.clear();
+                                for (var element in map.values) {
+                                  if (list.length < 10) {
+                                    list.add(element);
+                                  }
+                                }
+                                list.sort((a, b) => b[Constants.dDate]
+                                    .compareTo(a[Constants.dDate]));
 
-                              return ListView.builder(
-                                physics: const BouncingScrollPhysics(),
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: list.length,
-                                itemBuilder: (context, index) => Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 22, right: 20),
-                                  child: InkWell(
-                                    onTap: () {
-                                      Navigator.of(context)
-                                          .push(MaterialPageRoute(
-                                        builder: (context) => MyProductPage(
-                                          category: list[index]
-                                              [Constants.dGender],
-                                          subCategory: list[index]
-                                              [Constants.dType],
-                                          color: list[index][Constants.dColor],
-                                          size: list[index][Constants.dSize],
-                                          id: list[index][Constants.dId],
-                                          images: list[index]
-                                              [Constants.dimages],
-                                          brand: list[index][Constants.dBrand],
-                                          decription: list[index]
-                                              [Constants.dDesc],
-                                          name: list[index][Constants.dPname],
-                                          price: list[index][Constants.dSPrice],
-                                        ),
-                                      ));
-                                    },
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            child: Stack(
-                                              children: [
-                                                Container(
-                                                  height: 200,
-                                                  width: 150,
-                                                  child: Ink(
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                              boxShadow: [
-                                                            BoxShadow(
-                                                                color: Colors
-                                                                    .black12,
-                                                                offset: Offset(
-                                                                    0, 0),
-                                                                blurRadius: 5),
-                                                          ]),
-                                                      child: Image.network(
-                                                        list[index][Constants
-                                                            .dimages][0],
-                                                        fit: BoxFit.fill,
-                                                        color: Colors
-                                                            .grey.shade300,
-                                                        colorBlendMode:
-                                                            BlendMode.multiply,
-                                                        scale: 4,
-                                                      )),
-                                                ),
-                                                Positioned(
-                                                  left: 8,
-                                                  top: 8,
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                        color: Colors.black,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(29)),
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsets.all(6.0),
-                                                      child: Text(Constants.NEW,
-                                                          style: Text_Style
-                                                              .text_Theme(
-                                                                  Constants
-                                                                      .white_text,
-                                                                  11,
-                                                                  FontWeight
-                                                                      .bold,
-                                                                  context)),
+                                return ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: list.length,
+                                  itemBuilder: (context, index) => Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 22, right: 20),
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.of(context)
+                                            .push(MaterialPageRoute(
+                                          builder: (context) => MyProductPage(
+                                            category: list[index]
+                                                [Constants.dGender],
+                                            subCategory: list[index]
+                                                [Constants.dType],
+                                            color: list[index]
+                                                [Constants.dColor],
+                                            size: list[index][Constants.dSize],
+                                            id: list[index][Constants.dId],
+                                            images: list[index]
+                                                [Constants.dimages],
+                                            brand: list[index]
+                                                [Constants.dBrand],
+                                            decription: list[index]
+                                                [Constants.dDesc],
+                                            name: list[index][Constants.dPname],
+                                            price: list[index]
+                                                [Constants.dSPrice],
+                                          ),
+                                        ));
+                                      },
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              child: Stack(
+                                                children: [
+                                                  Container(
+                                                    height: 200,
+                                                    width: 150,
+                                                    child: Ink(
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                                boxShadow: [
+                                                              BoxShadow(
+                                                                  color: Colors
+                                                                      .black12,
+                                                                  offset:
+                                                                      Offset(
+                                                                          0, 0),
+                                                                  blurRadius:
+                                                                      5),
+                                                            ]),
+                                                        child: Image.network(
+                                                          list[index][Constants
+                                                              .dimages][0],
+                                                          fit: BoxFit.fill,
+                                                          color: Colors
+                                                              .grey.shade300,
+                                                          colorBlendMode:
+                                                              BlendMode
+                                                                  .multiply,
+                                                          scale: 4,
+                                                        )),
+                                                  ),
+                                                  Positioned(
+                                                    left: 8,
+                                                    top: 8,
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.black,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      29)),
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(6.0),
+                                                        child: Text(
+                                                            Constants.NEW,
+                                                            style: Text_Style
+                                                                .text_Theme(
+                                                                    Constants
+                                                                        .white_text,
+                                                                    11,
+                                                                    FontWeight
+                                                                        .bold,
+                                                                    context)),
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                                Positioned(
-                                                  bottom: 5,
-                                                  right: 5,
-                                                  child: InkWell(
-                                                    onTap: () async {
-                                                      if (!mounted) return;
-                                                      setState(() {
-                                                        selectedId = list[index]
-                                                            [Constants.dId];
-                                                      });
-                                                      if (await isFavorite()) {
-                                                        if (await checkAlreadyAddOrNot()) {
-                                                          Scaffold_msg
-                                                              .toastMessage(
-                                                                  context,
-                                                                  "Already Added");
+                                                  Positioned(
+                                                    bottom: 5,
+                                                    right: 5,
+                                                    child: InkWell(
+                                                      onTap: () async {
+                                                        if (!mounted) return;
+                                                        setState(() {
+                                                          selectedId = list[
+                                                                  index]
+                                                              [Constants.dId];
+                                                        });
+                                                        if (await isFavorite()) {
+                                                          if (await checkAlreadyAddOrNot()) {
+                                                            Scaffold_msg
+                                                                .toastMessage(
+                                                                    context,
+                                                                    "Already Added");
+                                                          } else {
+                                                            addToFaviratePage(
+                                                              category: list[
+                                                                      index][
+                                                                  Constants
+                                                                      .dGender],
+                                                              subCategory: list[
+                                                                      index][
+                                                                  Constants
+                                                                      .dType],
+                                                              color: list[index]
+                                                                  [Constants
+                                                                      .dColor],
+                                                              size: list[index][
+                                                                  Constants
+                                                                      .dSize],
+                                                              id: list[index][
+                                                                  Constants
+                                                                      .dId],
+                                                              images: list[
+                                                                      index][
+                                                                  Constants
+                                                                      .dimages],
+                                                              brand: list[index]
+                                                                  [Constants
+                                                                      .dBrand],
+                                                              decription: list[
+                                                                      index][
+                                                                  Constants
+                                                                      .dDesc],
+                                                              name: list[index][
+                                                                  Constants
+                                                                      .dPname],
+                                                              price: list[index]
+                                                                  [Constants
+                                                                      .dSPrice],
+                                                            );
+                                                          }
                                                         } else {
                                                           addToFaviratePage(
                                                             category: list[
@@ -269,170 +322,148 @@ class _MyHomePageState extends State<MyHomePage> {
                                                                     .dSPrice],
                                                           );
                                                         }
-                                                      } else {
-                                                        addToFaviratePage(
-                                                          category: list[index][
-                                                              Constants
-                                                                  .dGender],
-                                                          subCategory: list[
-                                                                  index]
-                                                              [Constants.dType],
-                                                          color: list[index][
-                                                              Constants.dColor],
-                                                          size: list[index]
-                                                              [Constants.dSize],
-                                                          id: list[index]
-                                                              [Constants.dId],
-                                                          images: list[index][
-                                                              Constants
-                                                                  .dimages],
-                                                          brand: list[index][
-                                                              Constants.dBrand],
-                                                          decription: list[
-                                                                  index]
-                                                              [Constants.dDesc],
-                                                          name: list[index][
-                                                              Constants.dPname],
-                                                          price: list[index][
-                                                              Constants
-                                                                  .dSPrice],
-                                                        );
-                                                      }
-                                                    },
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                          color: Colors.red,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      29)),
-                                                      child: const Padding(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  10.0),
-                                                          child: Icon(
-                                                            CupertinoIcons
-                                                                .heart_fill,
-                                                            color: Colors.white,
-                                                            size: 14,
-                                                          )),
+                                                      },
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                            color: Colors.red,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        29)),
+                                                        child: const Padding(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    10.0),
+                                                            child: Icon(
+                                                              CupertinoIcons
+                                                                  .heart_fill,
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 14,
+                                                            )),
+                                                      ),
                                                     ),
-                                                  ),
-                                                )
-                                              ],
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          flex: 2,
-                                          child: Container(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 7, bottom: 7),
-                                                  child: Row(
-                                                    children: [
-                                                      for (int i = 0;
-                                                          i < 5;
-                                                          i++)
-                                                        const Icon(
-                                                          Icons.star,
-                                                          size: 14,
-                                                          color: Colors.yellow,
-                                                        ),
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 2,
-                                                                bottom: 0),
-                                                        child: Text("(10)",
-                                                            style: Text_Style
-                                                                .text_Theme(
-                                                                    Constants
-                                                                        .grey_text,
-                                                                    10,
-                                                                    FontWeight
-                                                                        .normal,
-                                                                    context)),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                                Text(
-                                                  list[index][Constants.dBrand]
-                                                      .toString(),
-                                                  style: Text_Style.text_Theme(
-                                                      Constants.grey_text,
-                                                      11,
-                                                      FontWeight.normal,
-                                                      context),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 5, bottom: 3),
-                                                  child: Text(
-                                                      list[index]
-                                                              [Constants.dPname]
-                                                          .toString(),
-                                                      style:
-                                                          Text_Style.text_Theme(
-                                                              Constants
-                                                                  .black_text,
-                                                              16,
-                                                              FontWeight.bold,
-                                                              context)),
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          right: 4),
-                                                      child: Text(
-                                                          list[index][Constants
-                                                                      .ddPrice]
-                                                                  .toString() +
-                                                              "\$",
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .lineThrough,
-                                                              color: Color(
-                                                                  Constants
-                                                                      .grey_text),
-                                                              fontSize: 14,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold)),
+                                          Expanded(
+                                            flex: 2,
+                                            child: Container(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 7, bottom: 7),
+                                                    child: Row(
+                                                      children: [
+                                                        for (int i = 0;
+                                                            i < 5;
+                                                            i++)
+                                                          const Icon(
+                                                            Icons.star,
+                                                            size: 14,
+                                                            color:
+                                                                Colors.yellow,
+                                                          ),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 2,
+                                                                  bottom: 0),
+                                                          child: Text("(10)",
+                                                              style: Text_Style
+                                                                  .text_Theme(
+                                                                      Constants
+                                                                          .grey_text,
+                                                                      10,
+                                                                      FontWeight
+                                                                          .normal,
+                                                                      context)),
+                                                        )
+                                                      ],
                                                     ),
-                                                    Text(
+                                                  ),
+                                                  Text(
+                                                    list[index]
+                                                            [Constants.dBrand]
+                                                        .toString(),
+                                                    style:
+                                                        Text_Style.text_Theme(
+                                                            Constants.grey_text,
+                                                            11,
+                                                            FontWeight.normal,
+                                                            context),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 5, bottom: 3),
+                                                    child: Text(
                                                         list[index][Constants
-                                                                    .dSPrice]
-                                                                .toString() +
-                                                            "\$",
+                                                                .dPname]
+                                                            .toString(),
                                                         style: Text_Style
                                                             .text_Theme(
                                                                 Constants
-                                                                    .red_text,
-                                                                14,
+                                                                    .black_text,
+                                                                16,
                                                                 FontWeight.bold,
                                                                 context)),
-                                                  ],
-                                                ),
-                                              ],
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                right: 4),
+                                                        child: Text(
+                                                            list[index][Constants
+                                                                        .ddPrice]
+                                                                    .toString() +
+                                                                "\$",
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .lineThrough,
+                                                                color: Color(
+                                                                    Constants
+                                                                        .grey_text),
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                      ),
+                                                      Text(
+                                                          list[index][Constants
+                                                                      .dSPrice]
+                                                                  .toString() +
+                                                              "\$",
+                                                          style: Text_Style
+                                                              .text_Theme(
+                                                                  Constants
+                                                                      .red_text,
+                                                                  14,
+                                                                  FontWeight
+                                                                      .bold,
+                                                                  context)),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            }),
+                                );
+                              }),
+                        ),
                       )
                     ],
                   ),
