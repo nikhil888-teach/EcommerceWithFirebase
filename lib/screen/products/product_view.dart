@@ -1,4 +1,4 @@
-import 'package:ecommerce/screen/home/main_page.dart';
+import 'package:ecommerce/rating/rating_view.dart';
 import 'package:ecommerce/theme/themeprovider.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
@@ -597,20 +597,45 @@ class _MyProductPageState extends State<MyProductPage> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 16, top: 8),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          for (int i = 0; i < 5; i++)
-                            Icon(
-                              Icons.star,
-                              size: 14,
-                              color: Colors.yellow[800],
-                            ),
-                          Text(
-                            "(10)",
-                            style: const TextStyle(
-                                color: Color(0xff9B9B9B),
-                                fontSize: 10,
-                                fontWeight: FontWeight.normal),
-                          )
+                          Row(
+                            children: [
+                              for (int i = 0; i < 5; i++)
+                                Icon(
+                                  Icons.star,
+                                  size: 14,
+                                  color: Colors.yellow[800],
+                                ),
+                              Text(
+                                "(10)",
+                                style: const TextStyle(
+                                    color: Color(0xff9B9B9B),
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.normal),
+                              )
+                            ],
+                          ),
+                          OutlinedButton(
+                              style: ButtonStyle(
+                                  overlayColor:
+                                      MaterialStatePropertyAll(Colors.red[100]),
+                                  side: MaterialStatePropertyAll(
+                                      BorderSide(color: Colors.red)),
+                                  foregroundColor:
+                                      MaterialStatePropertyAll(Colors.red)),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          MyRatingPage(id: widget.id),
+                                    ));
+                              },
+                              child: Text(
+                                "View Review",
+                                style: TextStyle(),
+                              ))
                         ],
                       ),
                     ),

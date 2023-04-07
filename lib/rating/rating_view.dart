@@ -1,11 +1,13 @@
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
-import 'package:ecommerce/widgets/textformfield_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class MyRatingPage extends StatefulWidget {
-  const MyRatingPage({super.key});
+  const MyRatingPage({super.key, required this.id});
+  final String id;
 
   @override
   State<MyRatingPage> createState() => _MyRatingPageState();
@@ -13,6 +15,8 @@ class MyRatingPage extends StatefulWidget {
 
 class _MyRatingPageState extends State<MyRatingPage> {
   TextEditingController reviewControl = TextEditingController();
+  int? selectedRate;
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,94 +125,167 @@ class _MyRatingPageState extends State<MyRatingPage> {
                     topRight: Radius.circular(34))),
             context: context,
             builder: (context) {
-              return Padding(
-                padding: EdgeInsets.only(
-                    top: 15,
-                    left: 15,
-                    right: 15,
-                    bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: Container(
-                  decoration: BoxDecoration(),
-                  height: MediaQuery.of(context).size.height / 2,
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: Container(
-                          width: 60,
-                          height: 6,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3),
-                            color: Colors.grey,
+              return StatefulBuilder(
+                builder: (context, setState) => Padding(
+                  padding: EdgeInsets.only(
+                      top: 15,
+                      left: 15,
+                      right: 15,
+                      bottom: MediaQuery.of(context).viewInsets.bottom),
+                  child: Container(
+                    decoration: BoxDecoration(),
+                    height: MediaQuery.of(context).size.height / 2,
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          child: Container(
+                            width: 60,
+                            height: 6,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(3),
+                              color: Colors.grey,
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 2),
-                        child: Column(
-                          children: [
-                            Text(
-                              "What is you rate?",
-                              style: Text_Style.text_Theme(Constants.black_text,
-                                  18, FontWeight.bold, context),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 20),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  for (int i = 0; i < 5; i++)
-                                    Icon(
-                                      Icons.star,
-                                      size: 35,
-                                      color: Colors.yellow[800],
-                                    ),
-                                ],
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 2),
+                          child: Column(
+                            children: [
+                              Text(
+                                "What is you rate?",
+                                style: Text_Style.text_Theme(
+                                    Constants.black_text,
+                                    18,
+                                    FontWeight.bold,
+                                    context),
                               ),
-                            ),
-                            Text(
-                              "Please share your opinion",
-                              style: Text_Style.text_Theme(Constants.black_text,
-                                  16, FontWeight.bold, context),
-                            ),
-                            Text("about the product",
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 20),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      height: 35,
+                                      child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: 5,
+                                        shrinkWrap: true,
+                                        itemBuilder: (context, index) {
+                                          return IconButton(
+                                              padding: EdgeInsets.zero,
+                                              onPressed: () {
+                                                if (!mounted) return;
+                                                setState(() {
+                                                  selectedRate = index;
+                                                });
+                                              },
+                                              icon: Icon(Icons.star,
+                                                  size: 35,
+                                                  color: selectedRate == null
+                                                      ? Colors.grey
+                                                      : selectedRate! >= index
+                                                          ? Colors.yellow[800]
+                                                          : Colors.grey));
+                                        },
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Text(
+                                "Please share your opinion",
                                 style: Text_Style.text_Theme(
                                     Constants.black_text,
                                     16,
                                     FontWeight.bold,
-                                    context)),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 15),
-                              child: Card(
-                                color: Colors.white,
-                                elevation: 2,
-                                child: TextFormField(
-                                  controller: reviewControl,
-                                  autocorrect: true,
-                                  enableSuggestions: true,
-                                  enabled: true,
-                                  enableInteractiveSelection: true,
-                                  cursorColor: Colors.grey,
-                                  maxLines: null,
-                                  minLines: 5,
-                                  decoration: InputDecoration(
-                                      hintText: "Your review",
-                                      border: OutlineInputBorder(
-                                          borderSide: BorderSide.none)),
+                                    context),
+                              ),
+                              Text("about the product",
+                                  style: Text_Style.text_Theme(
+                                      Constants.black_text,
+                                      16,
+                                      FontWeight.bold,
+                                      context)),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 15),
+                                child: Card(
+                                  color: Colors.white,
+                                  elevation: 2,
+                                  child: TextFormField(
+                                    controller: reviewControl,
+                                    autocorrect: true,
+                                    enableSuggestions: true,
+                                    enabled: true,
+                                    enableInteractiveSelection: true,
+                                    cursorColor: Colors.grey,
+                                    maxLines: null,
+                                    minLines: 5,
+                                    decoration: InputDecoration(
+                                        hintText: "Your review",
+                                        border: OutlineInputBorder(
+                                            borderSide: BorderSide.none)),
+                                  ),
                                 ),
                               ),
-                            ),
-                            Button_Style.button_Theme("SEND REVIEW")
-                          ],
+                              InkWell(
+                                  onTap: () async {
+                                    if (!mounted) return;
+                                    setState(() {
+                                      loading = true;
+                                    });
+                                    DatabaseReference databaseReference =
+                                        FirebaseDatabase.instance
+                                            .ref(Constants.dProducts)
+                                            .child(widget.id)
+                                            .child(Constants.dRating)
+                                            .push();
+                                    DatabaseReference reference =
+                                        FirebaseDatabase.instance
+                                            .ref(Constants.dUser)
+                                            .child(FirebaseAuth
+                                                .instance.currentUser!.uid);
+                                    reference.once().then((value) {
+                                      databaseReference.update({
+                                        Constants.dUserRate: selectedRate,
+                                        Constants.dComment: reviewControl.text,
+                                        Constants.duname: value.snapshot
+                                            .child(Constants.duname)
+                                            .value,
+                                        Constants.dProimage: value.snapshot
+                                            .child(Constants.dProimage)
+                                            .value
+                                      }).then((value) {
+                                        if (!mounted) return;
+                                        setState(() {
+                                          loading = false;
+                                        });
+                                      });
+                                    });
+                                  },
+                                  child: loading
+                                      ? Center(
+                                          child: CircularProgressIndicator(
+                                            color: Colors.red,
+                                          ),
+                                        )
+                                      : Button_Style.button_Theme(
+                                          "SEND REVIEW"))
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               );
             },
-          );
+          ).whenComplete(() {
+            selectedRate = null;
+          });
         },
         backgroundColor: Colors.red,
         label: Text(

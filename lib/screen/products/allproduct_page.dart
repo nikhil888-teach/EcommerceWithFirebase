@@ -42,8 +42,9 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
           //   ),
           // ],
           bottom: AppBar(
-            leading: Icon(null),
+            automaticallyImplyLeading: false,
             leadingWidth: 0,
+            elevation: 0,
             title: Container(
               width: double.infinity,
               height: 40,
@@ -72,9 +73,13 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
                     FirebaseDatabase.instance.ref(Constants.dProducts).onValue,
                 builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
                   if (!snapshot.hasData) {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: Colors.red,
+                    return Container(
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.red,
+                        ),
                       ),
                     );
                   } else if (snapshot.hasError) {
@@ -123,14 +128,15 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: Padding(
-        padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
+        padding: const EdgeInsets.only(top: 0, left: 15, right: 15),
         child: GridView.builder(
             itemCount: list.length,
+            padding: EdgeInsets.zero,
             gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 200,
+              maxCrossAxisExtent: 180,
               crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              childAspectRatio: 0.540,
+              mainAxisSpacing: 0,
+              childAspectRatio: 0.550,
             ),
             shrinkWrap: true,
             scrollDirection: Axis.vertical,

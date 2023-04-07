@@ -41,7 +41,7 @@ class _MyAppState extends State<MyApp> {
           title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
           theme: Style.themeData(value.darkTheme, context),
-          home: const MyRatingPage(),
+          home: const MySplashPage(),
         ),
       ),
     );

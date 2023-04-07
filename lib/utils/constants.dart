@@ -197,6 +197,11 @@ class Constants {
   static const dokey = "OrderKey";
   static const dTotalProduct = "TotalProducts";
 
+  //Rating
+  static const dRating = "Rating";
+  static const dUserRate = "UserRate";
+  static const dComment = "Comment";
+
   //COLOR
   static const red_text = 0xffDB3022;
   static const white_text = 0xffFFFFFF;
