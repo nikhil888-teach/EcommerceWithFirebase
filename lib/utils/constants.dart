@@ -199,8 +199,10 @@ class Constants {
 
   //Rating
   static const dRating = "Rating";
-  static const dUserRate = "UserRate";
+  static const dUserRate = "Rate";
   static const dComment = "Comment";
+  static const dRatingId = "RatingID";
+  static const dTotalRating = "TotalRating";
 
   //COLOR
   static const red_text = 0xffDB3022;

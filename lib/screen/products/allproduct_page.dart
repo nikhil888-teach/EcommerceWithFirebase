@@ -142,10 +142,17 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
             scrollDirection: Axis.vertical,
             physics: BouncingScrollPhysics(),
             itemBuilder: (context, index) {
+              int? totalRate;
+              if (list[index][Constants.dTotalRating] != null) {
+                totalRate = list[index][Constants.dTotalRating] + 1;
+              }
               return InkWell(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => MyProductPage(
+                      rate: list[index][Constants.dTotalRating] == null
+                          ? null
+                          : totalRate,
                       category: widget.category,
                       subCategory: widget.subCategory,
                       color: list[index][Constants.dColor],
@@ -202,6 +209,7 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
                                         context, "Already Added");
                                   } else {
                                     addToFaviratePage(
+                                      rate: totalRate,
                                       category: widget.category,
                                       subCategory: widget.subCategory,
                                       color: list[index][Constants.dColor],
@@ -216,6 +224,7 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
                                   }
                                 } else {
                                   addToFaviratePage(
+                                    rate: totalRate,
                                     category: widget.category,
                                     subCategory: widget.subCategory,
                                     color: list[index][Constants.dColor],
@@ -253,28 +262,32 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(top: 7),
-                            child: Row(
-                              children: [
-                                for (int i = 0; i < 5; i++)
-                                  Icon(
-                                    Icons.star,
-                                    size: 14,
-                                    color: Colors.yellow[800],
+                            child: list[index][Constants.dTotalRating] == null
+                                ? SizedBox()
+                                : Row(
+                                    children: [
+                                      for (int i = 0; i < 5; i++)
+                                        Icon(
+                                          Icons.star,
+                                          size: 14,
+                                          color: totalRate! > i
+                                              ? Colors.yellow[800]
+                                              : Colors.grey,
+                                        ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 2, bottom: 0),
+                                        child: Text(
+                                          "(${totalRate})",
+                                          style: Text_Style.text_Theme(
+                                              Constants.grey_text,
+                                              13,
+                                              FontWeight.normal,
+                                              context),
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 2, bottom: 0),
-                                  child: Text(
-                                    "(10)",
-                                    style: Text_Style.text_Theme(
-                                        Constants.grey_text,
-                                        13,
-                                        FontWeight.normal,
-                                        context),
-                                  ),
-                                )
-                              ],
-                            ),
                           ),
                           Text(
                             list[index][Constants.dBrand],
@@ -382,7 +395,8 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
       required brand,
       required decription,
       required name,
-      required price}) {
+      required price,
+      int? rate}) {
     DatabaseReference databaseReference = FirebaseDatabase.instance
         .ref(Constants.dUser)
         .child(FirebaseAuth.instance.currentUser!.uid)
@@ -397,6 +411,7 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
       Constants.dPid: id,
       Constants.dBrand: brand,
       Constants.dDesc: decription,
+      Constants.dTotalRating: rate,
       Constants.dPname: name,
       Constants.dSPrice: price,
       Constants.dimages: images,

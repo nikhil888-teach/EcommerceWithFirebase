@@ -22,7 +22,8 @@ class MyProductPage extends StatefulWidget {
       required this.subCategory,
       required this.color,
       required this.size,
-      required this.id})
+      required this.id,
+      required this.rate})
       : super(key: key);
   final String category;
   final String subCategory;
@@ -34,6 +35,7 @@ class MyProductPage extends StatefulWidget {
   final bool color;
   final bool size;
   final String id;
+  final int? rate;
 
   @override
   State<MyProductPage> createState() => _MyProductPageState();
@@ -60,56 +62,11 @@ class _MyProductPageState extends State<MyProductPage> {
   bool loading = false;
   @override
   void initState() {
-    selectedId = widget.id;
     selectedsize = "Size";
     // _pageController = PageController(initialPage: 0);
     selectedcolor = "Color";
     userId = FirebaseAuth.instance.currentUser!.uid;
     super.initState();
-  }
-
-  Future<bool> isFavorite() async {
-    DatabaseReference reference = FirebaseDatabase.instance
-        .ref(Constants.dUser)
-        .child(FirebaseAuth.instance.currentUser!.uid);
-    bool isChild = false;
-
-    await reference.once().then((value) {
-      if (value.snapshot.hasChild(Constants.dFavorite)) {
-        if (!mounted) return;
-        setState(() {
-          isChild = true;
-        });
-      } else {
-        if (!mounted) return;
-        setState(() {
-          isChild = false;
-        });
-      }
-    });
-    print(isChild);
-    return isChild;
-  }
-
-  Future<bool> checkAlreadyAddOrNot() async {
-    DatabaseReference databaseReference = FirebaseDatabase.instance
-        .ref(Constants.dUser)
-        .child(FirebaseAuth.instance.currentUser!.uid)
-        .child(Constants.dFavorite);
-
-    bool isExis = false;
-    await databaseReference.orderByKey().once().then((value) {
-      value.snapshot.children.forEach((element) {
-        if (element.child(Constants.dPid).value == selectedId) {
-          if (!mounted) return;
-          setState(() {
-            isExis = true;
-          });
-        }
-      });
-    });
-
-    return isExis;
   }
 
   @override
@@ -521,12 +478,14 @@ class _MyProductPageState extends State<MyProductPage> {
                             : Container(),
                         GestureDetector(
                           onTap: () async {
+                            selectedId = await widget.id;
                             if (await isFavorite()) {
                               if (await checkAlreadyAddOrNot()) {
                                 Scaffold_msg.toastMessage(
                                     context, "Already Added");
                               } else {
                                 addToFaviratePage(
+                                  rate: widget.rate,
                                   category: widget.category,
                                   subCategory: widget.subCategory,
                                   color: widget.color,
@@ -541,6 +500,7 @@ class _MyProductPageState extends State<MyProductPage> {
                               }
                             } else {
                               addToFaviratePage(
+                                rate: widget.rate,
                                 category: widget.category,
                                 subCategory: widget.subCategory,
                                 color: widget.color,
@@ -599,23 +559,34 @@ class _MyProductPageState extends State<MyProductPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            children: [
-                              for (int i = 0; i < 5; i++)
-                                Icon(
-                                  Icons.star,
-                                  size: 14,
-                                  color: Colors.yellow[800],
+                          widget.rate == null
+                              ? Text(
+                                  "No review",
+                                  style: Text_Style.text_Theme(
+                                      Constants.black_text,
+                                      14,
+                                      FontWeight.normal,
+                                      context),
+                                )
+                              : Row(
+                                  children: [
+                                    for (int i = 0; i < 5; i++)
+                                      Icon(
+                                        Icons.star,
+                                        size: 14,
+                                        color: widget.rate! > i
+                                            ? Colors.yellow[800]
+                                            : Colors.grey,
+                                      ),
+                                    Text(
+                                      "(" + widget.rate.toString() + ")",
+                                      style: const TextStyle(
+                                          color: Color(0xff9B9B9B),
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.normal),
+                                    )
+                                  ],
                                 ),
-                              Text(
-                                "(10)",
-                                style: const TextStyle(
-                                    color: Color(0xff9B9B9B),
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.normal),
-                              )
-                            ],
-                          ),
                           OutlinedButton(
                               style: ButtonStyle(
                                   overlayColor:
@@ -675,265 +646,341 @@ class _MyProductPageState extends State<MyProductPage> {
                                 }
                               }
                               return ListView.builder(
-                                physics: const BouncingScrollPhysics(),
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: list.length,
-                                itemBuilder: (context, index) => Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 22, right: 20),
-                                  child: InkWell(
-                                    onTap: () {
-                                      Navigator.of(context)
-                                          .push(MaterialPageRoute(
-                                        builder: (context) => MyProductPage(
-                                          category: widget.category,
-                                          subCategory: widget.subCategory,
-                                          color: list[index][Constants.dColor],
-                                          size: list[index][Constants.dSize],
-                                          id: list[index][Constants.dId],
-                                          images: list[index]
-                                              [Constants.dimages],
-                                          brand: list[index][Constants.dBrand],
-                                          decription: list[index]
-                                              [Constants.dDesc],
-                                          name: list[index][Constants.dPname],
-                                          price: list[index][Constants.dSPrice],
-                                        ),
-                                      ));
-                                    },
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            child: Stack(
-                                              children: [
-                                                Container(
-                                                  height: 200,
-                                                  width: 150,
-                                                  child: Ink(
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                              boxShadow: [
-                                                            BoxShadow(
-                                                                color: Colors
-                                                                    .black12,
-                                                                offset: Offset(
-                                                                    0, 0),
-                                                                blurRadius: 5),
-                                                          ]),
-                                                      child: Image.network(
-                                                        list[index][Constants
-                                                            .dimages][0],
-                                                        fit: BoxFit.fill,
-                                                        color: Colors
-                                                            .grey.shade300,
-                                                        colorBlendMode:
-                                                            BlendMode.multiply,
-                                                        scale: 4,
-                                                      )),
-                                                ),
-                                                Positioned(
-                                                  left: 8,
-                                                  top: 8,
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                        color: Colors.black,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(29)),
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsets.all(6.0),
-                                                      child: Text(Constants.NEW,
-                                                          style: Text_Style
-                                                              .text_Theme(
-                                                                  Constants
-                                                                      .white_text,
-                                                                  11,
-                                                                  FontWeight
-                                                                      .bold,
-                                                                  context)),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Positioned(
-                                                  bottom: 5,
-                                                  right: 5,
-                                                  child: InkWell(
-                                                    onTap: () async {
-                                                      if (await isFavorite()) {
-                                                        if (await checkAlreadyAddOrNot()) {
-                                                          Scaffold_msg
-                                                              .toastMessage(
-                                                                  context,
-                                                                  "Already Added");
-                                                        } else {
-                                                          addToFaviratePage(
-                                                            category:
-                                                                widget.category,
-                                                            subCategory: widget
-                                                                .subCategory,
-                                                            color: widget.color,
-                                                            size: widget.size,
-                                                            id: widget.id,
-                                                            images:
-                                                                widget.images,
-                                                            brand: widget.brand,
-                                                            decription: widget
-                                                                .decription,
-                                                            name: widget.name,
-                                                            price: widget.price,
-                                                          );
-                                                        }
-                                                      } else {
-                                                        addToFaviratePage(
-                                                          category:
-                                                              widget.category,
-                                                          subCategory: widget
-                                                              .subCategory,
-                                                          color: widget.color,
-                                                          size: widget.size,
-                                                          id: widget.id,
-                                                          images: widget.images,
-                                                          brand: widget.brand,
-                                                          decription:
-                                                              widget.decription,
-                                                          name: widget.name,
-                                                          price: widget.price,
-                                                        );
-                                                      }
-                                                    },
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                          color: Colors.white,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      29)),
-                                                      child: const Padding(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  10.0),
-                                                          child: Icon(
-                                                            CupertinoIcons
-                                                                .heart,
-                                                            color: Colors.grey,
-                                                            size: 14,
+                                  physics: const BouncingScrollPhysics(),
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: list.length,
+                                  itemBuilder: (context, index) {
+                                    int? perUserRate;
+                                    if (list[index][Constants.dTotalRating] !=
+                                        null) {
+                                      perUserRate = list[index]
+                                              [Constants.dTotalRating] +
+                                          1;
+                                    }
+
+                                    return Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 22, right: 20),
+                                      child: InkWell(
+                                        onTap: () {
+                                          Navigator.of(context)
+                                              .push(MaterialPageRoute(
+                                            builder: (context) => MyProductPage(
+                                              rate: list[index][Constants
+                                                          .dTotalRating] ==
+                                                      null
+                                                  ? null
+                                                  : list[index]
+                                                      [Constants.dTotalRating],
+                                              category: widget.category,
+                                              subCategory: widget.subCategory,
+                                              color: list[index]
+                                                  [Constants.dColor],
+                                              size: list[index]
+                                                  [Constants.dSize],
+                                              id: list[index][Constants.dId],
+                                              images: list[index]
+                                                  [Constants.dimages],
+                                              brand: list[index]
+                                                  [Constants.dBrand],
+                                              decription: list[index]
+                                                  [Constants.dDesc],
+                                              name: list[index]
+                                                  [Constants.dPname],
+                                              price: list[index]
+                                                  [Constants.dSPrice],
+                                            ),
+                                          ));
+                                        },
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                child: Stack(
+                                                  children: [
+                                                    Container(
+                                                      height: 200,
+                                                      width: 150,
+                                                      child: Ink(
+                                                          decoration:
+                                                              const BoxDecoration(
+                                                                  boxShadow: [
+                                                                BoxShadow(
+                                                                    color: Colors
+                                                                        .black12,
+                                                                    offset:
+                                                                        Offset(
+                                                                            0,
+                                                                            0),
+                                                                    blurRadius:
+                                                                        5),
+                                                              ]),
+                                                          child: Image.network(
+                                                            list[index][Constants
+                                                                .dimages][0],
+                                                            fit: BoxFit.fill,
+                                                            color: Colors
+                                                                .grey.shade300,
+                                                            colorBlendMode:
+                                                                BlendMode
+                                                                    .multiply,
+                                                            scale: 4,
                                                           )),
                                                     ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 1,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 7),
-                                                child: Row(
-                                                  children: [
-                                                    for (int i = 0; i < 5; i++)
-                                                      Icon(
-                                                        Icons.star,
-                                                        size: 14,
-                                                        color:
-                                                            Colors.yellow[800],
+                                                    Positioned(
+                                                      left: 8,
+                                                      top: 8,
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                            color: Colors.black,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        29)),
+                                                        child: Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  6.0),
+                                                          child: Text(
+                                                              Constants.NEW,
+                                                              style: Text_Style
+                                                                  .text_Theme(
+                                                                      Constants
+                                                                          .white_text,
+                                                                      11,
+                                                                      FontWeight
+                                                                          .bold,
+                                                                      context)),
+                                                        ),
                                                       ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 2,
-                                                              bottom: 0),
-                                                      child: Text(
-                                                        "(10)",
-                                                        style: Text_Style
-                                                            .text_Theme(
-                                                                Constants
-                                                                    .grey_text,
-                                                                10,
-                                                                FontWeight
-                                                                    .normal,
-                                                                context),
+                                                    ),
+                                                    Positioned(
+                                                      bottom: 5,
+                                                      right: 5,
+                                                      child: InkWell(
+                                                        onTap: () async {
+                                                          selectedId =
+                                                              await list[index][
+                                                                  Constants
+                                                                      .dId];
+
+                                                          if (await isFavorite()) {
+                                                            if (await checkAlreadyAddOrNot()) {
+                                                              Scaffold_msg
+                                                                  .toastMessage(
+                                                                      context,
+                                                                      "Already Added");
+                                                            } else {
+                                                              addToFaviratePage(
+                                                                rate:
+                                                                    perUserRate,
+                                                                category: widget
+                                                                    .category,
+                                                                subCategory: widget
+                                                                    .subCategory,
+                                                                color: widget
+                                                                    .color,
+                                                                size:
+                                                                    widget.size,
+                                                                id: list[index][
+                                                                    Constants
+                                                                        .dId],
+                                                                images: widget
+                                                                    .images,
+                                                                brand: widget
+                                                                    .brand,
+                                                                decription: widget
+                                                                    .decription,
+                                                                name:
+                                                                    widget.name,
+                                                                price: widget
+                                                                    .price,
+                                                              );
+                                                            }
+                                                          } else {
+                                                            addToFaviratePage(
+                                                              rate: perUserRate,
+                                                              category: widget
+                                                                  .category,
+                                                              subCategory: widget
+                                                                  .subCategory,
+                                                              color:
+                                                                  widget.color,
+                                                              size: widget.size,
+                                                              id: list[index][
+                                                                  Constants
+                                                                      .dId],
+                                                              images:
+                                                                  widget.images,
+                                                              brand:
+                                                                  widget.brand,
+                                                              decription: widget
+                                                                  .decription,
+                                                              name: widget.name,
+                                                              price:
+                                                                  widget.price,
+                                                            );
+                                                          }
+                                                        },
+                                                        child: Container(
+                                                          decoration: BoxDecoration(
+                                                              color:
+                                                                  Colors.white,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          29)),
+                                                          child: const Padding(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(
+                                                                          10.0),
+                                                              child: Icon(
+                                                                CupertinoIcons
+                                                                    .heart,
+                                                                color:
+                                                                    Colors.grey,
+                                                                size: 14,
+                                                              )),
+                                                        ),
                                                       ),
                                                     )
                                                   ],
                                                 ),
                                               ),
-                                              Text(
-                                                list[index][Constants.dBrand],
-                                                style: const TextStyle(
-                                                    color: Color(0xff9B9B9B),
-                                                    fontSize: 11,
-                                                    fontWeight:
-                                                        FontWeight.normal),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 5, bottom: 3),
-                                                child: Text(
-                                                  list[index][Constants.dPname],
-                                                  style: Text_Style.text_Theme(
-                                                      Constants.black_text,
-                                                      16,
-                                                      FontWeight.bold,
-                                                      context),
-                                                ),
-                                              ),
-                                              Row(
+                                            ),
+                                            Expanded(
+                                              flex: 1,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Padding(
                                                     padding:
                                                         const EdgeInsets.only(
-                                                            right: 4),
-                                                    child: Text(
-                                                      list[index][Constants
-                                                                  .ddPrice]
-                                                              .toString() +
-                                                          "\$",
-                                                      style: TextStyle(
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .lineThrough,
-                                                          color: Color(Constants
-                                                              .grey_text),
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
+                                                            top: 7),
+                                                    child: list[index][Constants
+                                                                .dTotalRating] ==
+                                                            null
+                                                        ? SizedBox()
+                                                        : Row(
+                                                            children: [
+                                                              for (int i = 0;
+                                                                  i < 5;
+                                                                  i++)
+                                                                Icon(
+                                                                  Icons.star,
+                                                                  size: 14,
+                                                                  color: list[index][Constants
+                                                                              .dTotalRating] >=
+                                                                          i
+                                                                      ? Colors.yellow[
+                                                                          800]
+                                                                      : Colors
+                                                                          .grey,
+                                                                ),
+                                                              Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        left: 2,
+                                                                        bottom:
+                                                                            0),
+                                                                child: Text(
+                                                                  "(" +
+                                                                      perUserRate
+                                                                          .toString() +
+                                                                      ")",
+                                                                  style: Text_Style.text_Theme(
+                                                                      Constants
+                                                                          .grey_text,
+                                                                      10,
+                                                                      FontWeight
+                                                                          .normal,
+                                                                      context),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
                                                   ),
                                                   Text(
-                                                      list[index][Constants
-                                                                  .dSPrice]
-                                                              .toString() +
-                                                          "\$",
+                                                    list[index]
+                                                        [Constants.dBrand],
+                                                    style: const TextStyle(
+                                                        color:
+                                                            Color(0xff9B9B9B),
+                                                        fontSize: 11,
+                                                        fontWeight:
+                                                            FontWeight.normal),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 5, bottom: 3),
+                                                    child: Text(
+                                                      list[index]
+                                                          [Constants.dPname],
                                                       style:
                                                           Text_Style.text_Theme(
                                                               Constants
-                                                                  .red_text,
-                                                              14,
+                                                                  .black_text,
+                                                              16,
                                                               FontWeight.bold,
-                                                              context)),
+                                                              context),
+                                                    ),
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(right: 4),
+                                                        child: Text(
+                                                          list[index][Constants
+                                                                      .ddPrice]
+                                                                  .toString() +
+                                                              "\$",
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .lineThrough,
+                                                              color: Color(
+                                                                  Constants
+                                                                      .grey_text),
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                          list[index][Constants
+                                                                      .dSPrice]
+                                                                  .toString() +
+                                                              "\$",
+                                                          style: Text_Style
+                                                              .text_Theme(
+                                                                  Constants
+                                                                      .red_text,
+                                                                  14,
+                                                                  FontWeight
+                                                                      .bold,
+                                                                  context)),
+                                                    ],
+                                                  ),
                                                 ],
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
+                                      ),
+                                    );
+                                  });
                             }))
                   ],
                 ),
@@ -1063,6 +1110,51 @@ class _MyProductPageState extends State<MyProductPage> {
     });
   }
 
+  Future<bool> isFavorite() async {
+    DatabaseReference reference = FirebaseDatabase.instance
+        .ref(Constants.dUser)
+        .child(FirebaseAuth.instance.currentUser!.uid);
+    bool isChild = false;
+
+    await reference.once().then((value) {
+      if (value.snapshot.hasChild(Constants.dFavorite)) {
+        if (!mounted) return;
+        setState(() {
+          isChild = true;
+        });
+      } else {
+        if (!mounted) return;
+        setState(() {
+          isChild = false;
+        });
+      }
+    });
+    print(isChild);
+    return isChild;
+  }
+
+  Future<bool> checkAlreadyAddOrNot() async {
+    DatabaseReference databaseReference = FirebaseDatabase.instance
+        .ref(Constants.dUser)
+        .child(FirebaseAuth.instance.currentUser!.uid)
+        .child(Constants.dFavorite);
+
+    bool isExis = false;
+    await databaseReference.orderByKey().once().then((value) {
+      print(selectedId);
+      value.snapshot.children.forEach((element) {
+        if (element.child(Constants.dPid).value == selectedId) {
+          if (!mounted) return;
+          setState(() {
+            isExis = true;
+          });
+        }
+      });
+    });
+
+    return isExis;
+  }
+
   void addToFaviratePage(
       {required String category,
       required String subCategory,
@@ -1073,7 +1165,8 @@ class _MyProductPageState extends State<MyProductPage> {
       required brand,
       required decription,
       required name,
-      required price}) {
+      required price,
+      int? rate}) {
     DatabaseReference databaseReference = FirebaseDatabase.instance
         .ref(Constants.dUser)
         .child(FirebaseAuth.instance.currentUser!.uid)
@@ -1088,6 +1181,7 @@ class _MyProductPageState extends State<MyProductPage> {
       Constants.dPid: id,
       Constants.dBrand: brand,
       Constants.dDesc: decription,
+      Constants.dTotalRating: rate,
       Constants.dPname: name,
       Constants.dSPrice: price,
       Constants.dimages: images,
@@ -1098,7 +1192,7 @@ class _MyProductPageState extends State<MyProductPage> {
       setState(() {
         isFv = false;
       });
-      Scaffold_msg.toastMessage(context, "Added to Favourite");
+      Scaffold_msg.toastMessage(context, "Added to Favorite");
     });
   }
 }

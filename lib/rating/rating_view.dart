@@ -1,5 +1,6 @@
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
+import 'package:ecommerce/widgets/scafoldmsg_theme.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -17,6 +18,17 @@ class _MyRatingPageState extends State<MyRatingPage> {
   TextEditingController reviewControl = TextEditingController();
   int? selectedRate;
   bool loading = false;
+  bool alreadyAddorNot = false;
+  String? comment;
+  int? rate;
+  String? ratingId;
+  double? calculateRating;
+  @override
+  void initState() {
+    alreadyRatingOrNot();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,95 +40,145 @@ class _MyRatingPageState extends State<MyRatingPage> {
               Constants.black_text, 18, FontWeight.bold, context),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              flex: 1,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Text(
-                  "8 reviews",
-                  style: Text_Style.text_Theme(
-                      Constants.black_text, 22, FontWeight.bold, context),
+      body: StreamBuilder(
+          stream: FirebaseDatabase.instance
+              .ref(Constants.dProducts)
+              .child(widget.id)
+              .onValue,
+          builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(
+                  color: Colors.red,
                 ),
-              ),
-            ),
-            Expanded(
-              flex: 10,
-              child: ListView.builder(
-                itemCount: 20,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: Card(
-                        child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              CircleAvatar(
-                                backgroundImage: NetworkImage(
-                                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZLOqSTm8TatG1IB-m0E6Ce5GfeQSZ4U5yPQ&usqp=CAU"),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 5, bottom: 3),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      "Salman Khan",
+              );
+            } else if (!snapshot.data!.snapshot.hasChild(Constants.dRating)) {
+              return Center(
+                child: Text("No review"),
+              );
+            } else {
+              Map<dynamic, dynamic> data = snapshot.data!.snapshot
+                  .child(Constants.dRating)
+                  .value as dynamic;
+              List<dynamic> list = [];
+              list.clear();
+              for (var element in data.values) {
+                list.add(element);
+              }
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Text(
+                          list.length.toString() + " reviews",
+                          style: Text_Style.text_Theme(Constants.black_text, 22,
+                              FontWeight.bold, context),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 10,
+                      child: ListView.builder(
+                        itemCount: list.length,
+                        itemBuilder: (context, index) {
+                          int? perUserRate =
+                              list[index][Constants.dUserRate] + 1;
+
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: Card(
+                                child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      CircleAvatar(
+                                        backgroundImage: NetworkImage(
+                                            list[index][Constants.dProimage]
+                                                .toString()),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 5, bottom: 3),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              list[index][Constants.duname],
+                                              style: Text_Style.text_Theme(
+                                                  Constants.black_text,
+                                                  14,
+                                                  FontWeight.bold,
+                                                  context),
+                                            ),
+                                            Row(
+                                              children: [
+                                                for (int i = 0; i < 5; i++)
+                                                  Icon(
+                                                    Icons.star,
+                                                    size: 14,
+                                                    color: list[index][Constants
+                                                                .dUserRate] >=
+                                                            i
+                                                        ? Colors.yellow[800]
+                                                        : Colors.grey,
+                                                  ),
+                                                Text(
+                                                  "(${perUserRate.toString()})",
+                                                  style: const TextStyle(
+                                                      color: Color(0xff9B9B9B),
+                                                      fontSize: 10,
+                                                      fontWeight:
+                                                          FontWeight.normal),
+                                                )
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 10),
+                                    child: Text(
+                                      list[index][Constants.dComment],
                                       style: Text_Style.text_Theme(
-                                          Constants.black_text,
+                                          Constants.grey_text,
                                           14,
-                                          FontWeight.bold,
+                                          FontWeight.normal,
                                           context),
                                     ),
-                                    Row(
-                                      children: [
-                                        for (int i = 0; i < 5; i++)
-                                          Icon(
-                                            Icons.star,
-                                            size: 14,
-                                            color: Colors.yellow[800],
-                                          ),
-                                        Text(
-                                          "(10)",
-                                          style: const TextStyle(
-                                              color: Color(0xff9B9B9B),
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.normal),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Text(
-                              "I loved this dress so much as soon as I tried it on I knew I had to buy it in another color. I am 5'3 about 155lbs and I carry all my weight in my upper body. When I put it on I felt like it thinned me put and I got so many compliments.",
-                              style: Text_Style.text_Theme(Constants.grey_text,
-                                  14, FontWeight.normal, context),
-                            ),
-                          )
-                        ],
+                                  )
+                                ],
+                              ),
+                            )),
+                          );
+                        },
                       ),
-                    )),
-                  );
-                },
-              ),
-            )
-          ],
-        ),
-      ),
+                    )
+                  ],
+                ),
+              );
+            }
+          }),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
+          if (comment != null || rate != null) {
+            if (!mounted) return;
+            setState(() {
+              reviewControl.text = comment!;
+              selectedRate = rate;
+            });
+          }
+
           showModalBottomSheet(
             isScrollControlled: true,
             shape: RoundedRectangleBorder(
@@ -134,7 +196,7 @@ class _MyRatingPageState extends State<MyRatingPage> {
                       bottom: MediaQuery.of(context).viewInsets.bottom),
                   child: Container(
                     decoration: BoxDecoration(),
-                    height: MediaQuery.of(context).size.height / 2,
+                    height: MediaQuery.of(context).size.height / 1.5,
                     width: MediaQuery.of(context).size.width,
                     child: Column(
                       children: [
@@ -237,34 +299,12 @@ class _MyRatingPageState extends State<MyRatingPage> {
                                     setState(() {
                                       loading = true;
                                     });
-                                    DatabaseReference databaseReference =
-                                        FirebaseDatabase.instance
-                                            .ref(Constants.dProducts)
-                                            .child(widget.id)
-                                            .child(Constants.dRating)
-                                            .push();
-                                    DatabaseReference reference =
-                                        FirebaseDatabase.instance
-                                            .ref(Constants.dUser)
-                                            .child(FirebaseAuth
-                                                .instance.currentUser!.uid);
-                                    reference.once().then((value) {
-                                      databaseReference.update({
-                                        Constants.dUserRate: selectedRate,
-                                        Constants.dComment: reviewControl.text,
-                                        Constants.duname: value.snapshot
-                                            .child(Constants.duname)
-                                            .value,
-                                        Constants.dProimage: value.snapshot
-                                            .child(Constants.dProimage)
-                                            .value
-                                      }).then((value) {
-                                        if (!mounted) return;
-                                        setState(() {
-                                          loading = false;
-                                        });
-                                      });
-                                    });
+                                    alreadyRatingOrNot();
+                                    if (alreadyAddorNot) {
+                                      addRatingToProduct();
+                                    } else {
+                                      addRatingToProduct();
+                                    }
                                   },
                                   child: loading
                                       ? Center(
@@ -273,7 +313,9 @@ class _MyRatingPageState extends State<MyRatingPage> {
                                           ),
                                         )
                                       : Button_Style.button_Theme(
-                                          "SEND REVIEW"))
+                                          alreadyAddorNot
+                                              ? "UPDATE REVIEW"
+                                              : "SEND REVIEW"))
                             ],
                           ),
                         ),
@@ -285,16 +327,95 @@ class _MyRatingPageState extends State<MyRatingPage> {
             },
           ).whenComplete(() {
             selectedRate = null;
+            reviewControl.clear();
           });
         },
         backgroundColor: Colors.red,
         label: Text(
-          "Write a review",
+          alreadyAddorNot ? "Edit a review" : "Write a review",
           style: Text_Style.text_Theme(
               Constants.white_text, 14, FontWeight.bold, context),
         ),
         icon: Icon(Icons.edit),
       ),
     );
+  }
+
+  addRatingToProduct() {
+    DatabaseReference databaseReference = alreadyAddorNot
+        ? FirebaseDatabase.instance
+            .ref(Constants.dProducts)
+            .child(widget.id)
+            .child(Constants.dRating)
+            .child(ratingId!)
+        : FirebaseDatabase.instance
+            .ref(Constants.dProducts)
+            .child(widget.id)
+            .child(Constants.dRating)
+            .push();
+    DatabaseReference reference = FirebaseDatabase.instance
+        .ref(Constants.dUser)
+        .child(FirebaseAuth.instance.currentUser!.uid);
+    reference.once().then((value) {
+      databaseReference.update({
+        Constants.dRatingId: alreadyAddorNot ? ratingId : databaseReference.key,
+        Constants.dUserRate: selectedRate,
+        Constants.dComment: reviewControl.text,
+        Constants.duname: value.snapshot.child(Constants.duname).value,
+        Constants.dProimage: value.snapshot.child(Constants.dProimage).value,
+        Constants.dUserid: FirebaseAuth.instance.currentUser!.uid
+      }).then((value) async {
+        await calculateRatings();
+        DatabaseReference database =
+            FirebaseDatabase.instance.ref(Constants.dProducts).child(widget.id);
+        database.update({Constants.dTotalRating: calculateRating!.round()});
+
+        Navigator.pop(context);
+        if (!mounted) return;
+        setState(() {
+          loading = false;
+        });
+        alreadyRatingOrNot();
+      });
+    });
+  }
+
+  calculateRatings() async {
+    DatabaseReference databaseReference = FirebaseDatabase.instance
+        .ref(Constants.dProducts)
+        .child(widget.id)
+        .child(Constants.dRating);
+
+    await databaseReference.orderByKey().once().then((value) {
+      calculateRating = 0;
+      value.snapshot.children.forEach((element) {
+        calculateRating = calculateRating! +
+            int.parse(element.child(Constants.dUserRate).value.toString());
+      });
+      if (calculateRating != null) {
+        calculateRating = calculateRating! / value.snapshot.children.length;
+      }
+    });
+  }
+
+  alreadyRatingOrNot() async {
+    DatabaseReference databaseReference = FirebaseDatabase.instance
+        .ref(Constants.dProducts)
+        .child(widget.id)
+        .child(Constants.dRating);
+    await databaseReference.orderByKey().once().then((value) {
+      value.snapshot.children.forEach((element) {
+        if (element.child(Constants.dUserid).value.toString() ==
+            FirebaseAuth.instance.currentUser!.uid) {
+          if (!mounted) return;
+          setState(() {
+            alreadyAddorNot = true;
+          });
+          comment = element.child(Constants.dComment).value.toString();
+          rate = element.child(Constants.dUserRate).value as int?;
+          ratingId = element.child(Constants.dRatingId).value.toString();
+        }
+      });
+    });
   }
 }

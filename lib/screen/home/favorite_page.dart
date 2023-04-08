@@ -302,6 +302,10 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => MyProductPage(
+                                    rate: list[index][Constants.dTotalRating] ==
+                                            null
+                                        ? null
+                                        : list[index][Constants.dTotalRating],
                                     category: list[index][Constants.dcategory],
                                     subCategory: list[index]
                                         [Constants.dSubCategoryName],
@@ -391,31 +395,51 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 7),
-                                          child: Row(
-                                            children: [
-                                              for (int i = 0; i < 5; i++)
-                                                Icon(
-                                                  Icons.star,
-                                                  size: 14,
-                                                  color: Colors.yellow[800],
-                                                ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 2, bottom: 0),
-                                                child: Text(
-                                                  "(10)",
-                                                  style: Text_Style.text_Theme(
-                                                      Constants.grey_text,
-                                                      13,
-                                                      FontWeight.normal,
-                                                      context),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
+                                            padding:
+                                                const EdgeInsets.only(top: 7),
+                                            child:
+                                                list[index][Constants
+                                                            .dTotalRating] ==
+                                                        null
+                                                    ? SizedBox()
+                                                    : Row(
+                                                        children: [
+                                                          for (int i = 0;
+                                                              i < 5;
+                                                              i++)
+                                                            Icon(
+                                                              Icons.star,
+                                                              size: 14,
+                                                              color: list[index]
+                                                                          [
+                                                                          Constants
+                                                                              .dTotalRating] >
+                                                                      i
+                                                                  ? Colors
+                                                                      .yellow[800]
+                                                                  : Colors.grey,
+                                                            ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    left: 2,
+                                                                    bottom: 0),
+                                                            child: Text(
+                                                                "(" +
+                                                                    list[index][Constants
+                                                                            .dTotalRating]
+                                                                        .toString() +
+                                                                    ")",
+                                                                style: Text_Style.text_Theme(
+                                                                    Constants
+                                                                        .grey_text,
+                                                                    10,
+                                                                    FontWeight
+                                                                        .normal,
+                                                                    context)),
+                                                          )
+                                                        ],
+                                                      )),
                                         Text(
                                           list[index][Constants.dBrand],
                                           style: Text_Style.text_Theme(
