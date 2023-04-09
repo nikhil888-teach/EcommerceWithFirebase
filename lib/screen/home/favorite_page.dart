@@ -49,7 +49,7 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                 child: Text(
                   Constants.Favorites,
                   style: Text_Style.text_Theme(
-                      Constants.black_text, 34, FontWeight.bold, context),
+                      Constants.black_text, 20, FontWeight.bold, context),
                 ),
               ),
               actions: [

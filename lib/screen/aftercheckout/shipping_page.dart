@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:lottie/lottie.dart';
 
 class MyShippingAddress extends StatefulWidget {
   const MyShippingAddress({Key? key}) : super(key: key);
@@ -53,108 +54,121 @@ class _MyShippingAddressState extends State<MyShippingAddress> {
                   color: Colors.red,
                 ),
               );
-            }
+            } else {
+              if (snapshot.data!.snapshot.value == null) {
+                return Center(
+                    child: Lottie.asset(
+                  "assets/image/empty_box.json",
+                ));
+              } else {
+                Map<dynamic, dynamic> id =
+                    snapshot.data!.snapshot.value as dynamic;
+                List<dynamic> list = [];
+                list.clear();
+                for (var element in id.values) {
+                  list.add(element);
+                }
 
-            Map<dynamic, dynamic> id = snapshot.data!.snapshot.value as dynamic;
-            List<dynamic> list = [];
-            list.clear();
-            for (var element in id.values) {
-              list.add(element);
-            }
-
-            return ListView.builder(
-              itemCount: list.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Card(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                return ListView.builder(
+                  itemCount: list.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Card(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 7),
+                                        child: Text(
+                                          list[index][Constants.dfname]
+                                              .toString(),
+                                          style: Text_Style.text_Theme(
+                                              Constants.black_text,
+                                              14,
+                                              FontWeight.w600,
+                                              context),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    MyAddressPage(
+                                                        id: list[index]
+                                                                [Constants
+                                                                    .daddressId]
+                                                            .toString()),
+                                              ));
+                                        },
+                                        child: Text(
+                                          Constants.edit,
+                                          style: Text_Style.text_Theme(
+                                              Constants.red_text,
+                                              14,
+                                              FontWeight.w600,
+                                              context),
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                   Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 7),
+                                    padding: const EdgeInsets.only(top: 5),
                                     child: Text(
-                                      list[index][Constants.dfname].toString(),
+                                      list[index][Constants.dSAddress]
+                                          .toString(),
                                       style: Text_Style.text_Theme(
                                           Constants.black_text,
                                           14,
-                                          FontWeight.w600,
+                                          FontWeight.normal,
                                           context),
                                     ),
                                   ),
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => MyAddressPage(
-                                                id: list[index]
-                                                        [Constants.daddressId]
-                                                    .toString()),
-                                          ));
-                                    },
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 7),
                                     child: Text(
-                                      Constants.edit,
-                                      style: Text_Style.text_Theme(
-                                          Constants.red_text,
-                                          14,
-                                          FontWeight.w600,
-                                          context),
-                                    ),
-                                  )
+                                        list[index][Constants.dCity]
+                                                .toString() +
+                                            ", " +
+                                            list[index][Constants.dState]
+                                                .toString() +
+                                            " " +
+                                            list[index][Constants.dZcode]
+                                                .toString() +
+                                            ", " +
+                                            list[index][Constants.dCountry]
+                                                .toString(),
+                                        style: Text_Style.text_Theme(
+                                            Constants.black_text,
+                                            14,
+                                            FontWeight.normal,
+                                            context)),
+                                  ),
                                 ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 5),
-                                child: Text(
-                                  list[index][Constants.dSAddress].toString(),
-                                  style: Text_Style.text_Theme(
-                                      Constants.black_text,
-                                      14,
-                                      FontWeight.normal,
-                                      context),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 7),
-                                child: Text(
-                                    list[index][Constants.dCity].toString() +
-                                        ", " +
-                                        list[index][Constants.dState]
-                                            .toString() +
-                                        " " +
-                                        list[index][Constants.dZcode]
-                                            .toString() +
-                                        ", " +
-                                        list[index][Constants.dCountry]
-                                            .toString(),
-                                    style: Text_Style.text_Theme(
-                                        Constants.black_text,
-                                        14,
-                                        FontWeight.normal,
-                                        context)),
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
-                    )
-                  ],
+                        )
+                      ],
+                    );
+                  },
                 );
-              },
-            );
+              }
+            }
           }),
     );
   }

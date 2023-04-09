@@ -125,8 +125,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) =>
-                                            const MyMainPage(),
+                                        builder: (context) => MyMainPage(),
                                       ));
                                 }).catchError((onError) {
                                   if (!mounted) return;

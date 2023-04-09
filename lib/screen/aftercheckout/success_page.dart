@@ -58,11 +58,14 @@ class _MySuccessPageState extends State<MySuccessPage> {
                 padding: const EdgeInsets.only(bottom: 15),
                 child: GestureDetector(
                     onTap: () {
-                      Navigator.push(
+                      Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const MyMainPage(),
-                          ));
+                            builder: (context) => MyMainPage(
+                              currentIndex: 0,
+                            ),
+                          ),
+                          (Route<dynamic> route) => false);
                     },
                     child: Button_Style.button_Theme(Constants.conti_shop)),
               ),

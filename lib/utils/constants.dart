@@ -80,6 +80,7 @@ class Constants {
   static const succ_text =
       "Your order will be delivered soon.Thank you for choosing our app!";
   static const conti_shop = "CONTINUE SHOPPING";
+  static const check_invoice = "CHECK INVOICE";
   static const use_add = "Use as the shipping address";
 
   //failed page

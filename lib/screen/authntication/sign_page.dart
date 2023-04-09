@@ -173,9 +173,7 @@ class _MySignInPageState extends State<MySignInPage> {
                                       email.text.trim(),
                                       password.text.trim(),
                                       file!);
-                                  name.clear();
-                                  email.clear();
-                                  password.clear();
+
                                   file = null;
                                 }
                               },
@@ -254,17 +252,18 @@ class _MySignInPageState extends State<MySignInPage> {
             loading = false;
           });
           Scaffold_msg.toastMessage(context, "Sign up successfully");
+
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const MyMainPage(),
+                builder: (context) => MyMainPage(),
               ));
         }).catchError((onError) {
           if (!mounted) return;
           setState(() {
             loading = false;
           });
-          Scaffold_msg.toastMessage(context, onError);
+          Scaffold_msg.toastMessage(context, onError.toString());
         });
       });
     }).catchError((onError) {
@@ -272,7 +271,7 @@ class _MySignInPageState extends State<MySignInPage> {
       setState(() {
         loading = false;
       });
-      Scaffold_msg.toastMessage(context, onError);
+      Scaffold_msg.toastMessage(context, onError.toString());
     });
   }
 }

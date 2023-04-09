@@ -50,6 +50,13 @@ class _MyAddressPageState extends State<MyAddressPage> {
         countryController.text =
             value.snapshot.child(Constants.dCountry).value.toString();
       });
+    } else {
+      var database = FirebaseDatabase.instance
+          .ref(Constants.dUser)
+          .child(FirebaseAuth.instance.currentUser!.uid)
+          .child(Constants.duname);
+      database.once().then(
+          (value) => fnameController.text = value.snapshot.value.toString());
     }
     super.initState();
   }

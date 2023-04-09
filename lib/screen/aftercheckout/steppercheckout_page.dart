@@ -1,7 +1,12 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:country_picker/country_picker.dart';
-import 'package:ecommerce/profileoptions/myorders/myorder_page.dart';
+import 'package:ecommerce/invoice/api/pdf_api.dart';
+import 'package:ecommerce/invoice/api/pdf_invoice_api.dart';
+import 'package:ecommerce/invoice/model/customer.dart';
+import 'package:ecommerce/invoice/model/invoice.dart';
+import 'package:ecommerce/invoice/model/supplier.dart';
 import 'package:ecommerce/screen/home/main_page.dart';
 import 'package:ecommerce/theme/themeprovider.dart';
 import 'package:ecommerce/utils/constants.dart';
@@ -10,6 +15,7 @@ import 'package:ecommerce/widgets/scafoldmsg_theme.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:ecommerce/widgets/textformfield_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -69,6 +75,25 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
   Razorpay? razorpay;
   int selectedRadio = 0;
 
+  String dtrackNum = '';
+  String dodate = '';
+  String dShipAddress = '';
+  String dtotal = '';
+  String dPayment = '';
+  String dUserid = '';
+  String dokey = '';
+  String dstatus = '';
+  String dTotalProduct = '';
+  String dPid = '';
+  String dPname = '';
+  String dQuantity = '';
+  String dSize = '';
+  String dColor = '';
+  String dimages = '';
+  String dSPrice = '';
+  String dorderno = '';
+  String dusername = '';
+
   @override
   void initState() {
     razorpay = Razorpay();
@@ -77,6 +102,13 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
     razorpay!.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
     super.initState();
     checkAddress();
+    var database = FirebaseDatabase.instance
+        .ref(Constants.dUser)
+        .child(FirebaseAuth.instance.currentUser!.uid)
+        .child(Constants.duname);
+    database
+        .once()
+        .then((value) => dusername = value.snapshot.value.toString());
   }
 
   int price = 432;
@@ -257,9 +289,14 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                 child: GestureDetector(
                     onTap: () {
                       if (isPaymentSuccess) {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => MyOrderPage(),
-                        ));
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MyMainPage(
+                                currentIndex: 0,
+                              ),
+                            ),
+                            (Route<dynamic> route) => false);
                       } else {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => MyMainPage(),
@@ -269,6 +306,83 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                     child: Button_Style.button_Theme(isPaymentSuccess
                         ? Constants.conti_shop
                         : Constants.try_again)),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 15),
+                child: StreamBuilder(
+                    stream:
+                        FirebaseDatabase.instance.ref(Constants.dorder).onValue,
+                    builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
+                      if (!snapshot.hasData) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.red,
+                          ),
+                        );
+                      }
+
+                      Map<dynamic, dynamic> id =
+                          snapshot.data!.snapshot.value as dynamic;
+                      List<dynamic> list = [];
+                      list.clear();
+                      for (var element in id.values) {
+                        list.add(element);
+                      }
+                      print(list);
+
+                      // list[index][Constants.dCity].toString()
+                      return GestureDetector(
+                          onTap: () async {
+                            final DateTime now = DateTime.now();
+                            final DateFormat formatter =
+                                DateFormat('dd-MM-yyyy');
+                            // final String formatted = formatter.format(now);
+
+                            if (isPaymentSuccess) {
+                              final date = formatter.format(now);
+                              final dueDate = formatter
+                                  .format(now.add(const Duration(days: 7)));
+
+                              final invoice = Invoice(
+                                supplier: const Supplier(
+                                  name: 'Shoppy Bot',
+                                  address: 'Surat Gujarat.',
+                                  paymentInfo: '',
+                                ),
+                                customer: Customer(
+                                  name: dusername,
+                                  address: dShipAddress,
+                                ),
+                                info: InvoiceInfo(
+                                  date: date.toString(),
+                                  dueDate: dueDate.toString(),
+                                  description:
+                                      'Enjoy your Shoping with ShoppyBot',
+                                  number: dorderno,
+                                ),
+                                items: [
+                                  InvoiceItem(
+                                      description: dPname,
+                                      date: date,
+                                      quantity: dQuantity,
+                                      vat: '',
+                                      unitPrice: dSPrice,
+                                      total: dSPrice),
+                                ],
+                              );
+
+                              final pdfFile =
+                                  await PdfInvoiceApi.generate(invoice);
+
+                              PdfApi.openFile(pdfFile);
+                            }
+                            ;
+                          },
+                          child: isPaymentSuccess
+                              ? Button_Style.button_Theme(
+                                  Constants.check_invoice)
+                              : SizedBox());
+                    }),
               ),
             ],
           ),
@@ -693,10 +807,11 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
 
   void addOrderToDatabase() {
     paymentNo = 1000.toString() + Random().nextInt(1000000).toString();
+    dorderno = new Random().nextInt(10000).toString();
     DatabaseReference databaseReference =
         FirebaseDatabase.instance.ref(Constants.dorder).push();
     databaseReference.update({
-      Constants.dorderno: new Random().nextInt(10000),
+      Constants.dorderno: dorderno,
       Constants.dtrackNum: paymentNo,
       Constants.dodate: DateTime.now().toString(),
       Constants.dShipAddress: selectedAddress,
@@ -723,6 +838,23 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                   Constants.dimages: element.child(Constants.dimages).value,
                   Constants.dSPrice: element.child(Constants.dSPrice).value,
                 }).whenComplete(() {
+                  dPid = element.child(Constants.dPid).value.toString();
+                  dPname = element.child(Constants.dPname).value.toString();
+                  dQuantity =
+                      element.child(Constants.dQuantity).value.toString();
+                  dSize = element.child(Constants.dSize).value.toString();
+                  dColor = element.child(Constants.dColor).value.toString();
+                  dimages = element.child(Constants.dimages).value.toString();
+                  dSPrice = element.child(Constants.dSPrice).value.toString();
+                  dtrackNum = paymentNo!;
+                  dodate = DateTime.now().toString();
+                  dShipAddress = selectedAddress!;
+                  dtotal = widget.total.toString();
+                  dPayment = selectedPaymentOptions!;
+                  dUserid = FirebaseAuth.instance.currentUser!.uid;
+                  dokey = databaseReference.key!;
+                  dstatus = Constants.dProcessing;
+                  dTotalProduct = widget.productLength.toString();
                   FirebaseDatabase.instance
                       .ref(Constants.dUser)
                       .child(FirebaseAuth.instance.currentUser!.uid)

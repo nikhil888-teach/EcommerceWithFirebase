@@ -23,13 +23,7 @@ class _MyShopePageState extends State<MyShopePage> {
       child: SafeArea(
           child: Scaffold(
               appBar: AppBar(
-                leading: GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: Icon(
-                    Icons.arrow_back_ios,
-                  ),
-                ),
-                centerTitle: true,
+                centerTitle: false,
                 title: Text(Constants.Categories,
                     style: Text_Style.text_Theme(
                         Constants.black_text, 18, FontWeight.bold, context)),

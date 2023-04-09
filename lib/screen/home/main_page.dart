@@ -11,13 +11,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MyMainPage extends StatefulWidget {
-  const MyMainPage({Key? key}) : super(key: key);
+  MyMainPage({Key? key, this.currentIndex = 0}) : super(key: key);
+  int currentIndex;
 
   @override
   State<MyMainPage> createState() => _MyMainPageState();
 }
 
-int currentindex = 0;
 List pagess = <Widget>[
   const MyHomePage(),
   const MyShopePage(),
@@ -31,7 +31,7 @@ class _MyMainPageState extends State<MyMainPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: pagess.elementAt(currentindex),
+        body: pagess.elementAt(widget.currentIndex),
         floatingActionButton: DraggableFab(
           securityBottom: 30,
           initPosition: Offset(double.infinity, double.infinity),
@@ -72,12 +72,12 @@ class _MyMainPageState extends State<MyMainPage> {
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
-            currentIndex: currentindex,
+            currentIndex: widget.currentIndex,
             type: BottomNavigationBarType.fixed,
             onTap: (value) {
               if (!mounted) return;
               setState(() {
-                currentindex = value;
+                widget.currentIndex = value;
               });
             },
             showUnselectedLabels: true,

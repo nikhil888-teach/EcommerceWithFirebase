@@ -1,4 +1,5 @@
 import 'package:ecommerce/rating/rating_view.dart';
+import 'package:ecommerce/screen/home/main_page.dart';
 import 'package:ecommerce/theme/themeprovider.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
@@ -81,13 +82,30 @@ class _MyProductPageState extends State<MyProductPage> {
         title: Text(widget.name,
             style: Text_Style.text_Theme(
                 Constants.black_text, 18, FontWeight.bold, context)),
-        actions: const [
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyMainPage(
+                      currentIndex: 2,
+                    ),
+                  ));
+            },
+            child: Padding(
+              padding: EdgeInsets.only(right: 17),
+              child: Icon(
+                Icons.shopping_cart_rounded,
+              ),
+            ),
+          ),
           Padding(
             padding: EdgeInsets.only(right: 17),
             child: Icon(
               Icons.share,
             ),
-          )
+          ),
         ],
       ),
       body: SingleChildScrollView(

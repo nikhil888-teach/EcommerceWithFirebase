@@ -30,7 +30,7 @@ class _MyCancelledState extends State<MyCancelled> {
                   color: Colors.red,
                 ),
               );
-            } else if (snapshot.data!.snapshot.exists) {
+            } else {
               Map<dynamic, dynamic> data =
                   snapshot.data!.snapshot.value as dynamic;
               List<dynamic> list = [];
@@ -44,197 +44,204 @@ class _MyCancelledState extends State<MyCancelled> {
               }
               list.sort(
                   (a, b) => b[Constants.dodate].compareTo(a[Constants.dodate]));
-              return ListView.builder(
-                physics: BouncingScrollPhysics(),
-                itemCount: list.length,
-                itemBuilder: (context, index) {
-                  var dateTime = DateFormat('dd-MM-yyyy');
-                  DateTime? time =
-                      DateTime.tryParse(list[index][Constants.dodate]);
-                  var formateDate = dateTime.format(time!);
-                  return Card(
-                    elevation: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(Constants.orderNo,
-                                      style: Text_Style.text_Theme(
-                                          Constants.black_text,
-                                          16,
-                                          FontWeight.bold,
-                                          context)),
-                                  Text(
-                                      list[index][Constants.dorderno]
-                                          .toString(),
-                                      style: Text_Style.text_Theme(
-                                          Constants.black_text,
-                                          15,
-                                          FontWeight.bold,
-                                          context))
-                                ],
-                              ),
-                              Text(formateDate.toString(),
-                                  style: Text_Style.text_Theme(
-                                      Constants.grey_text,
-                                      15,
-                                      FontWeight.normal,
-                                      context))
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 7),
-                            child: Row(
+
+              if (list.length <= 0) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 50.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(
+                          child: Lottie.asset("assets/image/process_order.json",
+                              height: 300)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Text(
+                          "No order in Cancelled",
+                          style: Text_Style.text_Theme(Constants.black_text, 20,
+                              FontWeight.bold, context),
+                        ),
+                      ),
+                      Text(
+                        "Looks like you have not added anything to you cart. Go ahead & explore top categories",
+                        textAlign: TextAlign.center,
+                        style: Text_Style.text_Theme(Constants.black_text, 14,
+                            FontWeight.normal, context),
+                      )
+                    ],
+                  ),
+                );
+              } else {
+                return ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: list.length,
+                  itemBuilder: (context, index) {
+                    var dateTime = DateFormat('dd-MM-yyyy');
+                    DateTime? time =
+                        DateTime.tryParse(list[index][Constants.dodate]);
+                    var formateDate = dateTime.format(time!);
+                    return Card(
+                      elevation: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(Constants.trackingNo,
+                                Row(
+                                  children: [
+                                    Text(Constants.orderNo,
+                                        style: Text_Style.text_Theme(
+                                            Constants.black_text,
+                                            16,
+                                            FontWeight.bold,
+                                            context)),
+                                    Text(
+                                        list[index][Constants.dorderno]
+                                            .toString(),
+                                        style: Text_Style.text_Theme(
+                                            Constants.black_text,
+                                            15,
+                                            FontWeight.bold,
+                                            context))
+                                  ],
+                                ),
+                                Text(formateDate.toString(),
                                     style: Text_Style.text_Theme(
                                         Constants.grey_text,
                                         15,
                                         FontWeight.normal,
-                                        context)),
-                                Text(
-                                    list[index][Constants.dtrackNum].toString(),
-                                    style: Text_Style.text_Theme(
-                                        Constants.black_text,
-                                        15,
-                                        FontWeight.w500,
                                         context))
                               ],
                             ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 7),
+                              child: Row(
                                 children: [
-                                  Text(Constants.quantity,
+                                  Text(Constants.trackingNo,
                                       style: Text_Style.text_Theme(
                                           Constants.grey_text,
                                           15,
                                           FontWeight.normal,
                                           context)),
                                   Text(
-                                      list[index][Constants.dTotalProduct]
+                                      list[index][Constants.dtrackNum]
                                           .toString(),
                                       style: Text_Style.text_Theme(
                                           Constants.black_text,
                                           15,
-                                          FontWeight.bold,
+                                          FontWeight.w500,
                                           context))
                                 ],
                               ),
-                              Row(
-                                children: [
-                                  Text(Constants.total_amount,
-                                      style: Text_Style.text_Theme(
-                                          Constants.grey_text,
-                                          15,
-                                          FontWeight.normal,
-                                          context)),
-                                  Text(
-                                      "\$" +
-                                          list[index][Constants.dtotal]
-                                              .toString(),
-                                      style: Text_Style.text_Theme(
-                                          Constants.black_text,
-                                          15,
-                                          FontWeight.bold,
-                                          context))
-                                ],
-                              )
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 7),
-                            child: Row(
+                            ),
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                OutlinedButton(
-                                    style: ButtonStyle(
-                                        side: MaterialStateProperty.all(
-                                            BorderSide(
-                                                color: themeChange.darkTheme
-                                                    ? Colors.white
-                                                    : Colors.grey))),
-                                    onPressed: () {
-                                      Navigator.of(context)
-                                          .push(MaterialPageRoute(
-                                        builder: (context) =>
-                                            MyCancelledProduct(
-                                          orderNo: list[index]
-                                                  [Constants.dorderno]
-                                              .toString(),
-                                          orderKey: list[index][Constants.dokey]
-                                              .toString(),
-                                          date: formateDate.toString(),
-                                          address: list[index]
-                                              [Constants.dShipAddress],
-                                          payment: list[index]
-                                              [Constants.dPayment],
-                                          trackNo: list[index]
-                                              [Constants.dtrackNum],
-                                          totalProducts: list[index]
-                                                  [Constants.dTotalProduct]
-                                              .toString(),
-                                          total: list[index][Constants.dtotamt],
-                                        ),
-                                      ));
-                                    },
-                                    child: Text(
-                                      Constants.detail,
-                                      style: Text_Style.text_Theme(
-                                          Constants.black_text,
-                                          15,
-                                          FontWeight.w600,
-                                          context),
-                                    )),
-                                Text(
-                                  Constants.cancelled,
-                                  style: TextStyle(
-                                      color: Colors.green,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold),
+                                Row(
+                                  children: [
+                                    Text(Constants.quantity,
+                                        style: Text_Style.text_Theme(
+                                            Constants.grey_text,
+                                            15,
+                                            FontWeight.normal,
+                                            context)),
+                                    Text(
+                                        list[index][Constants.dTotalProduct]
+                                            .toString(),
+                                        style: Text_Style.text_Theme(
+                                            Constants.black_text,
+                                            15,
+                                            FontWeight.bold,
+                                            context))
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text(Constants.total_amount,
+                                        style: Text_Style.text_Theme(
+                                            Constants.grey_text,
+                                            15,
+                                            FontWeight.normal,
+                                            context)),
+                                    Text(
+                                        "\$" +
+                                            list[index][Constants.dtotal]
+                                                .toString(),
+                                        style: Text_Style.text_Theme(
+                                            Constants.black_text,
+                                            15,
+                                            FontWeight.bold,
+                                            context))
+                                  ],
                                 )
                               ],
                             ),
-                          )
-                        ],
+                            Padding(
+                              padding: const EdgeInsets.only(top: 7),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  OutlinedButton(
+                                      style: ButtonStyle(
+                                          side: MaterialStateProperty.all(
+                                              BorderSide(
+                                                  color: themeChange.darkTheme
+                                                      ? Colors.white
+                                                      : Colors.grey))),
+                                      onPressed: () {
+                                        Navigator.of(context)
+                                            .push(MaterialPageRoute(
+                                          builder: (context) =>
+                                              MyCancelledProduct(
+                                            orderNo: list[index]
+                                                    [Constants.dorderno]
+                                                .toString(),
+                                            orderKey: list[index]
+                                                    [Constants.dokey]
+                                                .toString(),
+                                            date: formateDate.toString(),
+                                            address: list[index]
+                                                [Constants.dShipAddress],
+                                            payment: list[index]
+                                                [Constants.dPayment],
+                                            trackNo: list[index]
+                                                [Constants.dtrackNum],
+                                            totalProducts: list[index]
+                                                    [Constants.dTotalProduct]
+                                                .toString(),
+                                            total: list[index]
+                                                [Constants.dtotamt],
+                                          ),
+                                        ));
+                                      },
+                                      child: Text(
+                                        Constants.detail,
+                                        style: Text_Style.text_Theme(
+                                            Constants.black_text,
+                                            15,
+                                            FontWeight.w600,
+                                            context),
+                                      )),
+                                  Text(
+                                    Constants.cancelled,
+                                    style: TextStyle(
+                                        color: Colors.green,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                },
-              );
-            } else {
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 50.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Center(
-                        child: Lottie.asset("assets/image/process_order.json",
-                            height: 300)),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Text(
-                        "No order in Cancelled",
-                        style: Text_Style.text_Theme(
-                            Constants.black_text, 20, FontWeight.bold, context),
-                      ),
-                    ),
-                    Text(
-                      "Looks like you have not added anything to you cart. Go ahead & explore top categories",
-                      textAlign: TextAlign.center,
-                      style: Text_Style.text_Theme(
-                          Constants.black_text, 14, FontWeight.normal, context),
-                    )
-                  ],
-                ),
-              );
+                    );
+                  },
+                );
+              }
             }
           }),
     );
