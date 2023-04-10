@@ -1,4 +1,3 @@
-import 'package:ecommerce/rating/rating_view.dart';
 import 'package:ecommerce/splash/splash_page.dart';
 import 'package:ecommerce/theme/themeprovider.dart';
 import 'package:ecommerce/theme/thmedata.dart';

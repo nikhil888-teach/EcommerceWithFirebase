@@ -173,12 +173,12 @@ class PdfInvoiceApi {
               children: [
                 buildText(
                   title: 'Net total',
-                  value: netTotal,
+                  value: netTotal.toString(),
                   unite: true,
                 ),
                 buildText(
                   title: 'Vat ${vatPercent * 100} %',
-                  value: vat,
+                  value: vat.toString(),
                   unite: true,
                 ),
                 Divider(),
@@ -188,7 +188,7 @@ class PdfInvoiceApi {
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                   ),
-                  value: total,
+                  value: total.toString(),
                   unite: true,
                 ),
                 SizedBox(height: 2 * PdfPageFormat.mm),

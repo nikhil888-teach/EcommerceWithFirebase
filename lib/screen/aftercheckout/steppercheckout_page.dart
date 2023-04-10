@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:country_picker/country_picker.dart';
@@ -52,6 +51,12 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
   String? paymentNo;
   String? selectedAddress;
   String? selectedPaymentOptions;
+  String? userName;
+  String? userAddress;
+  int? orderNo;
+  String? orderid;
+  List invoiceList = [];
+
   List<Step> getStep() => [
         Step(
             state: stepIndex > 0 ? StepState.complete : StepState.indexed,
@@ -75,25 +80,6 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
   Razorpay? razorpay;
   int selectedRadio = 0;
 
-  String dtrackNum = '';
-  String dodate = '';
-  String dShipAddress = '';
-  String dtotal = '';
-  String dPayment = '';
-  String dUserid = '';
-  String dokey = '';
-  String dstatus = '';
-  String dTotalProduct = '';
-  String dPid = '';
-  String dPname = '';
-  String dQuantity = '';
-  String dSize = '';
-  String dColor = '';
-  String dimages = '';
-  String dSPrice = '';
-  String dorderno = '';
-  String dusername = '';
-
   @override
   void initState() {
     razorpay = Razorpay();
@@ -102,13 +88,6 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
     razorpay!.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
     super.initState();
     checkAddress();
-    var database = FirebaseDatabase.instance
-        .ref(Constants.dUser)
-        .child(FirebaseAuth.instance.currentUser!.uid)
-        .child(Constants.duname);
-    database
-        .once()
-        .then((value) => dusername = value.snapshot.value.toString());
   }
 
   int price = 432;
@@ -123,7 +102,7 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
   void openCheckout() async {
     var options = {
       'key': 'rzp_test_NNbwJ9tmM0fbxj',
-      'amount': "₹{widget.total}00",
+      'amount': "${widget.total}00",
       'name': 'TestUser',
       'description': 'Payment',
       'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'},
@@ -289,17 +268,16 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                 child: GestureDetector(
                     onTap: () {
                       if (isPaymentSuccess) {
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MyMainPage(
-                                currentIndex: 0,
-                              ),
-                            ),
-                            (Route<dynamic> route) => false);
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => MyMainPage(
+                            currentIndex: 2,
+                          ),
+                        ));
                       } else {
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => MyMainPage(),
+                          builder: (context) => MyMainPage(
+                            currentIndex: 2,
+                          ),
                         ));
                       }
                     },
@@ -307,32 +285,25 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                         ? Constants.conti_shop
                         : Constants.try_again)),
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 15),
-                child: StreamBuilder(
-                    stream:
-                        FirebaseDatabase.instance.ref(Constants.dorder).onValue,
-                    builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
-                      if (!snapshot.hasData) {
-                        return Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.red,
-                          ),
-                        );
-                      }
-
-                      Map<dynamic, dynamic> id =
-                          snapshot.data!.snapshot.value as dynamic;
-                      List<dynamic> list = [];
-                      list.clear();
-                      for (var element in id.values) {
-                        list.add(element);
-                      }
-                      print(list);
-
-                      // list[index][Constants.dCity].toString()
-                      return GestureDetector(
+              isPaymentSuccess
+                  ? Padding(
+                      padding: const EdgeInsets.only(bottom: 15),
+                      child: GestureDetector(
                           onTap: () async {
+                            DatabaseReference databaseReference =
+                                await FirebaseDatabase.instance
+                                    .ref(Constants.dorder)
+                                    .child(orderid!);
+                            databaseReference
+                                .child(Constants.dProducts)
+                                .once()
+                                .then((value) {
+                              print(value);
+
+                              value.snapshot.children.forEach((element) {
+                                invoiceList.add(element.value);
+                              });
+                            });
                             final DateTime now = DateTime.now();
                             final DateFormat formatter =
                                 DateFormat('dd-MM-yyyy');
@@ -350,25 +321,27 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                                   paymentInfo: '',
                                 ),
                                 customer: Customer(
-                                  name: dusername,
-                                  address: dShipAddress,
+                                  name: userName!,
+                                  address: userAddress!,
                                 ),
                                 info: InvoiceInfo(
                                   date: date.toString(),
                                   dueDate: dueDate.toString(),
                                   description:
-                                      'Enjoy your Shoping with Ecommerce Bot',
-                                  number: dorderno,
+                                      'Enjoy your Shoping with ShoppyBot',
+                                  number: orderNo.toString(),
                                 ),
-                                items: [
-                                  InvoiceItem(
-                                      description: dPname,
-                                      date: date,
-                                      quantity: dQuantity,
-                                      vat: '',
-                                      unitPrice: dSPrice,
-                                      total: dSPrice),
-                                ],
+                                items: invoiceList
+                                    .map(
+                                      (e) => InvoiceItem(
+                                          description: e['Pname'],
+                                          date: date,
+                                          quantity: e['Quantity'],
+                                          vat: '',
+                                          unitPrice: e['Price'],
+                                          total: e['Quantity'] * e['Price']),
+                                    )
+                                    .toList(),
                               );
 
                               final pdfFile =
@@ -378,12 +351,10 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                             }
                             ;
                           },
-                          child: isPaymentSuccess
-                              ? Button_Style.button_Theme(
-                                  Constants.check_invoice)
-                              : SizedBox());
-                    }),
-              ),
+                          child: Button_Style.button_Theme(
+                              Constants.check_invoice)),
+                    )
+                  : SizedBox(),
             ],
           ),
         ),
@@ -480,7 +451,6 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                   child: TextFormField(
                     readOnly: true,
                     decoration: InputDecoration(
-                        hintText: "Select Country",
                         border:
                             OutlineInputBorder(borderSide: BorderSide.none)),
                     controller: countryController,
@@ -499,7 +469,6 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                           if (!mounted) return;
                           setState(() {
                             _country = country;
-                            countryController.text = _country!.name;
                           });
                         },
                       );
@@ -534,7 +503,7 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                     Constants.dCity: cityController.text.trim(),
                     Constants.dState: stateController.text.trim(),
                     Constants.dZcode: codeController.text.trim(),
-                    Constants.dCountry: countryController.text.toString().trim()
+                    Constants.dCountry: _country!.name.toString().trim()
                   }).then((value) {
                     if (!mounted) return;
                     setState(() {
@@ -702,6 +671,19 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                                   groupValue: selectedRadio,
                                   onChanged: (value) {
                                     setSelectedRadio(value);
+                                    userName = list[value][Constants.dfname]
+                                        .toString();
+                                    userAddress = list[value][Constants.dCity]
+                                            .toString() +
+                                        ",\n" +
+                                        list[value][Constants.dState]
+                                            .toString() +
+                                        " " +
+                                        list[value][Constants.dZcode]
+                                            .toString() +
+                                        ",\n" +
+                                        list[value][Constants.dCountry]
+                                            .toString();
                                   },
                                 )
                               ],
@@ -807,11 +789,11 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
 
   void addOrderToDatabase() {
     paymentNo = 1000.toString() + Random().nextInt(1000000).toString();
-    dorderno = new Random().nextInt(10000).toString();
     DatabaseReference databaseReference =
         FirebaseDatabase.instance.ref(Constants.dorder).push();
+    orderNo = new Random().nextInt(10000);
     databaseReference.update({
-      Constants.dorderno: dorderno,
+      Constants.dorderno: orderNo,
       Constants.dtrackNum: paymentNo,
       Constants.dodate: DateTime.now().toString(),
       Constants.dShipAddress: selectedAddress,
@@ -822,6 +804,7 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
       Constants.dstatus: Constants.dProcessing,
       Constants.dTotalProduct: widget.productLength
     }).then((value) {
+      orderid = databaseReference.key;
       DatabaseReference database = FirebaseDatabase.instance
           .ref(Constants.dUser)
           .child(FirebaseAuth.instance.currentUser!.uid)
@@ -838,23 +821,6 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                   Constants.dimages: element.child(Constants.dimages).value,
                   Constants.dSPrice: element.child(Constants.dSPrice).value,
                 }).whenComplete(() {
-                  dPid = element.child(Constants.dPid).value.toString();
-                  dPname = element.child(Constants.dPname).value.toString();
-                  dQuantity =
-                      element.child(Constants.dQuantity).value.toString();
-                  dSize = element.child(Constants.dSize).value.toString();
-                  dColor = element.child(Constants.dColor).value.toString();
-                  dimages = element.child(Constants.dimages).value.toString();
-                  dSPrice = element.child(Constants.dSPrice).value.toString();
-                  dtrackNum = paymentNo!;
-                  dodate = DateTime.now().toString();
-                  dShipAddress = selectedAddress!;
-                  dtotal = widget.total.toString();
-                  dPayment = selectedPaymentOptions!;
-                  dUserid = FirebaseAuth.instance.currentUser!.uid;
-                  dokey = databaseReference.key!;
-                  dstatus = Constants.dProcessing;
-                  dTotalProduct = widget.productLength.toString();
                   FirebaseDatabase.instance
                       .ref(Constants.dUser)
                       .child(FirebaseAuth.instance.currentUser!.uid)

@@ -33,10 +33,10 @@ class InvoiceInfo {
 class InvoiceItem {
   final String description;
   final String date;
-  final String quantity;
+  final int quantity;
   final String vat;
-  final String unitPrice;
-  final String total;
+  final int unitPrice;
+  final int total;
 
   const InvoiceItem({
     required this.description,
