@@ -433,10 +433,10 @@ class _MyBagPageState extends State<MyBagPage> {
                                                             EdgeInsets.only(
                                                                 right: 10),
                                                         child: Text(
-                                                          list[index][Constants
+                                                          "₹" +
+                                                              list[index][Constants
                                                                       .dSPrice]
-                                                                  .toString() +
-                                                              "\$",
+                                                                  .toString(),
                                                           style: Text_Style
                                                               .text_Theme(
                                                                   Constants
@@ -481,7 +481,7 @@ class _MyBagPageState extends State<MyBagPage> {
                               FontWeight.w500, context),
                         ),
                         Text(
-                          total.toString() + "\$",
+                          "₹" + total.toString(),
                           style: Text_Style.text_Theme(Constants.black_text, 18,
                               FontWeight.w900, context),
                         )

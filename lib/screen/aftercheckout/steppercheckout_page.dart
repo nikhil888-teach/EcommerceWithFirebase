@@ -123,7 +123,7 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
   void openCheckout() async {
     var options = {
       'key': 'rzp_test_NNbwJ9tmM0fbxj',
-      'amount': "${widget.total}00",
+      'amount': "₹{widget.total}00",
       'name': 'TestUser',
       'description': 'Payment',
       'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'},
@@ -357,7 +357,7 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                                   date: date.toString(),
                                   dueDate: dueDate.toString(),
                                   description:
-                                      'Enjoy your Shoping with ShoppyBot',
+                                      'Enjoy your Shoping with Ecommerce Bot',
                                   number: dorderno,
                                 ),
                                 items: [

@@ -129,9 +129,9 @@ class PdfInvoiceApi {
         item.description,
         item.date,
         '${item.quantity}',
-        '\$ ${item.unitPrice}',
+        '₹ ${item.unitPrice}',
         '${item.vat} %',
-        '\$ ${total}',
+        '₹ ${total}',
       ];
     }).toList();
 
@@ -210,7 +210,8 @@ class PdfInvoiceApi {
           SizedBox(height: 2 * PdfPageFormat.mm),
           buildSimpleText(title: 'Address', value: invoice.supplier.address),
           SizedBox(height: 1 * PdfPageFormat.mm),
-          buildSimpleText(title: 'Paypal', value: invoice.supplier.paymentInfo),
+          buildSimpleText(
+              title: 'RazorPay', value: invoice.supplier.paymentInfo),
         ],
       );
 

@@ -464,9 +464,9 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                                           padding:
                                               const EdgeInsets.only(top: 5),
                                           child: Text(
-                                            list[index][Constants.dSPrice]
-                                                    .toString() +
-                                                "\$",
+                                            "₹" +
+                                                list[index][Constants.dSPrice]
+                                                    .toString(),
                                             style: Text_Style.text_Theme(
                                                 Constants.red_text,
                                                 14,

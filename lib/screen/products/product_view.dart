@@ -46,8 +46,8 @@ class _MyProductPageState extends State<MyProductPage> {
   Map size = {0: "XS", 1: "S", 2: "M", 3: "L", 4: "XL"};
   bool isFv = false;
   String? selectedId;
-
   String? selectedsize;
+  int? selectedColorCode;
   int? selectedindexcolor;
   int selectedImageIndex = 0;
   Map color = {0: "White", 1: "Black", 2: "Pink", 3: "Blue", 4: "Grey"};
@@ -131,13 +131,26 @@ class _MyProductPageState extends State<MyProductPage> {
                           tag: UniqueKey(),
                           child: InteractiveViewer(
                             panEnabled: true,
-                            child: Image.network(
-                              widget.images[imageIndex],
-                              fit: BoxFit.fill,
-                              width: MediaQuery.of(context).size.width,
-                              color: Colors.grey.shade300,
-                              colorBlendMode: BlendMode.multiply,
-                            ),
+                            child: selectedColorCode == null
+                                ? Image.network(
+                                    widget.images[imageIndex],
+                                    fit: BoxFit.fill,
+                                    width: MediaQuery.of(context).size.width,
+                                    color: Colors.grey.shade300,
+                                    colorBlendMode: BlendMode.multiply,
+                                  )
+                                : ColorFiltered(
+                                    colorFilter: ColorFilter.mode(
+                                        Color(selectedColorCode!),
+                                        BlendMode.hue),
+                                    child: Image.network(
+                                      widget.images[imageIndex],
+                                      fit: BoxFit.fill,
+                                      width: MediaQuery.of(context).size.width,
+                                      color: Colors.grey.shade300,
+                                      colorBlendMode: BlendMode.multiply,
+                                    ),
+                                  ),
                           ),
                         );
                       },
@@ -410,6 +423,10 @@ class _MyProductPageState extends State<MyProductPage> {
                                                                       .elementAt(
                                                                           index)
                                                                       .key;
+                                                                  selectedColorCode =
+                                                                      displaycolor
+                                                                          .elementAt(
+                                                                              index);
                                                                 });
                                                                 Navigator.pop(
                                                                     context);
@@ -558,7 +575,7 @@ class _MyProductPageState extends State<MyProductPage> {
                                 0xff222222, 24, FontWeight.bold, context),
                           ),
                           Text(
-                            "\$" + widget.price.toString(),
+                            "₹" + widget.price.toString(),
                             style: Text_Style.text_Theme(
                                 0xff222222, 24, FontWeight.bold, context),
                           ),
@@ -959,10 +976,10 @@ class _MyProductPageState extends State<MyProductPage> {
                                                             const EdgeInsets
                                                                 .only(right: 4),
                                                         child: Text(
-                                                          list[index][Constants
+                                                          "₹" +
+                                                              list[index][Constants
                                                                       .ddPrice]
-                                                                  .toString() +
-                                                              "\$",
+                                                                  .toString(),
                                                           style: TextStyle(
                                                               decoration:
                                                                   TextDecoration
@@ -977,10 +994,10 @@ class _MyProductPageState extends State<MyProductPage> {
                                                         ),
                                                       ),
                                                       Text(
-                                                          list[index][Constants
+                                                          "₹" +
+                                                              list[index][Constants
                                                                       .dSPrice]
-                                                                  .toString() +
-                                                              "\$",
+                                                                  .toString(),
                                                           style: Text_Style
                                                               .text_Theme(
                                                                   Constants

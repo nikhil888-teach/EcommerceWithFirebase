@@ -490,7 +490,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                                 list[index][Constants
                                                                             .ddPrice]
                                                                         .toString() +
-                                                                    "\$",
+                                                                    "₹",
                                                                 style: TextStyle(
                                                                     decoration:
                                                                         TextDecoration
@@ -505,10 +505,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                                                             .bold)),
                                                           ),
                                                           Text(
-                                                              list[index][Constants
+                                                              "₹" +
+                                                                  list[index][Constants
                                                                           .dSPrice]
-                                                                      .toString() +
-                                                                  "\$",
+                                                                      .toString(),
                                                               style: Text_Style
                                                                   .text_Theme(
                                                                       Constants

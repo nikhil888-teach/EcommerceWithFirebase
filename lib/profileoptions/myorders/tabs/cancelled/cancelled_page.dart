@@ -166,7 +166,7 @@ class _MyCancelledState extends State<MyCancelled> {
                                             FontWeight.normal,
                                             context)),
                                     Text(
-                                        "\$" +
+                                        "₹" +
                                             list[index][Constants.dtotal]
                                                 .toString(),
                                         style: Text_Style.text_Theme(

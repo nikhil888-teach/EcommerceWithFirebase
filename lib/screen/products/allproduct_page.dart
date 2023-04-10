@@ -309,9 +309,9 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
                                 Padding(
                                   padding: EdgeInsets.only(right: 4),
                                   child: Text(
-                                      list[index][Constants.ddPrice]
-                                              .toString() +
-                                          "\$",
+                                      "₹" +
+                                          list[index][Constants.ddPrice]
+                                              .toString(),
                                       style: TextStyle(
                                           decoration:
                                               TextDecoration.lineThrough,
@@ -320,8 +320,9 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
                                           fontWeight: FontWeight.bold)),
                                 ),
                                 Text(
-                                    list[index][Constants.dSPrice].toString() +
-                                        "\$",
+                                    "₹" +
+                                        list[index][Constants.dSPrice]
+                                            .toString(),
                                     style: Text_Style.text_Theme(
                                         Constants.red_text,
                                         14,

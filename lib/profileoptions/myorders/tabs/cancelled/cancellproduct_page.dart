@@ -274,7 +274,7 @@ class _MyCancelledProductState extends State<MyCancelledProduct> {
                                                       .child(Constants.dSPrice)
                                                       .value
                                                       .toString() +
-                                                  "\$",
+                                                  "₹",
                                               style: Text_Style.text_Theme(
                                                   Constants.black_text,
                                                   20,
@@ -388,7 +388,7 @@ class _MyCancelledProductState extends State<MyCancelledProduct> {
                     ),
                     Text(
                       softWrap: true,
-                      widget.total.toString() + "\$",
+                      widget.total.toString() + "₹",
                       style: Text_Style.text_Theme(
                           Constants.black_text, 14, FontWeight.normal, context),
                     )

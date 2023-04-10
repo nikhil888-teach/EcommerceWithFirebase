@@ -165,7 +165,7 @@ class _MyDeliveredState extends State<MyDelivered> {
                                             FontWeight.normal,
                                             context)),
                                     Text(
-                                        "\$" +
+                                        "₹" +
                                             list[index][Constants.dtotal]
                                                 .toString(),
                                         style: Text_Style.text_Theme(

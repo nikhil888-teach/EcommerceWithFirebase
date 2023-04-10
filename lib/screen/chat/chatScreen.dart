@@ -149,7 +149,7 @@ class _MyChatScreenState extends State<MyChatScreen> {
                       height: 15,
                     ),
                     Text(
-                      'ShoppyBot',
+                      'Ecommerce Bot',
                       style: GoogleFonts.quicksand(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,

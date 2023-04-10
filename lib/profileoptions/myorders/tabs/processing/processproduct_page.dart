@@ -270,11 +270,11 @@ class _MyProcessingProductState extends State<MyProcessingProduct> {
                                         Padding(
                                             padding: EdgeInsets.only(right: 10),
                                             child: Text(
-                                              snapshot
+                                              "₹" +
+                                                  snapshot
                                                       .child(Constants.dSPrice)
                                                       .value
-                                                      .toString() +
-                                                  "\$",
+                                                      .toString(),
                                               style: Text_Style.text_Theme(
                                                   Constants.black_text,
                                                   20,
@@ -388,7 +388,7 @@ class _MyProcessingProductState extends State<MyProcessingProduct> {
                     ),
                     Text(
                       softWrap: true,
-                      widget.total.toString() + "\$",
+                      widget.total.toString() + "₹",
                       style: Text_Style.text_Theme(
                           Constants.black_text, 14, FontWeight.normal, context),
                     )

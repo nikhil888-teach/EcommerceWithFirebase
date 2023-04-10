@@ -208,7 +208,7 @@ class _MyCheckOutState extends State<MyCheckOut> {
                                 14, FontWeight.normal, context),
                           ),
                           Text(
-                            "112\$",
+                            "₹112",
                             style: Text_Style.text_Theme(Constants.black_text,
                                 16, FontWeight.bold, context),
                           )
@@ -225,7 +225,7 @@ class _MyCheckOutState extends State<MyCheckOut> {
                                   14, FontWeight.normal, context),
                             ),
                             Text(
-                              "15\$",
+                              "₹15",
                               style: Text_Style.text_Theme(Constants.black_text,
                                   16, FontWeight.bold, context),
                             )
@@ -241,7 +241,7 @@ class _MyCheckOutState extends State<MyCheckOut> {
                                 16, FontWeight.w500, context),
                           ),
                           Text(
-                            "127\$",
+                            "₹127",
                             style: Text_Style.text_Theme(Constants.black_text,
                                 16, FontWeight.bold, context),
                           )
