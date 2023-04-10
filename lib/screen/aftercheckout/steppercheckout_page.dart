@@ -299,24 +299,27 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                                 .once()
                                 .then((value) {
                               print(value);
+                              invoiceList.clear();
 
                               value.snapshot.children.forEach((element) {
                                 invoiceList.add(element.value);
                               });
                             });
+
                             final DateTime now = DateTime.now();
                             final DateFormat formatter =
                                 DateFormat('dd-MM-yyyy');
                             // final String formatted = formatter.format(now);
 
-                            if (isPaymentSuccess) {
+                            if (isPaymentSuccess && invoiceList.isNotEmpty) {
                               final date = formatter.format(now);
                               final dueDate = formatter
                                   .format(now.add(const Duration(days: 7)));
 
                               final invoice = Invoice(
+                                totalPrice: widget.total,
                                 supplier: const Supplier(
-                                  name: 'Shoppy Bot',
+                                  name: 'Ecommerce Bot',
                                   address: 'Surat Gujarat.',
                                   paymentInfo: '',
                                 ),
@@ -328,18 +331,19 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                                   date: date.toString(),
                                   dueDate: dueDate.toString(),
                                   description:
-                                      'Enjoy your Shoping with ShoppyBot',
+                                      'Enjoy your Shoping with Ecommerce Bot',
                                   number: orderNo.toString(),
                                 ),
                                 items: invoiceList
                                     .map(
                                       (e) => InvoiceItem(
-                                          description: e['Pname'],
-                                          date: date,
-                                          quantity: e['Quantity'],
-                                          vat: '',
-                                          unitPrice: e['Price'],
-                                          total: e['Quantity'] * e['Price']),
+                                        description: e['Pname'],
+                                        date: date,
+                                        quantity: e['Quantity'],
+                                        vat: '',
+                                        unitPrice: e['Price'],
+                                        total: e['Quantity'] * e['Price'],
+                                      ),
                                     )
                                     .toList(),
                               );
@@ -566,6 +570,14 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                 child: ListView.builder(
                   itemCount: list.length,
                   itemBuilder: (context, index) {
+                    userName = list[0][Constants.dfname].toString();
+                    userAddress = list[0][Constants.dCity].toString() +
+                        ",\n" +
+                        list[0][Constants.dState].toString() +
+                        " " +
+                        list[0][Constants.dZcode].toString() +
+                        ",\n" +
+                        list[0][Constants.dCountry].toString();
                     selectedAddress =
                         list[index][Constants.dSAddress].toString() +
                             ", " +

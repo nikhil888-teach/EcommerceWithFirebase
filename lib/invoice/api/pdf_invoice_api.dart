@@ -1,12 +1,11 @@
 import 'dart:io';
 import 'package:ecommerce/invoice/api/pdf_api.dart';
+import 'package:ecommerce/invoice/model/customer.dart';
+import 'package:ecommerce/invoice/model/invoice.dart';
+import 'package:ecommerce/invoice/model/supplier.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/widgets.dart';
-
-import '../model/customer.dart';
-import '../model/invoice.dart';
-import '../model/supplier.dart';
 
 class PdfInvoiceApi {
   static Future<File> generate(Invoice invoice) async {
@@ -129,9 +128,9 @@ class PdfInvoiceApi {
         item.description,
         item.date,
         '${item.quantity}',
-        '₹ ${item.unitPrice}',
+        'Rs. ${item.unitPrice}',
         '${item.vat} %',
-        '₹ ${total}',
+        'Rs. ${total}',
       ];
     }).toList();
 
@@ -154,11 +153,8 @@ class PdfInvoiceApi {
   }
 
   static Widget buildTotal(Invoice invoice) {
-    final netTotal = invoice.items
-        .map((item) => item.total)
-        .reduce((item1, item2) => item1 + item2);
-    final vatPercent = invoice.items.first.vat;
-    final vat = netTotal;
+    final netTotal = invoice.totalPrice;
+    final vat = "0.00";
     final total = netTotal;
 
     return Container(
@@ -177,7 +173,7 @@ class PdfInvoiceApi {
                   unite: true,
                 ),
                 buildText(
-                  title: 'Vat ${vatPercent * 100} %',
+                  title: 'Vat 0%',
                   value: vat.toString(),
                   unite: true,
                 ),

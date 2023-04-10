@@ -7,12 +7,14 @@ class Invoice {
   final Supplier supplier;
   final Customer customer;
   final List<InvoiceItem> items;
+  final int totalPrice;
 
   const Invoice({
     required this.info,
     required this.supplier,
     required this.customer,
     required this.items,
+    required this.totalPrice,
   });
 }
 
