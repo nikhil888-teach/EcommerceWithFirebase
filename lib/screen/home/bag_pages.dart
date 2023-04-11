@@ -209,7 +209,12 @@ class _MyBagPageState extends State<MyBagPage> {
                                                                         .toString())
                                                                     .remove();
 
-                                                                getTotalCart();
+                                                                if (!mounted)
+                                                                  return;
+                                                                setState(() {
+                                                                  bagTotal =
+                                                                      getTotalCart();
+                                                                });
                                                                 totalPrice();
 
                                                                 Navigator.pop(

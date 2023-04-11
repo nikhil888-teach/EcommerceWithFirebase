@@ -30,6 +30,7 @@ class Constants {
   static const SALE = "Sale";
   static const CHECK = "Check";
   static const NEW = "New";
+  static const bestSeller = "Bestsellers";
   static const you_never_before = "You've never seen it before";
 
   //FAVORITE_PAGE
@@ -155,6 +156,7 @@ class Constants {
   static const dColor = "Color";
   static const dSize = "Size";
   static const dCartId = "CarTId";
+  static const dOrderCount = "OrderCount";
 
   //add to cart
   static const dAddToCart = "AddToCart";

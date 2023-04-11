@@ -28,10 +28,12 @@ List pagess = <Widget>[
 ];
 
 class _MyMainPageState extends State<MyMainPage> {
-  int total = 0;
   @override
   void initState() {
-    total = getTotalCart();
+    if (!mounted) return;
+    setState(() {
+      bagTotal = getTotalCart();
+    });
     super.initState();
   }
 
@@ -112,7 +114,7 @@ class _MyMainPageState extends State<MyMainPage> {
                     Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: Text(
-                        "${total}",
+                        "${bagTotal}",
                         style: Text_Style.text_Theme(
                             Constants.grey_text, 10, FontWeight.bold, context),
                       ),
@@ -128,7 +130,7 @@ class _MyMainPageState extends State<MyMainPage> {
                       Padding(
                         padding: const EdgeInsets.only(top: 5),
                         child: Text(
-                          "${total}",
+                          "${bagTotal}",
                           style: Text_Style.text_Theme(Constants.white_text, 10,
                               FontWeight.bold, context),
                         ),

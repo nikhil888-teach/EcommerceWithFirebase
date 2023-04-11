@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math';
 
 import 'package:country_picker/country_picker.dart';
@@ -840,6 +839,8 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
           .child(Constants.dAddToCart);
       database.orderByKey().once().then((value) {
         value.snapshot.children.forEach((element) {
+          String productId = element.child(Constants.dPid).value.toString();
+          incrementProducts(productId);
           element.hasChild(Constants.dColor)
               ? databaseReference.child(Constants.dProducts).push().update({
                   Constants.dPid: element.child(Constants.dPid).value,
@@ -871,6 +872,26 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                 });
         });
       });
+    });
+  }
+
+  void incrementProducts(String productId) {
+    DatabaseReference databaseReference =
+        FirebaseDatabase.instance.ref(Constants.dProducts).child(productId);
+    databaseReference.once().then((value) {
+      if (value.snapshot.child(Constants.dOrderCount).exists) {
+        int count = value.snapshot.child(Constants.dOrderCount).value as int;
+        count++;
+        FirebaseDatabase.instance
+            .ref(Constants.dProducts)
+            .child(productId)
+            .update({Constants.dOrderCount: count});
+      } else {
+        FirebaseDatabase.instance
+            .ref(Constants.dProducts)
+            .child(productId)
+            .update({Constants.dOrderCount: 0});
+      }
     });
   }
 }
