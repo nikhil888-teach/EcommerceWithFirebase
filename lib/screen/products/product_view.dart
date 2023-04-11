@@ -1,3 +1,4 @@
+import 'package:ecommerce/functions/cartcount.dart';
 import 'package:ecommerce/rating/rating_view.dart';
 import 'package:ecommerce/screen/home/main_page.dart';
 import 'package:ecommerce/theme/themeprovider.dart';
@@ -1024,13 +1025,14 @@ class _MyProductPageState extends State<MyProductPage> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
+      bottomSheet: Container(
         color: themeChange.darkTheme ? Colors.black : Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: GestureDetector(
               onTap: () {
                 addData();
+                getTotalCart();
               },
               child: Container(
                   height: 48,

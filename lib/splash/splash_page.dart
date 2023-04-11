@@ -38,18 +38,20 @@ class _MySplashPageState extends State<MySplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // backgroundColor: Colors.white,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: Image.asset(
-              "assets/image/logo.png",
-              scale: 2,
-            ),
-          )
-        ],
+    return SafeArea(
+      child: Scaffold(
+        // backgroundColor: Colors.white,
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Image.asset(
+                "assets/image/logo.png",
+                scale: 2,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

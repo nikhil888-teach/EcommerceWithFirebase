@@ -1,4 +1,5 @@
 import 'package:draggable_fab/draggable_fab.dart';
+import 'package:ecommerce/functions/cartcount.dart';
 import 'package:ecommerce/screen/chat/chatScreen.dart';
 import 'package:ecommerce/screen/home/bag_pages.dart';
 import 'package:ecommerce/screen/home/favorite_page.dart';
@@ -27,6 +28,13 @@ List pagess = <Widget>[
 ];
 
 class _MyMainPageState extends State<MyMainPage> {
+  int total = 0;
+  @override
+  void initState() {
+    total = getTotalCart();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -85,7 +93,7 @@ class _MyMainPageState extends State<MyMainPage> {
             unselectedItemColor: Colors.grey,
             unselectedLabelStyle: Text_Style.text_Theme(
                 Constants.grey_text, 10, FontWeight.normal, context),
-            items: const [
+            items: [
               BottomNavigationBarItem(
                   label: Constants.HOME,
                   icon: Icon(Icons.home),
@@ -100,9 +108,32 @@ class _MyMainPageState extends State<MyMainPage> {
                   )),
               BottomNavigationBarItem(
                   label: Constants.bag,
-                  icon: Icon(CupertinoIcons.bag),
-                  activeIcon: Icon(
-                    CupertinoIcons.bag_fill,
+                  icon: Stack(alignment: Alignment.center, children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: Text(
+                        "${total}",
+                        style: Text_Style.text_Theme(
+                            Constants.grey_text, 10, FontWeight.bold, context),
+                      ),
+                    ),
+                    Icon(CupertinoIcons.bag),
+                  ]),
+                  activeIcon: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Icon(
+                        CupertinoIcons.bag_fill,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: Text(
+                          "${total}",
+                          style: Text_Style.text_Theme(Constants.white_text, 10,
+                              FontWeight.bold, context),
+                        ),
+                      ),
+                    ],
                   )),
               BottomNavigationBarItem(
                   label: Constants.Favorites,

@@ -1,3 +1,4 @@
+import 'package:ecommerce/functions/cartcount.dart';
 import 'package:ecommerce/screen/aftercheckout/steppercheckout_page.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
@@ -207,6 +208,8 @@ class _MyBagPageState extends State<MyBagPage> {
                                                                             Constants.dcheckId]
                                                                         .toString())
                                                                     .remove();
+
+                                                                getTotalCart();
                                                                 totalPrice();
 
                                                                 Navigator.pop(
@@ -463,7 +466,7 @@ class _MyBagPageState extends State<MyBagPage> {
               ]),
         ),
       ),
-      bottomNavigationBar: total == 0
+      bottomSheet: total == 0
           ? SizedBox()
           : Padding(
               padding: const EdgeInsets.only(left: 16, right: 16),
