@@ -30,6 +30,8 @@ class Constants {
   static const SALE = "Sale";
   static const CHECK = "Check";
   static const NEW = "New";
+  static const BEST = "Best";
+
   static const bestSeller = "Bestsellers";
   static const you_never_before = "You've never seen it before";
 

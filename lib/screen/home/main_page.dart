@@ -20,9 +20,9 @@ class MyMainPage extends StatefulWidget {
 }
 
 List pagess = <Widget>[
-  const MyHomePage(),
-  const MyShopePage(),
-  const MyBagPage(),
+  MyHomePage(),
+  MyShopePage(),
+  MyBagPage(),
   const MyFavoritePage(),
   const MyProfilePage(),
 ];
@@ -32,7 +32,7 @@ class _MyMainPageState extends State<MyMainPage> {
   void initState() {
     if (!mounted) return;
     setState(() {
-      bagTotal = getTotalCart();
+      getTotalCart();
     });
     super.initState();
   }
@@ -111,12 +111,15 @@ class _MyMainPageState extends State<MyMainPage> {
               BottomNavigationBarItem(
                   label: Constants.bag,
                   icon: Stack(alignment: Alignment.center, children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5),
-                      child: Text(
-                        "${bagTotal}",
-                        style: Text_Style.text_Theme(
-                            Constants.grey_text, 10, FontWeight.bold, context),
+                    ValueListenableBuilder<int>(
+                      valueListenable: countCart,
+                      builder: (context, value, child) => Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: Text(
+                          "${value}",
+                          style: Text_Style.text_Theme(Constants.grey_text, 10,
+                              FontWeight.bold, context),
+                        ),
                       ),
                     ),
                     Icon(CupertinoIcons.bag),
@@ -127,14 +130,19 @@ class _MyMainPageState extends State<MyMainPage> {
                       Icon(
                         CupertinoIcons.bag_fill,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5),
-                        child: Text(
-                          "${bagTotal}",
-                          style: Text_Style.text_Theme(Constants.white_text, 10,
-                              FontWeight.bold, context),
-                        ),
-                      ),
+                      ValueListenableBuilder<int>(
+                          valueListenable: countCart,
+                          builder: (context, value, child) => Padding(
+                                padding: const EdgeInsets.only(top: 5),
+                                child: Text(
+                                  "${value}",
+                                  style: Text_Style.text_Theme(
+                                      Constants.white_text,
+                                      10,
+                                      FontWeight.bold,
+                                      context),
+                                ),
+                              )),
                     ],
                   )),
               BottomNavigationBarItem(

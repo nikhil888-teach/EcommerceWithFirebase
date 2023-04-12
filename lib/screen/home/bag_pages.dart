@@ -212,8 +212,7 @@ class _MyBagPageState extends State<MyBagPage> {
                                                                 if (!mounted)
                                                                   return;
                                                                 setState(() {
-                                                                  bagTotal =
-                                                                      getTotalCart();
+                                                                  getTotalCart();
                                                                 });
                                                                 totalPrice();
 

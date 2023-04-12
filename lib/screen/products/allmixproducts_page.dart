@@ -4,20 +4,19 @@ import 'package:ecommerce/widgets/scafoldmsg_theme.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
-class MyCategoryProducts extends StatefulWidget {
-  const MyCategoryProducts(
-      {super.key, required this.subCategory, required this.category});
-  final String subCategory;
-  final String category;
+class MyAllTypeProductsPage extends StatefulWidget {
+  const MyAllTypeProductsPage({super.key, required this.type});
+  final String type;
 
   @override
-  State<MyCategoryProducts> createState() => _MyCategoryProductsState();
+  State<MyAllTypeProductsPage> createState() => _MyAllTypeProductsPageState();
 }
 
-class _MyCategoryProductsState extends State<MyCategoryProducts> {
+class _MyAllTypeProductsPageState extends State<MyAllTypeProductsPage> {
   bool isFv = false;
   String? selectedId;
   TextEditingController searchController = TextEditingController();
@@ -26,13 +25,14 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: CustomScrollView(
+      shrinkWrap: true,
       slivers: [
         SliverAppBar(
           floating: true,
           pinned: true,
           snap: false,
           centerTitle: false,
-          title: Text(widget.subCategory,
+          title: Text(widget.type,
               style: Text_Style.text_Theme(
                   Constants.black_text, 20, FontWeight.bold, context)),
           // actions: [
@@ -93,25 +93,39 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
                   if (searchController.text.isEmpty) {
                     list.clear();
                     for (var element in data.values) {
-                      if (element['Type'] == widget.subCategory &&
-                          element['Gender'] == widget.category) {
+                      if (widget.type == Constants.BEST) {
+                        if (element[Constants.dOrderCount] > 0) {
+                          list.add(element);
+                        }
+                      } else {
                         list.add(element);
                       }
+                    }
+                    if (widget.type == Constants.NEW) {
+                      list.sort((a, b) =>
+                          b[Constants.dDate].compareTo(a[Constants.dDate]));
+                    } else if (widget.type == Constants.BEST) {
+                      list.sort((a, b) => b[Constants.dOrderCount]
+                          .compareTo(a[Constants.dOrderCount]));
                     }
                   } else if (searchController.text.isNotEmpty) {
                     list.clear();
                     for (var element in data.values) {
-                      if (element['Type'] == widget.subCategory &&
-                              element['Gender'] == widget.category &&
-                              element[Constants.dPname]
-                                  .toString()
-                                  .toLowerCase()
-                                  .contains(searchQuery) ||
+                      if (element[Constants.dPname]
+                              .toString()
+                              .toLowerCase()
+                              .contains(searchQuery) ||
                           element[Constants.dBrand]
                               .toString()
                               .toLowerCase()
                               .contains(searchQuery)) {
-                        list.add(element);
+                        if (widget.type == Constants.BEST) {
+                          if (element[Constants.dOrderCount] > 0) {
+                            list.add(element);
+                          }
+                        } else {
+                          list.add(element);
+                        }
                       }
                     }
                   } else {
@@ -156,8 +170,8 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
                       rate: list[index][Constants.dTotalRating] == null
                           ? null
                           : totalRate,
-                      category: widget.category,
-                      subCategory: widget.subCategory,
+                      category: list[index][Constants.dType],
+                      subCategory: list[index][Constants.dGender],
                       color: list[index][Constants.dColor],
                       size: list[index][Constants.dSize],
                       id: list[index][Constants.dId],
@@ -213,8 +227,8 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
                                   } else {
                                     addToFaviratePage(
                                       rate: totalRate,
-                                      category: widget.category,
-                                      subCategory: widget.subCategory,
+                                      category: list[index][Constants.dGender],
+                                      subCategory: list[index][Constants.dType],
                                       color: list[index][Constants.dColor],
                                       size: list[index][Constants.dSize],
                                       id: list[index][Constants.dId],
@@ -228,8 +242,8 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
                                 } else {
                                   addToFaviratePage(
                                     rate: totalRate,
-                                    category: widget.category,
-                                    subCategory: widget.subCategory,
+                                    category: list[index][Constants.dGender],
+                                    subCategory: list[index][Constants.dType],
                                     color: list[index][Constants.dColor],
                                     size: list[index][Constants.dSize],
                                     id: list[index][Constants.dId],
