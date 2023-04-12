@@ -94,22 +94,30 @@ class _MyProductPageState extends State<MyProductPage> {
                     ),
                   ));
             },
-            child: Padding(
-              padding: EdgeInsets.only(right: 17),
-              child: Column(
-                children: [
-                  ValueListenableBuilder<int>(
-                    valueListenable: countCart,
-                    builder: (context, value, child) => Text(
-                      "${value}",
-                      style: Text_Style.text_Theme(
-                          Constants.black_text, 14, FontWeight.bold, context),
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.only(right: 17),
+                child: ValueListenableBuilder<int>(
+                  valueListenable: countCart,
+                  builder: (context, value, child) => Badge(
+                    child: Icon(
+                      Icons.shopping_cart,
+                    ),
+                    isLabelVisible: value == 0 ? false : true,
+                    label: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 2),
+                          child: Text(
+                            "${value}",
+                            style: Text_Style.text_Theme(Constants.white_text,
+                                10, FontWeight.bold, context),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Icon(
-                    Icons.shopping_cart,
-                  ),
-                ],
+                ),
               ),
             ),
           ),

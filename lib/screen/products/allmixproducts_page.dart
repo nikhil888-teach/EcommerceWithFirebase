@@ -1,4 +1,5 @@
 import 'package:ecommerce/screen/products/product_view.dart';
+import 'package:ecommerce/theme/themeprovider.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/scafoldmsg_theme.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:provider/provider.dart';
 
 class MyAllTypeProductsPage extends StatefulWidget {
   const MyAllTypeProductsPage({super.key, required this.type});
@@ -23,6 +25,8 @@ class _MyAllTypeProductsPageState extends State<MyAllTypeProductsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
         body: CustomScrollView(
       shrinkWrap: true,
@@ -48,7 +52,7 @@ class _MyAllTypeProductsPageState extends State<MyAllTypeProductsPage> {
             title: Container(
               width: double.infinity,
               height: 40,
-              color: Colors.white,
+              color: themeChange.darkTheme ? Colors.black : Colors.white,
               child: Center(
                 child: TextField(
                   onChanged: (value) {
@@ -56,10 +60,22 @@ class _MyAllTypeProductsPageState extends State<MyAllTypeProductsPage> {
                     setState(() {});
                   },
                   controller: searchController,
+                  cursorColor: Colors.red,
+                  style: Text_Style.text_Theme(
+                      Constants.black_text, 18, FontWeight.normal, context),
                   decoration: InputDecoration(
+                      border: InputBorder.none,
+                      prefixIconColor: Colors.red,
+                      suffixIconColor: Colors.red,
                       hintText: 'Search for something',
+                      hintStyle: Text_Style.text_Theme(
+                          Constants.grey_text, 18, FontWeight.normal, context),
                       prefixIcon: Icon(Icons.search),
-                      suffixIcon: Icon(Icons.cancel)),
+                      suffixIcon: IconButton(
+                          onPressed: () {
+                            searchController.clear();
+                          },
+                          icon: Icon(Icons.cancel_rounded))),
                 ),
               ),
             ),
@@ -119,7 +135,8 @@ class _MyAllTypeProductsPageState extends State<MyAllTypeProductsPage> {
                               .toString()
                               .toLowerCase()
                               .contains(searchQuery)) {
-                        if (widget.type == Constants.BEST) {
+                        if (widget.type.toString() ==
+                            Constants.BEST.toString()) {
                           if (element[Constants.dOrderCount] > 0) {
                             list.add(element);
                           }

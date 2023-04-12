@@ -6,10 +6,12 @@ import 'package:ecommerce/screen/home/favorite_page.dart';
 import 'package:ecommerce/screen/home/home_page.dart';
 import 'package:ecommerce/screen/home/profile_page.dart';
 import 'package:ecommerce/screen/home/shope_page.dart';
+import 'package:ecommerce/theme/themeprovider.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MyMainPage extends StatefulWidget {
   MyMainPage({Key? key, this.currentIndex = 0}) : super(key: key);
@@ -39,6 +41,8 @@ class _MyMainPageState extends State<MyMainPage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<ThemeProvider>(context);
+
     return SafeArea(
       child: Scaffold(
         body: pagess.elementAt(widget.currentIndex),
@@ -134,14 +138,13 @@ class _MyMainPageState extends State<MyMainPage> {
                           valueListenable: countCart,
                           builder: (context, value, child) => Padding(
                                 padding: const EdgeInsets.only(top: 5),
-                                child: Text(
-                                  "${value}",
-                                  style: Text_Style.text_Theme(
-                                      Constants.white_text,
-                                      10,
-                                      FontWeight.bold,
-                                      context),
-                                ),
+                                child: Text("${value}",
+                                    style: TextStyle(
+                                        color: themeChange.darkTheme
+                                            ? Colors.black
+                                            : Colors.white,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold)),
                               )),
                     ],
                   )),

@@ -175,6 +175,7 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
         body: Stepper(
           type: StepperType.horizontal,
           currentStep: stepIndex,
+
           // onStepCancel: () {
           //   if (stepIndex <= getStep().length - 1) {
           //     setState(() {
@@ -428,8 +429,10 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
             value.snapshot.child(Constants.dState).value.toString();
         codeController.text =
             value.snapshot.child(Constants.dZcode).value.toString();
-        countryController.text =
-            value.snapshot.child(Constants.dCountry).value.toString();
+        if (countryController.text.isEmpty) {
+          countryController.text =
+              value.snapshot.child(Constants.dCountry).value.toString();
+        }
       });
     }
 
@@ -489,6 +492,7 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                           if (!mounted) return;
                           setState(() {
                             _country = country;
+                            countryController.text = _country!.name;
                           });
                         },
                       );
@@ -523,7 +527,7 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                     Constants.dCity: cityController.text.trim(),
                     Constants.dState: stateController.text.trim(),
                     Constants.dZcode: codeController.text.trim(),
-                    Constants.dCountry: _country!.name.toString().trim()
+                    Constants.dCountry: countryController.text.toString().trim()
                   }).then((value) {
                     if (!mounted) return;
                     setState(() {

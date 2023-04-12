@@ -46,9 +46,13 @@ class _MyProfilePageState extends State<MyProfilePage> {
                       .onValue,
                   builder: (context, AsyncSnapshot snapshot) {
                     if (!snapshot.hasData) {
-                      return Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.red,
+                      return Container(
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.red,
+                          ),
                         ),
                       );
                     } else {

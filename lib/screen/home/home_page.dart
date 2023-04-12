@@ -57,7 +57,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       Padding(
                         padding: const EdgeInsets.only(top: 24),
                         child: GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MyAllTypeProductsPage(
+                                        type: Constants.BEST),
+                                  ));
+                            },
                             child: Container(
                                 width: MediaQuery.of(context).size.width / 2.5,
                                 child: Button_Style.button_Theme(

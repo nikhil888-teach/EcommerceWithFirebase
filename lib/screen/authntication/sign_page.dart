@@ -168,13 +168,21 @@ class _MySignInPageState extends State<MySignInPage> {
                                         content:
                                             Text("Please fill all the field")));
                                 } else {
-                                  signUpAndAddData(
-                                      name.text.trim(),
-                                      email.text.trim(),
-                                      password.text.trim(),
-                                      file!);
+                                  if (password.text.length > 7) {
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(const SnackBar(
+                                          content: Text(
+                                              "Password length must be 6 character")));
+                                  } else {
+                                    signUpAndAddData(
+                                        name.text.trim(),
+                                        email.text.trim(),
+                                        password.text.trim(),
+                                        file!);
 
-                                  file = null;
+                                    file = null;
+                                  }
                                 }
                               },
                               child: loading
@@ -263,6 +271,11 @@ class _MySignInPageState extends State<MySignInPage> {
           setState(() {
             loading = false;
           });
+          if (onError is FirebaseAuthException) {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(SnackBar(content: Text(onError.code.toString())));
+          }
           Scaffold_msg.toastMessage(context, onError.toString());
         });
       });
@@ -271,7 +284,12 @@ class _MySignInPageState extends State<MySignInPage> {
       setState(() {
         loading = false;
       });
+      if (onError is FirebaseAuthException) {
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(SnackBar(content: Text(onError.code.toString())));
+      }
       Scaffold_msg.toastMessage(context, onError.toString());
-    });
+    }).onError((error, stackTrace) {});
   }
 }
