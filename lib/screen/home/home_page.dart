@@ -270,6 +270,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => MyProductPage(
+                    colorLists: list[index][Constants.dColorLists],
                     rate: list[index][Constants.dTotalRating] == null
                         ? null
                         : perUserRate,
@@ -345,6 +346,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                         context, "Already Added");
                                   } else {
                                     addToFaviratePage(
+                                      colorLists: list[index]
+                                          [Constants.dColorLists],
                                       rate: perUserRate == null
                                           ? null
                                           : perUserRate,
@@ -362,6 +365,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                   }
                                 } else {
                                   addToFaviratePage(
+                                    colorLists: list[index]
+                                        [Constants.dColorLists],
                                     rate: perUserRate == null
                                         ? null
                                         : perUserRate,
@@ -536,6 +541,7 @@ class _MyHomePageState extends State<MyHomePage> {
     required decription,
     required name,
     required price,
+    required colorLists,
     int? rate,
   }) {
     DatabaseReference databaseReference = FirebaseDatabase.instance
@@ -555,6 +561,7 @@ class _MyHomePageState extends State<MyHomePage> {
       Constants.dPname: name,
       Constants.dSPrice: price,
       Constants.dimages: images,
+      Constants.dColorLists: colorLists,
       Constants.dFavId: databaseReference.key,
       Constants.dTotalRating: rate,
       Constants.dFavDate: DateTime.now().toString()

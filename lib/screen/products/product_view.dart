@@ -25,11 +25,13 @@ class MyProductPage extends StatefulWidget {
       required this.color,
       required this.size,
       required this.id,
-      required this.rate})
+      required this.rate,
+      required this.colorLists})
       : super(key: key);
   final String category;
   final String subCategory;
   final List images;
+  final List colorLists;
   final String name;
   final String brand;
   final int price;
@@ -723,6 +725,8 @@ class _MyProductPageState extends State<MyProductPage> {
                                           Navigator.of(context)
                                               .push(MaterialPageRoute(
                                             builder: (context) => MyProductPage(
+                                              colorLists: list[index]
+                                                  [Constants.dColorLists],
                                               rate: list[index][Constants
                                                           .dTotalRating] ==
                                                       null

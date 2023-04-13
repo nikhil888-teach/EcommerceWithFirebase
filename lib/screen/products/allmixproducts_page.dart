@@ -184,6 +184,7 @@ class _MyAllTypeProductsPageState extends State<MyAllTypeProductsPage> {
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => MyProductPage(
+                      colorLists: list[index][Constants.dColorLists],
                       rate: list[index][Constants.dTotalRating] == null
                           ? null
                           : totalRate,

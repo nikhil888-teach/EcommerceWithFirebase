@@ -159,6 +159,7 @@ class Constants {
   static const dSize = "Size";
   static const dCartId = "CarTId";
   static const dOrderCount = "OrderCount";
+  static const dColorLists = "ColorLists";
 
   //add to cart
   static const dAddToCart = "AddToCart";
