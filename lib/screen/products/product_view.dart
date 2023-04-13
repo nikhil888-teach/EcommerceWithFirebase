@@ -26,12 +26,12 @@ class MyProductPage extends StatefulWidget {
       required this.size,
       required this.id,
       required this.rate,
-      required this.colorLists})
+      this.colorLists})
       : super(key: key);
   final String category;
   final String subCategory;
   final List images;
-  final List colorLists;
+  final List? colorLists;
   final String name;
   final String brand;
   final int price;
@@ -53,19 +53,14 @@ class _MyProductPageState extends State<MyProductPage> {
   int? selectedColorCode;
   int? selectedindexcolor;
   int selectedImageIndex = 0;
-  Map color = {0: "White", 1: "Black", 2: "Pink", 3: "Blue", 4: "Grey"};
-  var displaycolor = {
-    0xfff5f5f5,
-    0xff000000,
-    0xffFFC0CB,
-    0xff0000FF,
-    0xff808080
-  };
+  // Map color = {0: "White", 1: "Black", 2: "Pink", 3: "Blue", 4: "Grey"};
+  var displaycolor;
   String? userId;
   String? selectedcolor;
   bool loading = false;
   @override
   void initState() {
+    displaycolor = widget.colorLists;
     selectedsize = "Size";
     // _pageController = PageController(initialPage: 0);
     selectedcolor = "Color";
@@ -403,17 +398,17 @@ class _MyProductPageState extends State<MyProductPage> {
                                               ),
                                             ),
                                             Wrap(
-                                              spacing: 20,
+                                              spacing: 10,
                                               direction: Axis.horizontal,
                                               children: List.generate(
-                                                  color.length,
+                                                  widget.colorLists!.length,
                                                   (index) => Container(
                                                         height: MediaQuery.of(
                                                                     context)
                                                                 .size
                                                                 .height /
-                                                            14,
-                                                        width: 100,
+                                                            16,
+                                                        width: 61,
                                                         child: Padding(
                                                           padding:
                                                               const EdgeInsets
@@ -424,7 +419,7 @@ class _MyProductPageState extends State<MyProductPage> {
                                                                   shape: MaterialStateProperty.all(RoundedRectangleBorder(
                                                                       borderRadius:
                                                                           BorderRadius.circular(
-                                                                              24),
+                                                                              12),
                                                                       side: BorderSide(
                                                                           color: Colors
                                                                               .white))),
@@ -436,16 +431,10 @@ class _MyProductPageState extends State<MyProductPage> {
                                                                 if (!mounted)
                                                                   return;
                                                                 setState(() {
-                                                                  selectedcolor = color
-                                                                      .entries
-                                                                      .elementAt(
-                                                                          index)
-                                                                      .value;
-                                                                  selectedindexcolor = color
-                                                                      .entries
-                                                                      .elementAt(
-                                                                          index)
-                                                                      .key;
+                                                                  selectedindexcolor =
+                                                                      displaycolor
+                                                                          .elementAt(
+                                                                              index);
                                                                   selectedColorCode =
                                                                       displaycolor
                                                                           .elementAt(
@@ -454,35 +443,12 @@ class _MyProductPageState extends State<MyProductPage> {
                                                                 Navigator.pop(
                                                                     context);
                                                               },
-                                                              child: Row(
-                                                                children: [
-                                                                  Padding(
-                                                                    padding: const EdgeInsets
-                                                                            .only(
-                                                                        right:
-                                                                            5),
-                                                                    child: Icon(
-                                                                      Icons
-                                                                          .circle,
-                                                                      color: Color(
-                                                                          displaycolor
-                                                                              .elementAt(index)),
-                                                                    ),
-                                                                  ),
-                                                                  Text(
-                                                                      color
-                                                                          .entries
-                                                                          .elementAt(
-                                                                              index)
-                                                                          .value,
-                                                                      style: TextStyle(
-                                                                          color: Colors
-                                                                              .black,
-                                                                          fontSize:
-                                                                              14,
-                                                                          fontWeight:
-                                                                              FontWeight.w500)),
-                                                                ],
+                                                              child: Icon(
+                                                                Icons.circle,
+                                                                color: Color(widget
+                                                                    .colorLists!
+                                                                    .elementAt(
+                                                                        index)),
                                                               )),
                                                         ),
                                                       )),
@@ -512,9 +478,7 @@ class _MyProductPageState extends State<MyProductPage> {
                                               Icons.circle,
                                               color: selectedindexcolor == null
                                                   ? Colors.transparent
-                                                  : Color(
-                                                      displaycolor.elementAt(
-                                                          selectedindexcolor!)),
+                                                  : Color(selectedColorCode!),
                                             ),
                                           ),
                                           Text(selectedcolor!,
@@ -543,6 +507,7 @@ class _MyProductPageState extends State<MyProductPage> {
                                     context, "Already Added");
                               } else {
                                 addToFaviratePage(
+                                  colorLists: widget.colorLists,
                                   rate: widget.rate,
                                   category: widget.category,
                                   subCategory: widget.subCategory,
@@ -558,6 +523,7 @@ class _MyProductPageState extends State<MyProductPage> {
                               }
                             } else {
                               addToFaviratePage(
+                                colorLists: widget.colorLists,
                                 rate: widget.rate,
                                 category: widget.category,
                                 subCategory: widget.subCategory,
@@ -837,6 +803,10 @@ class _MyProductPageState extends State<MyProductPage> {
                                                                       "Already Added");
                                                             } else {
                                                               addToFaviratePage(
+                                                                colorLists: list[
+                                                                        index][
+                                                                    Constants
+                                                                        .dColorLists],
                                                                 rate:
                                                                     perUserRate,
                                                                 category: widget
@@ -864,6 +834,10 @@ class _MyProductPageState extends State<MyProductPage> {
                                                             }
                                                           } else {
                                                             addToFaviratePage(
+                                                              colorLists: list[
+                                                                      index][
+                                                                  Constants
+                                                                      .dColorLists],
                                                               rate: perUserRate,
                                                               category: widget
                                                                   .category,
@@ -1098,13 +1072,13 @@ class _MyProductPageState extends State<MyProductPage> {
         .child(Constants.dAddToCart)
         .push();
     if (widget.color || widget.size) {
-      if (selectedcolor != "Color" && selectedsize != "Size") {
+      if (selectedColorCode != null && selectedsize != "Size") {
         databaseReference.update({
           Constants.dPid: widget.id,
           Constants.dPname: widget.name,
           Constants.dQuantity: 1,
           Constants.dSize: selectedsize,
-          Constants.dColor: selectedcolor,
+          Constants.dColor: selectedColorCode,
           Constants.dtotamt: widget.price,
           Constants.dimages: widget.images[0],
           Constants.dSPrice: widget.price,
@@ -1229,6 +1203,7 @@ class _MyProductPageState extends State<MyProductPage> {
       required brand,
       required decription,
       required name,
+      required colorLists,
       required price,
       int? rate}) {
     DatabaseReference databaseReference = FirebaseDatabase.instance
@@ -1243,6 +1218,7 @@ class _MyProductPageState extends State<MyProductPage> {
       Constants.dColor: color,
       Constants.dSize: size,
       Constants.dPid: id,
+      Constants.dColorLists: colorLists,
       Constants.dBrand: brand,
       Constants.dDesc: decription,
       Constants.dTotalRating: rate,

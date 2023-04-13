@@ -256,17 +256,15 @@ class _MyBagPageState extends State<MyBagPage> {
                                                                           .only(
                                                                       right:
                                                                           15),
-                                                                  child: Text(
-                                                                    list[index][
-                                                                            Constants.dColor]
-                                                                        .toString(),
-                                                                    style: Text_Style.text_Theme(
+                                                                  child: Icon(
+                                                                    Icons
+                                                                        .circle,
+                                                                    size: 20,
+                                                                    color: Color(list[
+                                                                            index]
+                                                                        [
                                                                         Constants
-                                                                            .black_text,
-                                                                        13,
-                                                                        FontWeight
-                                                                            .normal,
-                                                                        context),
+                                                                            .dColor]),
                                                                   ),
                                                                 ),
                                                               ],

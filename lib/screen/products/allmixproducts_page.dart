@@ -184,12 +184,14 @@ class _MyAllTypeProductsPageState extends State<MyAllTypeProductsPage> {
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => MyProductPage(
-                      colorLists: list[index][Constants.dColorLists],
+                      colorLists: list[index][Constants.dColorLists] == null
+                          ? null
+                          : list[index][Constants.dColorLists],
                       rate: list[index][Constants.dTotalRating] == null
                           ? null
                           : totalRate,
-                      category: list[index][Constants.dType],
-                      subCategory: list[index][Constants.dGender],
+                      category: list[index][Constants.dGender],
+                      subCategory: list[index][Constants.dType],
                       color: list[index][Constants.dColor],
                       size: list[index][Constants.dSize],
                       id: list[index][Constants.dId],
@@ -244,6 +246,8 @@ class _MyAllTypeProductsPageState extends State<MyAllTypeProductsPage> {
                                         context, "Already Added");
                                   } else {
                                     addToFaviratePage(
+                                      colorLists: list[index]
+                                          [Constants.dColorLists],
                                       rate: totalRate,
                                       category: list[index][Constants.dGender],
                                       subCategory: list[index][Constants.dType],
@@ -259,6 +263,8 @@ class _MyAllTypeProductsPageState extends State<MyAllTypeProductsPage> {
                                   }
                                 } else {
                                   addToFaviratePage(
+                                    colorLists: list[index]
+                                        [Constants.dColorLists],
                                     rate: totalRate,
                                     category: list[index][Constants.dGender],
                                     subCategory: list[index][Constants.dType],
@@ -431,6 +437,7 @@ class _MyAllTypeProductsPageState extends State<MyAllTypeProductsPage> {
       required brand,
       required decription,
       required name,
+      required colorLists,
       required price,
       int? rate}) {
     DatabaseReference databaseReference = FirebaseDatabase.instance
@@ -448,6 +455,7 @@ class _MyAllTypeProductsPageState extends State<MyAllTypeProductsPage> {
       Constants.dBrand: brand,
       Constants.dDesc: decription,
       Constants.dTotalRating: rate,
+      Constants.dColorLists: colorLists,
       Constants.dPname: name,
       Constants.dSPrice: price,
       Constants.dimages: images,

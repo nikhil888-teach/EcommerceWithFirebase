@@ -188,20 +188,13 @@ class _MyCancelledProductState extends State<MyCancelledProduct> {
                                                       padding:
                                                           const EdgeInsets.only(
                                                               right: 15),
-                                                      child: Text(
-                                                        snapshot
+                                                      child: Icon(
+                                                        Icons.circle,
+                                                        size: 20,
+                                                        color: Color(snapshot
                                                             .child(Constants
                                                                 .dColor)
-                                                            .value
-                                                            .toString(),
-                                                        style: Text_Style
-                                                            .text_Theme(
-                                                                Constants
-                                                                    .black_text,
-                                                                13,
-                                                                FontWeight
-                                                                    .normal,
-                                                                context),
+                                                            .value as int),
                                                       ),
                                                     ),
                                                   ],

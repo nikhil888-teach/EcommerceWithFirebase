@@ -229,6 +229,8 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
                                         context, "Already Added");
                                   } else {
                                     addToFaviratePage(
+                                      colorLists: list[index]
+                                          [Constants.dColorLists],
                                       rate: totalRate,
                                       category: widget.category,
                                       subCategory: widget.subCategory,
@@ -244,6 +246,8 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
                                   }
                                 } else {
                                   addToFaviratePage(
+                                    colorLists: list[index]
+                                        [Constants.dColorLists],
                                     rate: totalRate,
                                     category: widget.category,
                                     subCategory: widget.subCategory,
@@ -417,6 +421,7 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
       required decription,
       required name,
       required price,
+      required colorLists,
       int? rate}) {
     DatabaseReference databaseReference = FirebaseDatabase.instance
         .ref(Constants.dUser)
@@ -436,6 +441,7 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
       Constants.dPname: name,
       Constants.dSPrice: price,
       Constants.dimages: images,
+      Constants.dColorLists: colorLists,
       Constants.dFavId: databaseReference.key,
       Constants.dFavDate: DateTime.now().toString()
     }).then((value) {

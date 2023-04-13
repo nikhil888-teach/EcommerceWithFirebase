@@ -45,7 +45,7 @@ class _MyCancelledState extends State<MyCancelled> {
               list.sort(
                   (a, b) => b[Constants.dodate].compareTo(a[Constants.dodate]));
 
-              if (list.length <= 0) {
+              if (list.length < 0) {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 50.0),
                   child: Column(
