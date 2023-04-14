@@ -83,6 +83,7 @@ class _MySettingPageState extends State<MySettingPage> {
                   Constants.black_text, 18, FontWeight.bold, context)),
         ),
         body: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.all(15.0),
             child: Column(

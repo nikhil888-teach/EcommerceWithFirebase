@@ -1,4 +1,5 @@
 import 'package:ecommerce/screen/authntication/forgot_pass.dart';
+import 'package:ecommerce/screen/authntication/sign_page.dart';
 import 'package:ecommerce/screen/home/main_page.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
@@ -122,11 +123,10 @@ class _MyLoginPageState extends State<MyLoginPage> {
                                   setState(() {
                                     loading = false;
                                   });
-                                  Navigator.push(
-                                      context,
+                                  Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(
-                                        builder: (context) => MyMainPage(),
-                                      ));
+                                          builder: (context) => MyMainPage()),
+                                      (Route<dynamic> route) => false);
                                 }).catchError((onError) {
                                   if (!mounted) return;
 
@@ -145,6 +145,31 @@ class _MyLoginPageState extends State<MyLoginPage> {
                                     ),
                                   )
                                 : Button_Style.button_Theme(Constants.LOGIN)),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const MySignInPage(),
+                            ));
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              const Icon(
+                                Icons.arrow_left_sharp,
+                                color: Colors.red,
+                              ),
+                              Text(Constants.NO_ACCOUNT,
+                                  style: Text_Style.text_Theme(
+                                      Constants.black_text,
+                                      14,
+                                      FontWeight.normal,
+                                      context)),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),

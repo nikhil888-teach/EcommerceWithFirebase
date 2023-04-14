@@ -138,6 +138,8 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                                               child: StatefulBuilder(
                                                   builder: (context, setState) {
                                                 return ListView.builder(
+                                                  physics:
+                                                      BouncingScrollPhysics(),
                                                   shrinkWrap: true,
                                                   itemCount: filter.length,
                                                   itemBuilder:

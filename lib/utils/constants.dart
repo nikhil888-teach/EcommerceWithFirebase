@@ -24,6 +24,7 @@ class Constants {
   static const SIGNUP = "Sign up";
   static const NAME = "Name";
   static const ALREADY_ACCOUNT = "Already have an account?";
+  static const NO_ACCOUNT = "I don't have an account? Register";
 
   //HOME_PAGE
   static const FASHION = "Fashion";
@@ -231,9 +232,9 @@ class AppColor {
   static const backgroundColor = Color.fromARGB(255, 255, 240, 240);
   static const greenColor = Color.fromARGB(255, 36, 202, 31);
   static const textColor = Color(0xFFFFFFFF);
-  static const backgroundPrimary = Color.fromARGB(255, 218, 35, 105);
-  static const senderbackground = Color.fromARGB(255, 218, 35, 105);
-  static const reciverbackground = Color.fromARGB(255, 182, 24, 63);
+  static const backgroundPrimary = Color.fromARGB(255, 156, 25, 2);
+  static const senderbackground = Color.fromARGB(248, 243, 62, 45);
+  static const reciverbackground = Color.fromARGB(255, 156, 25, 2);
 
   static const tranparent = Colors.transparent;
 }

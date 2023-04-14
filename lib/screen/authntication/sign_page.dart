@@ -114,7 +114,8 @@ class _MySignInPageState extends State<MySignInPage> {
                             height: 8,
                           ),
                           Textformfield_style.textField(
-                              name, Constants.NAME, TextInputType.name),
+                              name, Constants.NAME, TextInputType.name,
+                              isName: true),
                           const SizedBox(
                             height: 8,
                           ),

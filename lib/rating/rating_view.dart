@@ -1,6 +1,5 @@
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
-import 'package:ecommerce/widgets/scafoldmsg_theme.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -84,6 +83,7 @@ class _MyRatingPageState extends State<MyRatingPage> {
                     Expanded(
                       flex: 10,
                       child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
                         itemCount: list.length,
                         itemBuilder: (context, index) {
                           int? perUserRate =
@@ -232,6 +232,7 @@ class _MyRatingPageState extends State<MyRatingPage> {
                                     Container(
                                       height: 35,
                                       child: ListView.builder(
+                                        physics: BouncingScrollPhysics(),
                                         scrollDirection: Axis.horizontal,
                                         itemCount: 5,
                                         shrinkWrap: true,

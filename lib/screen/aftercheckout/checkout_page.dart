@@ -156,6 +156,7 @@ class _MyCheckOutState extends State<MyCheckOut> {
                     Container(
                       height: 80,
                       child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
                         scrollDirection: Axis.horizontal,
                         itemCount: delivery.length,
                         itemBuilder: (context, index) {

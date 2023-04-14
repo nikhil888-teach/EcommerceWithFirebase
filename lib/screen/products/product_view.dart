@@ -127,6 +127,7 @@ class _MyProductPageState extends State<MyProductPage> {
         ],
       ),
       body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: Container(
           child: Column(
             children: [
@@ -180,6 +181,8 @@ class _MyProductPageState extends State<MyProductPage> {
                 height: 20,
                 width: MediaQuery.of(context).size.width,
                 child: ListView.builder(
+                  physics: BouncingScrollPhysics(),
+
                   itemCount: 3,
                   // padding: EdgeInsets.symmetric(vertical: 5),
                   shrinkWrap: true,

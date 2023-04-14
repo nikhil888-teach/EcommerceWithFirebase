@@ -206,11 +206,11 @@ class _MyChatScreenState extends State<MyChatScreen> {
             return Column(
               children: [
                 InputChip(
-                  backgroundColor: AppColor.pinkColor,
+                  backgroundColor: AppColor.reciverbackground.withAlpha(100),
                   label: Text(
                     defaultQuestionList[0],
                     style: TextStyle(
-                        color: AppColor.blackColor,
+                        color: AppColor.whiteColor,
                         fontWeight: FontWeight.w500),
                   ),
                   onSelected: (bool value) {
@@ -218,11 +218,11 @@ class _MyChatScreenState extends State<MyChatScreen> {
                   },
                 ),
                 InputChip(
-                  backgroundColor: AppColor.pinkColor,
+                  backgroundColor: AppColor.reciverbackground.withAlpha(100),
                   label: Text(
                     defaultQuestionList[1],
                     style: TextStyle(
-                        color: AppColor.blackColor,
+                        color: AppColor.whiteColor,
                         fontWeight: FontWeight.w500),
                   ),
                   onSelected: (bool value) {

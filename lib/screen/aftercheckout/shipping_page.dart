@@ -70,6 +70,7 @@ class _MyShippingAddressState extends State<MyShippingAddress> {
                 }
 
                 return ListView.builder(
+                  physics: BouncingScrollPhysics(),
                   itemCount: list.length,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
