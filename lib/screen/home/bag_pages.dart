@@ -170,59 +170,46 @@ class _MyBagPageState extends State<MyBagPage> {
                                                                 FontWeight.bold,
                                                                 context),
                                                       ),
-                                                      Container(
-                                                        height: 25,
-                                                        width: 30,
-                                                        child: PopupMenuButton(
-                                                          icon: const Icon(
-                                                            Icons.more_vert,
-                                                            color: Colors.grey,
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                right: 16),
+                                                        child: Container(
+                                                          height: 25,
+                                                          width: 30,
+                                                          child: IconButton(
+                                                            icon: Icon(
+                                                              Icons.close,
+                                                              color:
+                                                                  Colors.grey,
+                                                            ),
+                                                            onPressed: () {
+                                                              FirebaseDatabase
+                                                                  .instance
+                                                                  .ref(Constants
+                                                                      .dUser)
+                                                                  .child(FirebaseAuth
+                                                                      .instance
+                                                                      .currentUser!
+                                                                      .uid)
+                                                                  .child(Constants
+                                                                      .dAddToCart)
+                                                                  .child(list[index]
+                                                                          [
+                                                                          Constants
+                                                                              .dcheckId]
+                                                                      .toString())
+                                                                  .remove();
+
+                                                              if (!mounted)
+                                                                return;
+                                                              setState(() {
+                                                                getTotalCart();
+                                                              });
+                                                              totalPrice();
+                                                            },
                                                           ),
-                                                          itemBuilder:
-                                                              (context) => [
-                                                            // PopupMenuItem(
-                                                            //     child:
-                                                            //         GestureDetector(
-                                                            //   onTap: () {
-
-                                                            //   },
-                                                            //   child: Text(Constants
-                                                            //       .ADD_FAVORITE),
-                                                            // )),
-                                                            PopupMenuItem(
-                                                                child:
-                                                                    GestureDetector(
-                                                              onTap: () {
-                                                                FirebaseDatabase
-                                                                    .instance
-                                                                    .ref(Constants
-                                                                        .dUser)
-                                                                    .child(FirebaseAuth
-                                                                        .instance
-                                                                        .currentUser!
-                                                                        .uid)
-                                                                    .child(Constants
-                                                                        .dAddToCart)
-                                                                    .child(list[index]
-                                                                            [
-                                                                            Constants.dcheckId]
-                                                                        .toString())
-                                                                    .remove();
-
-                                                                if (!mounted)
-                                                                  return;
-                                                                setState(() {
-                                                                  getTotalCart();
-                                                                });
-                                                                totalPrice();
-
-                                                                Navigator.pop(
-                                                                    context);
-                                                              },
-                                                              child: Text(Constants
-                                                                  .delete_list),
-                                                            ))
-                                                          ],
                                                         ),
                                                       )
                                                     ],
