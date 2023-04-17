@@ -63,8 +63,6 @@ class _MyAddressPageState extends State<MyAddressPage> {
     super.initState();
   }
 
-  Country? _country;
-
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<ThemeProvider>(context);

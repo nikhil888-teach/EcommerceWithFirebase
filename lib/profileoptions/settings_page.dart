@@ -247,11 +247,13 @@ class _MySettingPageState extends State<MySettingPage> {
                     ),
                     Switch(
                       activeColor: Colors.green,
-                      value: checkSales,
+                      value: themeChange.topProducts,
                       onChanged: (value) {
                         if (!mounted) return;
                         setState(() {
                           checkSales = value;
+                          themeChange.topProducts = value;
+                          themeChange.themePreference.setTopProducts(value);
                         });
                       },
                     ),
@@ -267,36 +269,38 @@ class _MySettingPageState extends State<MySettingPage> {
                     ),
                     Switch(
                       activeColor: Colors.green,
-                      value: checkArr,
+                      value: themeChange.newProducts,
                       onChanged: (value) {
                         if (!mounted) return;
                         setState(() {
                           checkArr = value;
+                          themeChange.newProducts = value;
+                          themeChange.themePreference.setNewProducts(value);
                         });
                       },
                     ),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      Constants.delivery_status,
-                      style: Text_Style.text_Theme(
-                          Constants.black_text, 14, FontWeight.normal, context),
-                    ),
-                    Switch(
-                      activeColor: Colors.green,
-                      value: checkStaus,
-                      onChanged: (value) {
-                        if (!mounted) return;
-                        setState(() {
-                          checkStaus = value;
-                        });
-                      },
-                    ),
-                  ],
-                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Text(
+                //       Constants.delivery_status,
+                //       style: Text_Style.text_Theme(
+                //           Constants.black_text, 14, FontWeight.normal, context),
+                //     ),
+                //     Switch(
+                //       activeColor: Colors.green,
+                //       value: checkStaus,
+                //       onChanged: (value) {
+                //         if (!mounted) return;
+                //         setState(() {
+                //           checkStaus = value;
+                //         });
+                //       },
+                //     ),
+                //   ],
+                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

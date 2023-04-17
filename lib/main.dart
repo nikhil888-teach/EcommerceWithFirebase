@@ -25,10 +25,22 @@ class _MyAppState extends State<MyApp> {
         await themeProvider.themePreference.getDarkTheme();
   }
 
+  void getNewProducts() async {
+    themeProvider.darkTheme =
+        await themeProvider.themePreference.getNewProducts();
+  }
+
+  void getTopProducts() async {
+    themeProvider.topProducts =
+        await themeProvider.themePreference.getTopProducts();
+  }
+
   @override
   void initState() {
     super.initState();
     getDarkTheme();
+    getNewProducts();
+    getTopProducts();
   }
 
   @override

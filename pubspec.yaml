@@ -27,6 +27,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  connectivity_plus: ^3.0.4
   country_picker: ^2.0.19
   country_state_city_pro: ^0.0.3
   csc_picker: ^0.2.7
@@ -38,6 +39,7 @@ dependencies:
     sdk: flutter
   google_fonts: ^3.0.1
   image_picker: ^0.8.7
+  internet_connection_checker: ^1.0.0+1
   intl: ^0.17.0
   lottie: ^2.3.1
   open_file: ^3.2.1

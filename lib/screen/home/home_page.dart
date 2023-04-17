@@ -75,178 +75,193 @@ class _MyHomePageState extends State<MyHomePage> {
                 )
               ]),
             ),
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 33),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+            themeChange.newProducts
+                ? Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        padding: const EdgeInsets.only(top: 33),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(Constants.NEW,
-                                style: Text_Style.text_Theme(
-                                    Constants.black_text,
-                                    34,
-                                    FontWeight.bold,
-                                    context)),
                             Padding(
-                              padding: EdgeInsets.only(top: 10, right: 10),
-                              child: TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            MyAllTypeProductsPage(
-                                                type: Constants.NEW),
-                                      ));
-                                },
-                                child: Text(
-                                  "View all",
-                                  style: TextStyle(
-                                      color: themeChange.darkTheme
-                                          ? Colors.grey
-                                          : Colors.black),
-                                ),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(Constants.NEW,
+                                      style: Text_Style.text_Theme(
+                                          Constants.black_text,
+                                          34,
+                                          FontWeight.bold,
+                                          context)),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(top: 10, right: 10),
+                                    child: TextButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MyAllTypeProductsPage(
+                                                      type: Constants.NEW),
+                                            ));
+                                      },
+                                      child: Text(
+                                        "View all",
+                                        style: TextStyle(
+                                            color: themeChange.darkTheme
+                                                ? Colors.grey
+                                                : Colors.black),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 15),
+                              child: Text(Constants.you_never_before,
+                                  style: Text_Style.text_Theme(
+                                      Constants.grey_text,
+                                      11,
+                                      FontWeight.normal,
+                                      context)),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 15),
+                              child: Container(
+                                height: 320,
+                                child: StreamBuilder(
+                                    stream: FirebaseDatabase.instance
+                                        .ref(Constants.dProducts)
+                                        .onValue,
+                                    builder: (context,
+                                        AsyncSnapshot<DatabaseEvent> snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return Center(
+                                          child: CircularProgressIndicator(
+                                            color: Colors.red,
+                                          ),
+                                        );
+                                      } else if (snapshot.hasError) {
+                                        return Container();
+                                      }
+                                      Map<dynamic, dynamic> map = snapshot
+                                          .data!.snapshot.value as dynamic;
+                                      List<dynamic> list = [];
+                                      list.clear();
+                                      for (var element in map.values) {
+                                        if (list.length < 10) {
+                                          list.add(element);
+                                        }
+                                      }
+                                      list.sort((a, b) => b[Constants.dDate]
+                                          .compareTo(a[Constants.dDate]));
+
+                                      return productsList(list, Constants.NEW);
+                                    }),
                               ),
                             )
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15),
-                        child: Text(Constants.you_never_before,
-                            style: Text_Style.text_Theme(Constants.grey_text,
-                                11, FontWeight.normal, context)),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15),
-                        child: Container(
-                          height: 320,
-                          child: StreamBuilder(
-                              stream: FirebaseDatabase.instance
-                                  .ref(Constants.dProducts)
-                                  .onValue,
-                              builder: (context,
-                                  AsyncSnapshot<DatabaseEvent> snapshot) {
-                                if (!snapshot.hasData) {
-                                  return Center(
-                                    child: CircularProgressIndicator(
-                                      color: Colors.red,
-                                    ),
-                                  );
-                                } else if (snapshot.hasError) {
-                                  return Container();
-                                }
-                                Map<dynamic, dynamic> map =
-                                    snapshot.data!.snapshot.value as dynamic;
-                                List<dynamic> list = [];
-                                list.clear();
-                                for (var element in map.values) {
-                                  if (list.length < 10) {
-                                    list.add(element);
-                                  }
-                                }
-                                list.sort((a, b) => b[Constants.dDate]
-                                    .compareTo(a[Constants.dDate]));
-
-                                return productsList(list, Constants.NEW);
-                              }),
-                        ),
-                      )
                     ],
-                  ),
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 33),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  )
+                : SizedBox(),
+            themeChange.topProducts
+                ? Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        padding: const EdgeInsets.only(top: 33),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(Constants.bestSeller,
-                                style: Text_Style.text_Theme(
-                                    Constants.black_text,
-                                    34,
-                                    FontWeight.bold,
-                                    context)),
                             Padding(
-                              padding: EdgeInsets.only(top: 10, right: 10),
-                              child: TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            MyAllTypeProductsPage(
-                                                type: Constants.BEST),
-                                      ));
-                                },
-                                child: Text(
-                                  "View all",
-                                  style: TextStyle(
-                                      color: themeChange.darkTheme
-                                          ? Colors.grey
-                                          : Colors.black),
-                                ),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(Constants.bestSeller,
+                                      style: Text_Style.text_Theme(
+                                          Constants.black_text,
+                                          34,
+                                          FontWeight.bold,
+                                          context)),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(top: 10, right: 10),
+                                    child: TextButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MyAllTypeProductsPage(
+                                                      type: Constants.BEST),
+                                            ));
+                                      },
+                                      child: Text(
+                                        "View all",
+                                        style: TextStyle(
+                                            color: themeChange.darkTheme
+                                                ? Colors.grey
+                                                : Colors.black),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 15),
+                              child: Container(
+                                height: 320,
+                                child: StreamBuilder(
+                                    stream: FirebaseDatabase.instance
+                                        .ref(Constants.dProducts)
+                                        .onValue,
+                                    builder: (context,
+                                        AsyncSnapshot<DatabaseEvent> snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return Center(
+                                          child: CircularProgressIndicator(
+                                            color: Colors.red,
+                                          ),
+                                        );
+                                      } else if (snapshot.hasError) {
+                                        return Container();
+                                      }
+                                      Map<dynamic, dynamic> map = snapshot
+                                          .data!.snapshot.value as dynamic;
+                                      List<dynamic> list = [];
+                                      list.clear();
+                                      for (var element in map.values) {
+                                        if (element[Constants.dOrderCount] >
+                                            0) {
+                                          if (list.length < 10) {
+                                            list.add(element);
+                                          }
+                                        }
+                                      }
+                                      list.sort((a, b) =>
+                                          b[Constants.dOrderCount].compareTo(
+                                              a[Constants.dOrderCount]));
+
+                                      return productsList(list, Constants.BEST);
+                                    }),
                               ),
                             )
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15),
-                        child: Container(
-                          height: 320,
-                          child: StreamBuilder(
-                              stream: FirebaseDatabase.instance
-                                  .ref(Constants.dProducts)
-                                  .onValue,
-                              builder: (context,
-                                  AsyncSnapshot<DatabaseEvent> snapshot) {
-                                if (!snapshot.hasData) {
-                                  return Center(
-                                    child: CircularProgressIndicator(
-                                      color: Colors.red,
-                                    ),
-                                  );
-                                } else if (snapshot.hasError) {
-                                  return Container();
-                                }
-                                Map<dynamic, dynamic> map =
-                                    snapshot.data!.snapshot.value as dynamic;
-                                List<dynamic> list = [];
-                                list.clear();
-                                for (var element in map.values) {
-                                  if (element[Constants.dOrderCount] > 0) {
-                                    if (list.length < 10) {
-                                      list.add(element);
-                                    }
-                                  }
-                                }
-                                list.sort((a, b) => b[Constants.dOrderCount]
-                                    .compareTo(a[Constants.dOrderCount]));
-
-                                return productsList(list, Constants.BEST);
-                              }),
-                        ),
-                      )
                     ],
-                  ),
-                ),
-              ],
-            ),
+                  )
+                : SizedBox(),
           ],
         ),
       ),

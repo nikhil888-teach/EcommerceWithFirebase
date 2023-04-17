@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:country_picker/country_picker.dart';
 import 'package:ecommerce/invoice/api/pdf_api.dart';
 import 'package:ecommerce/invoice/api/pdf_invoice_api.dart';
 import 'package:ecommerce/invoice/model/customer.dart';
@@ -19,6 +18,7 @@ import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:country_state_city_pro/country_state_city_pro.dart';
 
 class MyStepperCheckOutPage extends StatefulWidget {
   const MyStepperCheckOutPage(
@@ -35,8 +35,6 @@ class MyStepperCheckOutPage extends StatefulWidget {
 }
 
 enum PaymentOptions { cashonDelivery, onlinePayment }
-
-Country? _country;
 
 class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
   TextEditingController fnameController = TextEditingController();
@@ -452,53 +450,65 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
             const SizedBox(
               height: 8,
             ),
-            Textformfield_style.textField(
-                cityController, Constants.city, TextInputType.streetAddress),
-            const SizedBox(
-              height: 8,
-            ),
-            Textformfield_style.textField(
-                stateController, Constants.state, TextInputType.streetAddress),
-            const SizedBox(
-              height: 8,
-            ),
+            // Textformfield_style.textField(
+            //     cityController, Constants.city, TextInputType.streetAddress),
+            // const SizedBox(
+            //   height: 8,
+            // ),
+            // Textformfield_style.textField(
+            //     stateController, Constants.state, TextInputType.streetAddress),
+            // const SizedBox(
+            //   height: 8,
+            // ),
             Textformfield_style.textField(
                 codeController, Constants.code, TextInputType.streetAddress),
             const SizedBox(
               height: 8,
             ),
-            Container(
-              decoration: BoxDecoration(),
-              child: Card(
-                  color: Colors.white,
-                  child: TextFormField(
-                    readOnly: true,
-                    decoration: InputDecoration(
-                        border:
-                            OutlineInputBorder(borderSide: BorderSide.none)),
-                    controller: countryController,
-                    onTap: () {
-                      FocusManager.instance.primaryFocus?.unfocus();
-                      showCountryPicker(
-                        context: context,
-                        showPhoneCode: true,
-                        showSearch: true,
-                        countryListTheme: CountryListThemeData(
-                            textStyle: TextStyle(
-                                color: themeChange.darkTheme
-                                    ? Colors.white
-                                    : Colors.black)),
-                        onSelect: (Country country) {
-                          if (!mounted) return;
-                          setState(() {
-                            _country = country;
-                            countryController.text = _country!.name;
-                          });
-                        },
-                      );
-                    },
-                  )),
+            const SizedBox(
+              height: 8,
             ),
+            Card(
+              color: Colors.white,
+              child: CountryStateCityPicker(
+                  country: countryController,
+                  state: stateController,
+                  city: cityController,
+                  textFieldInputBorder:
+                      OutlineInputBorder(borderSide: BorderSide.none)),
+            ),
+            // Container(
+            //   decoration: BoxDecoration(),
+            //   child: Card(
+            //       color: Colors.white,
+            //       child: TextFormField(
+            //         readOnly: true,
+            //         decoration: InputDecoration(
+            //             border:
+            //                 OutlineInputBorder(borderSide: BorderSide.none)),
+            //         controller: countryController,
+            //         onTap: () {
+            //           FocusManager.instance.primaryFocus?.unfocus();
+            //           showCountryPicker(
+            //             context: context,
+            //             showPhoneCode: true,
+            //             showSearch: true,
+            //             countryListTheme: CountryListThemeData(
+            //                 textStyle: TextStyle(
+            //                     color: themeChange.darkTheme
+            //                         ? Colors.white
+            //                         : Colors.black)),
+            //             onSelect: (Country country) {
+            //               if (!mounted) return;
+            //               setState(() {
+            //                 _country = country;
+            //                 countryController.text = _country!.name;
+            //               });
+            //             },
+            //           );
+            //         },
+            //       )),
+            // ),
             const SizedBox(
               height: 8,
             ),
