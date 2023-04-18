@@ -23,6 +23,7 @@ class _MyShopePageState extends State<MyShopePage> {
       child: SafeArea(
           child: Scaffold(
               appBar: AppBar(
+                automaticallyImplyLeading: false,
                 centerTitle: false,
                 title: Text(Constants.Categories,
                     style: Text_Style.text_Theme(

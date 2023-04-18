@@ -34,6 +34,7 @@ class _MyBagPageState extends State<MyBagPage> {
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(Constants.My_Bag,
             style: Text_Style.text_Theme(
                 Constants.black_text, 20, FontWeight.bold, context)),

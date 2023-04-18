@@ -44,6 +44,8 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
             appBar: AppBar(
               centerTitle: false,
               titleSpacing: 0,
+              leadingWidth: 0,
+              automaticallyImplyLeading: false,
               title: Padding(
                 padding: const EdgeInsets.only(left: 15),
                 child: Text(
@@ -52,14 +54,6 @@ class _MyFavoritePageState extends State<MyFavoritePage> {
                       Constants.black_text, 20, FontWeight.bold, context),
                 ),
               ),
-              actions: [
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.search,
-                      size: 24,
-                    ))
-              ],
               bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(35.0),
                 child: Padding(

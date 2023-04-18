@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:country_state_city_pro/country_state_city_pro.dart';
+import 'package:csc_picker/csc_picker.dart';
 
 class MyAddressPage extends StatefulWidget {
   const MyAddressPage({Key? key, this.id}) : super(key: key);
@@ -113,9 +114,33 @@ class _MyAddressPageState extends State<MyAddressPage> {
                       // ),
                       Textformfield_style.textField(codeController,
                           Constants.code, TextInputType.streetAddress),
-                      // const SizedBox(
-                      //   height: 8,
-                      // ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      CSCPicker(
+                        onCountryChanged: (value) {
+                          if (!mounted) return;
+                          setState(() {
+                            countryController.text = value;
+                          });
+                        },
+                        onStateChanged: (stateValue) {
+                          if (!mounted) return;
+                          if (stateValue != null || stateValue!.trim() != "") {
+                            setState(() {
+                              stateController.text = stateValue;
+                            });
+                          }
+                        },
+                        onCityChanged: (cityValue) {
+                          if (!mounted) return;
+                          if (cityValue != null || cityValue!.trim() != "") {
+                            setState(() {
+                              cityController.text = cityValue;
+                            });
+                          }
+                        },
+                      ),
                       // Container(
                       //   decoration: BoxDecoration(),
                       //   child: Card(
@@ -151,18 +176,18 @@ class _MyAddressPageState extends State<MyAddressPage> {
                       //         },
                       //       )),
                       // ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Card(
-                        color: Colors.white,
-                        child: CountryStateCityPicker(
-                            country: countryController,
-                            state: stateController,
-                            city: cityController,
-                            textFieldInputBorder: OutlineInputBorder(
-                                borderSide: BorderSide.none)),
-                      ),
+                      // const SizedBox(
+                      //   height: 8,
+                      // ),
+                      // Card(
+                      //   color: Colors.white,
+                      //   child: CountryStateCityPicker(
+                      //       country: countryController,
+                      //       state: stateController,
+                      //       city: cityController,
+                      //       textFieldInputBorder: OutlineInputBorder(
+                      //           borderSide: BorderSide.none)),
+                      // ),
 
                       const SizedBox(
                         height: 8,

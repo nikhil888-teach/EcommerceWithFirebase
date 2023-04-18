@@ -118,12 +118,6 @@ class _MyProductPageState extends State<MyProductPage> {
               ),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(right: 17),
-            child: Icon(
-              Icons.share,
-            ),
-          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -647,7 +641,7 @@ class _MyProductPageState extends State<MyProductPage> {
                               FontWeight.bold, context)),
                     ),
                     Container(
-                        height: 300,
+                        height: 400,
                         child: StreamBuilder(
                             stream: FirebaseDatabase.instance
                                 .ref(Constants.dProducts)

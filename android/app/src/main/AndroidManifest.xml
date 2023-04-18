@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ecommerce">
    <application
-        android:label="ecommerce"
+        android:label="E-Bot"
         android:name="${applicationName}"
         android:windowSoftInputMode="adjustResize"
         android:icon="@mipmap/ic_launcher">
