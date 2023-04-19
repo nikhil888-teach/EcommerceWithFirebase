@@ -8,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:country_state_city_pro/country_state_city_pro.dart';
-import 'package:csc_picker/csc_picker.dart';
 
 class MyAddressPage extends StatefulWidget {
   const MyAddressPage({Key? key, this.id}) : super(key: key);
@@ -30,6 +28,7 @@ class _MyAddressPageState extends State<MyAddressPage> {
   final _formKey = GlobalKey<FormState>();
 
   bool isExis = false;
+  Country? _country;
 
   @override
   void initState() {
@@ -102,93 +101,60 @@ class _MyAddressPageState extends State<MyAddressPage> {
                       const SizedBox(
                         height: 8,
                       ),
-                      // Textformfield_style.textField(cityController,
-                      //     Constants.city, TextInputType.streetAddress),
-                      // const SizedBox(
-                      //   height: 8,
-                      // ),
-                      // Textformfield_style.textField(stateController,
-                      //     Constants.state, TextInputType.streetAddress),
-                      // const SizedBox(
-                      //   height: 8,
-                      // ),
+                      Textformfield_style.textField(cityController,
+                          Constants.city, TextInputType.streetAddress),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Textformfield_style.textField(stateController,
+                          Constants.state, TextInputType.streetAddress),
+                      const SizedBox(
+                        height: 8,
+                      ),
                       Textformfield_style.textField(codeController,
                           Constants.code, TextInputType.streetAddress),
                       const SizedBox(
                         height: 8,
                       ),
-                      CSCPicker(
-                        onCountryChanged: (value) {
-                          if (!mounted) return;
-                          setState(() {
-                            countryController.text = value;
-                          });
-                        },
-                        onStateChanged: (stateValue) {
-                          if (!mounted) return;
-                          if (stateValue != null || stateValue!.trim() != "") {
-                            setState(() {
-                              stateController.text = stateValue;
-                            });
-                          }
-                        },
-                        onCityChanged: (cityValue) {
-                          if (!mounted) return;
-                          if (cityValue != null || cityValue!.trim() != "") {
-                            setState(() {
-                              cityController.text = cityValue;
-                            });
-                          }
-                        },
+                      Container(
+                        decoration: BoxDecoration(),
+                        child: Card(
+                            color: Colors.white,
+                            child: TextFormField(
+                              readOnly: true,
+                              decoration: InputDecoration(
+                                  hintText: widget.id == null
+                                      ? "Select Country"
+                                      : null,
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide.none)),
+                              controller: countryController,
+                              onTap: () {
+                                FocusManager.instance.primaryFocus?.unfocus();
+                                showCountryPicker(
+                                  context: context,
+                                  showPhoneCode: true,
+                                  showSearch: true,
+                                  countryListTheme: CountryListThemeData(
+                                      textStyle: TextStyle(
+                                          color: themeChange.darkTheme
+                                              ? Colors.white
+                                              : Colors.black)),
+                                  onSelect: (Country country) {
+                                    if (!mounted) return;
+                                    setState(() {
+                                      _country = country;
+
+                                      countryController.text = _country!.name;
+                                    });
+                                  },
+                                );
+                              },
+                            )),
                       ),
-                      // Container(
-                      //   decoration: BoxDecoration(),
-                      //   child: Card(
-                      //       color: Colors.white,
-                      //       child: TextFormField(
-                      //         readOnly: true,
-                      //         decoration: InputDecoration(
-                      //             hintText:
-                      //                 widget.id == null ? "Select Country" : null,
-                      //             border: OutlineInputBorder(
-                      //                 borderSide: BorderSide.none)),
-                      //         controller: countryController,
-                      //         onTap: () {
-                      //           FocusManager.instance.primaryFocus?.unfocus();
-                      //           showCountryPicker(
-                      //             context: context,
-                      //             showPhoneCode: true,
-                      //             showSearch: true,
-                      //             countryListTheme: CountryListThemeData(
-                      //                 textStyle: TextStyle(
-                      //                     color: themeChange.darkTheme
-                      //                         ? Colors.white
-                      //                         : Colors.black)),
-                      //             onSelect: (Country country) {
-                      //               if (!mounted) return;
-                      //               setState(() {
-                      //                 _country = country;
-
-                      //                 countryController.text = _country!.name;
-                      //               });
-                      //             },
-                      //           );
-                      //         },
-                      //       )),
-                      // ),
-                      // const SizedBox(
-                      //   height: 8,
-                      // ),
-                      // Card(
-                      //   color: Colors.white,
-                      //   child: CountryStateCityPicker(
-                      //       country: countryController,
-                      //       state: stateController,
-                      //       city: cityController,
-                      //       textFieldInputBorder: OutlineInputBorder(
-                      //           borderSide: BorderSide.none)),
-                      // ),
-
+                      const SizedBox(
+                        height: 8,
+                      ),
                       const SizedBox(
                         height: 8,
                       ),
