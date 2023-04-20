@@ -87,6 +87,11 @@ class Constants {
   static const check_invoice = "CHECK INVOICE";
   static const use_add = "Use as the shipping address";
 
+  //No Internet page
+  static const noInternet = "Ooops!";
+  static const noInternetMsg =
+      "No Internet Connection Found Check your connection";
+
   //failed page
   static const failed = "Failed!";
   static const fail_msg =

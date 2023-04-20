@@ -38,6 +38,7 @@ dependencies:
   firebase_storage: ^11.0.16
   flutter:
     sdk: flutter
+  get: ^4.6.5
   google_fonts: ^3.0.1
   image_picker: ^0.8.7
   internet_connection_checker: ^1.0.0+1

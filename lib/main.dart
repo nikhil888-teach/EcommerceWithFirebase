@@ -1,7 +1,9 @@
+import 'package:ecommerce/nointernet/networkmanager.dart';
 import 'package:ecommerce/splash/splash_page.dart';
 import 'package:ecommerce/theme/themeprovider.dart';
 import 'package:ecommerce/theme/thmedata.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -38,6 +40,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+
     getDarkTheme();
     getNewProducts();
     getTopProducts();
@@ -48,7 +51,8 @@ class _MyAppState extends State<MyApp> {
     return ChangeNotifierProvider(
       create: (_) => themeProvider,
       child: Consumer<ThemeProvider>(
-        builder: (context, value, child) => MaterialApp(
+        builder: (context, value, child) => GetMaterialApp(
+          initialBinding: NetworkBinding(),
           title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
           theme: Style.themeData(value.darkTheme, context),

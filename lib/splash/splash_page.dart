@@ -1,9 +1,12 @@
 import 'dart:async';
 
+import 'package:ecommerce/nointernet/getxnetworkmanager.dart';
+import 'package:ecommerce/nointernet/nointernet_page.dart';
 import 'package:ecommerce/screen/authntication/sign_page.dart';
 import 'package:ecommerce/screen/home/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 
 class MySplashPage extends StatefulWidget {
   const MySplashPage({super.key});
