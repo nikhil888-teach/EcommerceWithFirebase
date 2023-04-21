@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:ecommerce/nointernet/getxnetworkmanager.dart';
 import 'package:ecommerce/nointernet/nointernet_page.dart';
 import 'package:ecommerce/screen/authntication/sign_page.dart';
 import 'package:ecommerce/screen/home/main_page.dart';

@@ -6,6 +6,7 @@ import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class MyNoInternetPage extends StatefulWidget {
   const MyNoInternetPage({super.key});
@@ -40,56 +41,62 @@ class _MyNoInternetPageState extends State<MyNoInternetPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Expanded(
-                flex: 6,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: Image.asset(
-                        "assets/image/nointernet.png",
-                        scale: 1,
+    return WillPopScope(
+      onWillPop: () {
+        SystemNavigator.pop();
+        return Future.value(false);
+      },
+      child: SafeArea(
+          child: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Expanded(
+                  flex: 6,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: Image.asset(
+                          "assets/image/nointernet.png",
+                          scale: 1,
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 15),
-                      child: Text(
-                        Constants.noInternet,
-                        style: Text_Style.text_Theme(
-                            Constants.black_text, 34, FontWeight.bold, context),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 15),
+                        child: Text(
+                          Constants.noInternet,
+                          style: Text_Style.text_Theme(Constants.black_text, 34,
+                              FontWeight.bold, context),
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        textAlign: TextAlign.center,
-                        Constants.noInternetMsg,
-                        style: Text_Style.text_Theme(Constants.black_text, 15,
-                            FontWeight.normal, context),
+                      Expanded(
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          Constants.noInternetMsg,
+                          style: Text_Style.text_Theme(Constants.black_text, 15,
+                              FontWeight.normal, context),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 15),
-                child: GestureDetector(
-                    onTap: () async {},
-                    child: Button_Style.button_Theme(Constants.try_again)),
-              ),
-            ],
+                // Padding(
+                //   padding: const EdgeInsets.only(bottom: 15),
+                //   child: GestureDetector(
+                //       onTap: () async {},
+                //       child: Button_Style.button_Theme(Constants.try_again)),
+                // ),
+              ],
+            ),
           ),
         ),
-      ),
-    ));
+      )),
+    );
   }
 }

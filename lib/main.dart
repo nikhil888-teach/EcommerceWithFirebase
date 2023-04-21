@@ -1,4 +1,4 @@
-import 'package:ecommerce/nointernet/networkmanager.dart';
+import 'package:ecommerce/nointernet/dependency_injection.dart';
 import 'package:ecommerce/splash/splash_page.dart';
 import 'package:ecommerce/theme/themeprovider.dart';
 import 'package:ecommerce/theme/thmedata.dart';
@@ -9,6 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   runApp(const MyApp());
+  DependencyInjection.init();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 }
@@ -22,17 +23,11 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   ThemeProvider themeProvider = ThemeProvider();
-  void getDarkTheme() async {
+  void getPreference() async {
     themeProvider.darkTheme =
         await themeProvider.themePreference.getDarkTheme();
-  }
-
-  void getNewProducts() async {
-    themeProvider.darkTheme =
+    themeProvider.newProducts =
         await themeProvider.themePreference.getNewProducts();
-  }
-
-  void getTopProducts() async {
     themeProvider.topProducts =
         await themeProvider.themePreference.getTopProducts();
   }
@@ -40,10 +35,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-
-    getDarkTheme();
-    getNewProducts();
-    getTopProducts();
+    getPreference();
   }
 
   @override
@@ -52,7 +44,6 @@ class _MyAppState extends State<MyApp> {
       create: (_) => themeProvider,
       child: Consumer<ThemeProvider>(
         builder: (context, value, child) => GetMaterialApp(
-          initialBinding: NetworkBinding(),
           title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
           theme: Style.themeData(value.darkTheme, context),
