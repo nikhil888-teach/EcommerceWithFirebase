@@ -40,10 +40,10 @@ enum PaymentOptions { cashonDelivery, onlinePayment }
 class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
   TextEditingController fnameController = TextEditingController();
   TextEditingController streetAddressController = TextEditingController();
-  TextEditingController cityController = TextEditingController();
-  TextEditingController stateController = TextEditingController();
+  // TextEditingController cityController = TextEditingController();
+  // TextEditingController stateController = TextEditingController();
   TextEditingController codeController = TextEditingController();
-  TextEditingController countryController = TextEditingController();
+  // TextEditingController countryController = TextEditingController();
   int stepIndex = 0;
   bool isExis = false;
   bool isPaymentSuccess = false;
@@ -56,6 +56,61 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
   String? orderid;
   List invoiceList = [];
   bool invoiceLoader = false;
+  String? _selectedCountry;
+  String? _selectedState;
+  String? _selectedCity;
+
+  final Map<String, List<String>> _statesByCountry = {
+    'USA': ['California', 'Florida', 'Texas'],
+    'Canada': ['Ontario', 'Quebec', 'Alberta'],
+    'India': [
+      'Maharashtra',
+      'Uttar Pradesh',
+      'West Bengal',
+      'Karnataka',
+      'Gujarat',
+      'Tamil Nadu'
+    ],
+    'Nepal': [
+      'Province No. 1',
+      'Province No. 2',
+      'Bagmati Province',
+      'Gandaki Province',
+      'Lumbini Province',
+      'Karnali Province',
+      'Sudurpashchim Province'
+    ]
+  };
+
+  final Map<String, List<String>> _citiesByState = {
+    'California': ['Los Angeles', 'San Francisco', 'San Diego'],
+    'Florida': ['Miami', 'Orlando', 'Tampa'],
+    'Texas': ['Houston', 'Dallas', 'Austin'],
+    'Ontario': ['Toronto', 'Ottawa', 'Hamilton'],
+    'Quebec': ['Montreal', 'Quebec City', 'Gatineau'],
+    'Alberta': ['Calgary', 'Edmonton', 'Red Deer'],
+    'Maharashtra': ['Mumbai', 'Pune', 'Nagpur'],
+    'Uttar Pradesh': ['Lucknow', 'Kanpur', 'Agra'],
+    'West Bengal': ['Kolkata', 'Darjeeling', 'Siliguri'],
+    'Karnataka': ['Bengaluru', 'Mysuru', 'Hubli'],
+    'Gujarat': ['Ahmedabad', 'Surat', 'Vadodara'],
+    'Tamil Nadu': ['Chennai', 'Coimbatore', 'Madurai'],
+    'Province No. 1': ['Biratnagar', 'Dharan', 'Bhadrapur'],
+    'Province No. 2': ['Janakpur', 'Birgunj', 'Bharatpur'],
+    'Bagmati Province': ['Kathmandu', 'Lalitpur', 'Bhaktapur'],
+    'Gandaki Province': ['Pokhara', 'Baglung', 'Lamjung'],
+    'Lumbini Province': ['Butwal', 'Bhairahawa', 'Nepalgunj'],
+    'Karnali Province': ['Jumla', 'Dolpa', 'Humla'],
+    'Sudurpashchim Province': ['Dhangadhi', 'Mahendranagar', 'Dipayal'],
+  };
+
+  List<String> _getStatesForCountry(String country) {
+    return _statesByCountry[country] ?? [];
+  }
+
+  List<String> _getCitiesForState(String state) {
+    return _citiesByState[state] ?? [];
+  }
 
   List<Step> getStep() => [
         Step(
@@ -423,16 +478,8 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
             value.snapshot.child(Constants.dfname).value.toString();
         streetAddressController.text =
             value.snapshot.child(Constants.dSAddress).value.toString();
-        cityController.text =
-            value.snapshot.child(Constants.dCity).value.toString();
-        stateController.text =
-            value.snapshot.child(Constants.dState).value.toString();
         codeController.text =
             value.snapshot.child(Constants.dZcode).value.toString();
-        if (countryController.text.isEmpty) {
-          countryController.text =
-              value.snapshot.child(Constants.dCountry).value.toString();
-        }
       });
     }
 
@@ -452,23 +499,94 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
             const SizedBox(
               height: 8,
             ),
-            Textformfield_style.textField(
-                cityController, Constants.city, TextInputType.streetAddress),
-            const SizedBox(
-              height: 8,
-            ),
-            Textformfield_style.textField(
-                stateController, Constants.state, TextInputType.streetAddress),
-            const SizedBox(
-              height: 8,
-            ),
+            // Textformfield_style.textField(
+            //     cityController, Constants.city, TextInputType.streetAddress),
+            // const SizedBox(
+            //   height: 8,
+            // ),
+            // Textformfield_style.textField(
+            //     stateController, Constants.state, TextInputType.streetAddress),
+            // const SizedBox(
+            //   height: 8,
+            // ),
             Textformfield_style.textField(
                 codeController, Constants.code, TextInputType.streetAddress),
             const SizedBox(
               height: 8,
             ),
-            const SizedBox(
-              height: 8,
+            Card(
+              color: Colors.white,
+              elevation: 2,
+              child: DropdownButtonFormField<String>(
+                decoration: const InputDecoration(
+                    hintText: "Select Country",
+                    border: OutlineInputBorder(borderSide: BorderSide.none)),
+                value: _selectedCountry,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _selectedCountry = newValue;
+                    _selectedState = null;
+                    _selectedCity = null;
+                  });
+                },
+                items: _statesByCountry.keys
+                    .map<DropdownMenuItem<String>>(
+                      (String country) => DropdownMenuItem<String>(
+                        value: country,
+                        child: Text(country),
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
+            SizedBox(height: 8.0),
+            Card(
+              color: Colors.white,
+              elevation: 2,
+              child: DropdownButtonFormField<String>(
+                decoration: const InputDecoration(
+                    hintText: "Select State",
+                    border: OutlineInputBorder(borderSide: BorderSide.none)),
+                value: _selectedState,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _selectedState = newValue;
+                    _selectedCity = null;
+                  });
+                },
+                items: _getStatesForCountry(_selectedCountry ?? '')
+                    .map<DropdownMenuItem<String>>(
+                      (String state) => DropdownMenuItem<String>(
+                        value: state,
+                        child: Text(state),
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
+            SizedBox(height: 8.0),
+            Card(
+              color: Colors.white,
+              elevation: 2,
+              child: DropdownButtonFormField<String>(
+                decoration: const InputDecoration(
+                    hintText: "Select City",
+                    border: OutlineInputBorder(borderSide: BorderSide.none)),
+                value: _selectedCity,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _selectedCity = newValue;
+                  });
+                },
+                items: _getCitiesForState(_selectedState ?? '')
+                    .map<DropdownMenuItem<String>>(
+                      (String city) => DropdownMenuItem<String>(
+                        value: city,
+                        child: Text(city),
+                      ),
+                    )
+                    .toList(),
+              ),
             ),
             // Card(
             //   color: Colors.white,
@@ -479,42 +597,44 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
             //       textFieldInputBorder:
             //           OutlineInputBorder(borderSide: BorderSide.none)),
             // ),
-            Container(
-              decoration: BoxDecoration(),
-              child: Card(
-                  color: Colors.white,
-                  child: TextFormField(
-                    readOnly: true,
-                    decoration: InputDecoration(
-                        hintText: "Select Country",
-                        border:
-                            OutlineInputBorder(borderSide: BorderSide.none)),
-                    controller: countryController,
-                    onTap: () {
-                      FocusManager.instance.primaryFocus?.unfocus();
-                      showCountryPicker(
-                        context: context,
-                        showPhoneCode: true,
-                        showSearch: true,
-                        countryListTheme: CountryListThemeData(
-                            textStyle: TextStyle(
-                                color: themeChange.darkTheme
-                                    ? Colors.white
-                                    : Colors.black)),
-                        onSelect: (Country country) {
-                          if (!mounted) return;
-                          setState(() {
-                            _country = country;
-                            countryController.text = _country.name;
-                          });
-                        },
-                      );
-                    },
-                  )),
-            ),
+            // Container(
+            //   decoration: BoxDecoration(),
+            //   child: Card(
+            //       color: Colors.white,
+            //       child: TextFormField(
+            //         readOnly: true,
+            //         decoration: InputDecoration(
+            //             hintText: "Select Country",
+            //             border:
+            //                 OutlineInputBorder(borderSide: BorderSide.none)),
+            //         controller: countryController,
+            //         onTap: () {
+            //           FocusManager.instance.primaryFocus?.unfocus();
+            //           showCountryPicker(
+            //             context: context,
+            //             showPhoneCode: true,
+            //             showSearch: true,
+            //             countryListTheme: CountryListThemeData(
+            //                 textStyle: TextStyle(
+            //                     color: themeChange.darkTheme
+            //                         ? Colors.white
+            //                         : Colors.black)),
+            //             onSelect: (Country country) {
+            //               if (!mounted) return;
+            //               setState(() {
+            //                 _country = country;
+            //                 countryController.text = _country.name;
+            //               });
+            //             },
+            //           );
+            //         },
+            //       )),
+            // ),
+
             const SizedBox(
               height: 8,
             ),
+
             GestureDetector(
                 onTap: () {
                   if (!mounted) return;
@@ -537,10 +657,10 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                     Constants.daddressId: databaseReference.key,
                     Constants.dfname: fnameController.text.trim(),
                     Constants.dSAddress: streetAddressController.text.trim(),
-                    Constants.dCity: cityController.text.trim(),
-                    Constants.dState: stateController.text.trim(),
+                    Constants.dCity: _selectedCity,
+                    Constants.dState: _selectedCity,
                     Constants.dZcode: codeController.text.trim(),
-                    Constants.dCountry: countryController.text.toString().trim()
+                    Constants.dCountry: _selectedCountry
                   }).then((value) {
                     if (!mounted) return;
                     setState(() {
@@ -656,6 +776,14 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
                                           isExis = false;
                                           print(list[index]
                                               [Constants.daddressId]);
+                                          _selectedCity =
+                                              list[index][Constants.dCity];
+                                          _selectedState =
+                                              list[index][Constants.dState];
+
+                                          _selectedCountry =
+                                              list[index][Constants.dCountry];
+
                                           selectId =
                                               list[index][Constants.daddressId];
                                         });

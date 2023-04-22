@@ -163,6 +163,9 @@ class _MyBagPageState extends State<MyBagPage> {
                                                         list[index][Constants
                                                                 .dPname]
                                                             .toString(),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        softWrap: true,
                                                         style: Text_Style
                                                             .text_Theme(
                                                                 Constants
@@ -178,7 +181,7 @@ class _MyBagPageState extends State<MyBagPage> {
                                                                 right: 16),
                                                         child: Container(
                                                           height: 25,
-                                                          width: 30,
+                                                          width: 29,
                                                           child: IconButton(
                                                             icon: Icon(
                                                               Icons.close,
