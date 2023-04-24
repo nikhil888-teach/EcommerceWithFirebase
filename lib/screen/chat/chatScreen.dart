@@ -385,8 +385,7 @@ class _MyChatScreenState extends State<MyChatScreen> {
         response = defaultAnswerList[questionIndex];
       } else {
         ChatGPT chatGPT = ChatGPT(
-            // apiKey: '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'
-            );
+            apiKey: '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');
         response = await chatGPT.generateResponse(msg);
       }
       // print(response);
@@ -449,18 +448,21 @@ class ChatMessage {
 // }
 
 class ChatGPT {
-  // final String apiKey;
+  final String apiKey;
 
-  // ChatGPT({required this.apiKey});
+  ChatGPT({required this.apiKey});
 
   Future<String> generateResponse(String input) async {
-    String url = 'https://chatgpt-api.gofitter.io/conversation';
+    String url = 'https://api.openai.com/v1/chat/completions';
     Map<String, String> headers = {
       'Content-Type': 'application/json',
-      // 'Authorization': 'Bearer $apiKey'
+      'Authorization': 'Bearer $apiKey'
     };
     Map<String, dynamic> body = {
-      'message': input,
+      "model": "gpt-3.5-turbo",
+      "messages": [
+        {"role": "user", "content": input}
+      ]
     };
 
     try {
@@ -471,7 +473,7 @@ class ChatGPT {
       );
       Map<String, dynamic> responseJson = json.decode(response.body);
       print(responseJson);
-      return responseJson['response'];
+      return responseJson['choices'][0]['message']['content'];
     } catch (e) {
       print(e);
       return 'Error generating response';
