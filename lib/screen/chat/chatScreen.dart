@@ -57,7 +57,7 @@ class _MyChatScreenState extends State<MyChatScreen> {
   ];
 
   List<String> defaultAnswerList = [
-    "Please contact desaiujas000@gmail.com",
+    "Please contact ecommerceBot@gmail.com",
     "some examples : \n 1. what did people wear in 2005? \n 2. which brand is most populer in womens clothe ?\n3. who are some of the top private label clothing brands that sell canadian clothing ?\n4. listout indian clothing in partywear\n5. please tell me about zara?\n6. Latest fashion highlights in short \n7. color combiantion in men's clothing in short",
   ];
 

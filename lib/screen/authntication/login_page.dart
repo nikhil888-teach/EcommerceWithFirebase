@@ -8,6 +8,7 @@ import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:ecommerce/widgets/textformfield_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 
 class MyLoginPage extends StatefulWidget {
   const MyLoginPage({Key? key}) : super(key: key);
@@ -105,8 +106,18 @@ class _MyLoginPageState extends State<MyLoginPage> {
                                       content:
                                           Text("Please fill all the field")));
                               } else {
-                                if (!mounted) return;
+                                if (!email.text.isEmail) {
+                                  Scaffold_msg.toastMessage(
+                                      context, "Email not valid");
+                                  return;
+                                }
+                                if (password.text.length < 6) {
+                                  Scaffold_msg.toastMessage(context,
+                                      "Password charecter must be must be 6 length or more");
+                                  return;
+                                }
 
+                                if (!mounted) return;
                                 setState(() {
                                   loading = true;
                                 });

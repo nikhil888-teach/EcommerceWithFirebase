@@ -3,9 +3,11 @@ import 'package:ecommerce/screen/aftercheckout/shipping_page.dart';
 import 'package:ecommerce/theme/themeprovider.dart';
 import 'package:ecommerce/utils/constants.dart';
 import 'package:ecommerce/widgets/button_theme.dart';
+import 'package:ecommerce/widgets/scafoldmsg_theme.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:ecommerce/widgets/textformfield_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -171,8 +173,8 @@ class _MyAddressPageState extends State<MyAddressPage> {
                       // const SizedBox(
                       //   height: 8,
                       // ),
-                      Textformfield_style.textField(codeController,
-                          Constants.code, TextInputType.streetAddress),
+                      Textformfield_style.textField(
+                          codeController, Constants.code, TextInputType.number),
                       const SizedBox(
                         height: 8,
                       ),
@@ -315,47 +317,71 @@ class _MyAddressPageState extends State<MyAddressPage> {
                                     content:
                                         Text("Please fill all the field")));
                             } else {
-                              DatabaseReference databaseReference =
-                                  widget.id != null
-                                      ? FirebaseDatabase.instance
-                                          .ref(Constants.dUser)
-                                          .child(FirebaseAuth
-                                              .instance.currentUser!.uid)
-                                          .child(Constants.dAddress)
-                                          .child(widget.id.toString())
-                                      : FirebaseDatabase.instance
-                                          .ref(Constants.dUser)
-                                          .child(FirebaseAuth
-                                              .instance.currentUser!.uid)
-                                          .child(Constants.dAddress)
-                                          .push();
-
-                              databaseReference.update({
-                                Constants.daddressId: databaseReference.key,
-                                Constants.dfname: fnameController.text.trim(),
-                                Constants.dSAddress:
-                                    streetAddressController.text.trim(),
-                                Constants.dCity: _selectedCity,
-                                Constants.dState: _selectedState,
-                                Constants.dZcode: codeController.text.trim(),
-                                Constants.dCountry: _selectedCountry
-                              }).then((value) {
-                                if (!mounted) return;
-                                setState(() {
-                                  loading = false;
-                                  isExis = true;
-                                });
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => MyShippingAddress(),
-                                    ));
-                              }).catchError((onError) {
-                                if (!mounted) return;
-                                setState(() {
-                                  loading = false;
-                                });
-                              });
+                              if (!fnameController.text.isAlphabetOnly) {
+                                Scaffold_msg.toastMessage(context,
+                                    "User name must contain only letters");
+                              } else {
+                                if (streetAddressController
+                                    .text.isNumericOnly) {
+                                  Scaffold_msg.toastMessage(
+                                      context, "Street address does not valid");
+                                } else {
+                                  if (codeController.text.length != 6) {
+                                    Scaffold_msg.toastMessage(context,
+                                        "pin code length must be 6 digit");
+                                  } else {
+                                    if (!codeController.text.isNumericOnly) {
+                                      Scaffold_msg.toastMessage(
+                                          context, "pin code must be digit");
+                                    } else {
+                                      DatabaseReference databaseReference =
+                                          widget.id != null
+                                              ? FirebaseDatabase.instance
+                                                  .ref(Constants.dUser)
+                                                  .child(FirebaseAuth.instance
+                                                      .currentUser!.uid)
+                                                  .child(Constants.dAddress)
+                                                  .child(widget.id.toString())
+                                              : FirebaseDatabase.instance
+                                                  .ref(Constants.dUser)
+                                                  .child(FirebaseAuth.instance
+                                                      .currentUser!.uid)
+                                                  .child(Constants.dAddress)
+                                                  .push();
+                                      databaseReference.update({
+                                        Constants.daddressId:
+                                            databaseReference.key,
+                                        Constants.dfname:
+                                            fnameController.text.trim(),
+                                        Constants.dSAddress:
+                                            streetAddressController.text.trim(),
+                                        Constants.dCity: _selectedCity,
+                                        Constants.dState: _selectedState,
+                                        Constants.dZcode:
+                                            codeController.text.trim(),
+                                        Constants.dCountry: _selectedCountry
+                                      }).then((value) {
+                                        if (!mounted) return;
+                                        setState(() {
+                                          loading = false;
+                                          isExis = true;
+                                        });
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MyShippingAddress(),
+                                            ));
+                                      }).catchError((onError) {
+                                        if (!mounted) return;
+                                        setState(() {
+                                          loading = false;
+                                        });
+                                      });
+                                    }
+                                  }
+                                }
+                              }
                             }
                             if (!mounted) return;
                             setState(() {

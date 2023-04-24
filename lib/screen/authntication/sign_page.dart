@@ -10,6 +10,7 @@ import 'package:ecommerce/widgets/textformfield_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -169,20 +170,28 @@ class _MySignInPageState extends State<MySignInPage> {
                                         content:
                                             Text("Please fill all the field")));
                                 } else {
-                                  if (password.text.length > 7) {
-                                    ScaffoldMessenger.of(context)
-                                      ..hideCurrentSnackBar()
-                                      ..showSnackBar(const SnackBar(
-                                          content: Text(
-                                              "Password length must be 6 character")));
+                                  if (!name.text.isAlphabetOnly) {
+                                    Scaffold_msg.toastMessage(context,
+                                        "User name must contain only letters");
                                   } else {
-                                    signUpAndAddData(
-                                        name.text.trim(),
-                                        email.text.trim(),
-                                        password.text.trim(),
-                                        file!);
-
-                                    file = null;
+                                    if (!email.text.isEmail) {
+                                      Scaffold_msg.toastMessage(context,
+                                          "Please use valid email address");
+                                    } else {
+                                      if (password.text.length < 6) {
+                                        ScaffoldMessenger.of(context)
+                                          ..hideCurrentSnackBar()
+                                          ..showSnackBar(const SnackBar(
+                                              content: Text(
+                                                  "Password length must be 6 character or more")));
+                                      } else {
+                                        signUpAndAddData(
+                                            name.text.trim(),
+                                            email.text.trim(),
+                                            password.text.trim(),
+                                            file!);
+                                      }
+                                    }
                                   }
                                 }
                               },
@@ -260,6 +269,7 @@ class _MySignInPageState extends State<MySignInPage> {
           setState(() {
             loading = false;
           });
+
           Scaffold_msg.toastMessage(context, "Sign up successfully");
 
           Navigator.push(

@@ -1,6 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:ecommerce/nointernet/nointernet_page.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class NetworkController extends GetxController {
@@ -14,10 +13,8 @@ class NetworkController extends GetxController {
 
   void _updateConnectionStatus(ConnectivityResult connectivityResult) {
     if (connectivityResult == ConnectivityResult.none) {
-      Get.dialog(
-        MyNoInternetPage(),
-        barrierDismissible: false,
-      );
+      Get.dialog(MyNoInternetPage(),
+          barrierDismissible: false, useSafeArea: true);
       // Get.rawSnackbar(
       //     messageText: const Text('PLEASE CONNECT TO THE INTERNET',
       //         style: TextStyle(color: Colors.white, fontSize: 14)),

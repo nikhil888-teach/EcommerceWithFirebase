@@ -14,6 +14,7 @@ import 'package:ecommerce/widgets/scafoldmsg_theme.dart';
 import 'package:ecommerce/widgets/text_theme.dart';
 import 'package:ecommerce/widgets/textformfield_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -464,6 +465,7 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
   var countryname;
 
   Widget myStepAddAddress(String? id) {
+    final _formKey = GlobalKey<FormState>();
     Country _country;
     bool loading = false;
     final themeChange = Provider.of<ThemeProvider>(context);
@@ -487,203 +489,247 @@ class _MyStepperCheckOutPageState extends State<MyStepperCheckOutPage> {
       physics: BouncingScrollPhysics(),
       child: Padding(
         padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
-        child: Column(
-          children: [
-            Textformfield_style.textField(
-                fnameController, Constants.full_name, TextInputType.name),
-            const SizedBox(
-              height: 8,
-            ),
-            Textformfield_style.textField(streetAddressController,
-                Constants.address, TextInputType.streetAddress),
-            const SizedBox(
-              height: 8,
-            ),
-            // Textformfield_style.textField(
-            //     cityController, Constants.city, TextInputType.streetAddress),
-            // const SizedBox(
-            //   height: 8,
-            // ),
-            // Textformfield_style.textField(
-            //     stateController, Constants.state, TextInputType.streetAddress),
-            // const SizedBox(
-            //   height: 8,
-            // ),
-            Textformfield_style.textField(
-                codeController, Constants.code, TextInputType.streetAddress),
-            const SizedBox(
-              height: 8,
-            ),
-            Card(
-              color: Colors.white,
-              elevation: 2,
-              child: DropdownButtonFormField<String>(
-                decoration: const InputDecoration(
-                    hintText: "Select Country",
-                    border: OutlineInputBorder(borderSide: BorderSide.none)),
-                value: _selectedCountry,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedCountry = newValue;
-                    _selectedState = null;
-                    _selectedCity = null;
-                  });
-                },
-                items: _statesByCountry.keys
-                    .map<DropdownMenuItem<String>>(
-                      (String country) => DropdownMenuItem<String>(
-                        value: country,
-                        child: Text(country),
-                      ),
-                    )
-                    .toList(),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              Textformfield_style.textField(
+                  fnameController, Constants.full_name, TextInputType.name),
+              const SizedBox(
+                height: 8,
               ),
-            ),
-            SizedBox(height: 8.0),
-            Card(
-              color: Colors.white,
-              elevation: 2,
-              child: DropdownButtonFormField<String>(
-                decoration: const InputDecoration(
-                    hintText: "Select State",
-                    border: OutlineInputBorder(borderSide: BorderSide.none)),
-                value: _selectedState,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedState = newValue;
-                    _selectedCity = null;
-                  });
-                },
-                items: _getStatesForCountry(_selectedCountry ?? '')
-                    .map<DropdownMenuItem<String>>(
-                      (String state) => DropdownMenuItem<String>(
-                        value: state,
-                        child: Text(state),
-                      ),
-                    )
-                    .toList(),
+              Textformfield_style.textField(streetAddressController,
+                  Constants.address, TextInputType.streetAddress),
+              const SizedBox(
+                height: 8,
               ),
-            ),
-            SizedBox(height: 8.0),
-            Card(
-              color: Colors.white,
-              elevation: 2,
-              child: DropdownButtonFormField<String>(
-                decoration: const InputDecoration(
-                    hintText: "Select City",
-                    border: OutlineInputBorder(borderSide: BorderSide.none)),
-                value: _selectedCity,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedCity = newValue;
-                  });
-                },
-                items: _getCitiesForState(_selectedState ?? '')
-                    .map<DropdownMenuItem<String>>(
-                      (String city) => DropdownMenuItem<String>(
-                        value: city,
-                        child: Text(city),
-                      ),
-                    )
-                    .toList(),
+              // Textformfield_style.textField(
+              //     cityController, Constants.city, TextInputType.streetAddress),
+              // const SizedBox(
+              //   height: 8,
+              // ),
+              // Textformfield_style.textField(
+              //     stateController, Constants.state, TextInputType.streetAddress),
+              // const SizedBox(
+              //   height: 8,
+              // ),
+              Textformfield_style.textField(codeController, Constants.code,
+                  TextInputType.numberWithOptions(decimal: true)),
+              const SizedBox(
+                height: 8,
               ),
-            ),
-            // Card(
-            //   color: Colors.white,
-            //   child: CountryStateCityPicker(
-            //       country: countryController,
-            //       state: stateController,
-            //       city: cityController,
-            //       textFieldInputBorder:
-            //           OutlineInputBorder(borderSide: BorderSide.none)),
-            // ),
-            // Container(
-            //   decoration: BoxDecoration(),
-            //   child: Card(
-            //       color: Colors.white,
-            //       child: TextFormField(
-            //         readOnly: true,
-            //         decoration: InputDecoration(
-            //             hintText: "Select Country",
-            //             border:
-            //                 OutlineInputBorder(borderSide: BorderSide.none)),
-            //         controller: countryController,
-            //         onTap: () {
-            //           FocusManager.instance.primaryFocus?.unfocus();
-            //           showCountryPicker(
-            //             context: context,
-            //             showPhoneCode: true,
-            //             showSearch: true,
-            //             countryListTheme: CountryListThemeData(
-            //                 textStyle: TextStyle(
-            //                     color: themeChange.darkTheme
-            //                         ? Colors.white
-            //                         : Colors.black)),
-            //             onSelect: (Country country) {
-            //               if (!mounted) return;
-            //               setState(() {
-            //                 _country = country;
-            //                 countryController.text = _country.name;
-            //               });
-            //             },
-            //           );
-            //         },
-            //       )),
-            // ),
-
-            const SizedBox(
-              height: 8,
-            ),
-
-            GestureDetector(
-                onTap: () {
-                  if (!mounted) return;
-                  setState(() {
-                    loading = true;
-                  });
-                  DatabaseReference databaseReference = id != null
-                      ? FirebaseDatabase.instance
-                          .ref(Constants.dUser)
-                          .child(FirebaseAuth.instance.currentUser!.uid)
-                          .child(Constants.dAddress)
-                          .child(id)
-                      : FirebaseDatabase.instance
-                          .ref(Constants.dUser)
-                          .child(FirebaseAuth.instance.currentUser!.uid)
-                          .child(Constants.dAddress)
-                          .push();
-
-                  databaseReference.update({
-                    Constants.daddressId: databaseReference.key,
-                    Constants.dfname: fnameController.text.trim(),
-                    Constants.dSAddress: streetAddressController.text.trim(),
-                    Constants.dCity: _selectedCity,
-                    Constants.dState: _selectedCity,
-                    Constants.dZcode: codeController.text.trim(),
-                    Constants.dCountry: _selectedCountry
-                  }).then((value) {
-                    if (!mounted) return;
+              Card(
+                color: Colors.white,
+                elevation: 2,
+                child: DropdownButtonFormField<String>(
+                  decoration: const InputDecoration(
+                      hintText: "Select Country",
+                      border: OutlineInputBorder(borderSide: BorderSide.none)),
+                  value: _selectedCountry,
+                  onChanged: (String? newValue) {
                     setState(() {
-                      loading = false;
-                      isExis = true;
+                      _selectedCountry = newValue;
+                      _selectedState = null;
+                      _selectedCity = null;
                     });
-                  }).catchError((onError) {
-                    if (!mounted) return;
-                    setState(() {
-                      loading = false;
-                    });
-                  });
-                },
-                child: loading
-                    ? Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.red,
+                  },
+                  items: _statesByCountry.keys
+                      .map<DropdownMenuItem<String>>(
+                        (String country) => DropdownMenuItem<String>(
+                          value: country,
+                          child: Text(country),
                         ),
                       )
-                    : Button_Style.button_Theme(id == null
-                        ? Constants.save_address
-                        : Constants.update_address))
-          ],
+                      .toList(),
+                ),
+              ),
+              SizedBox(height: 8.0),
+              Card(
+                color: Colors.white,
+                elevation: 2,
+                child: DropdownButtonFormField<String>(
+                  decoration: const InputDecoration(
+                      hintText: "Select State",
+                      border: OutlineInputBorder(borderSide: BorderSide.none)),
+                  value: _selectedState,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedState = newValue;
+                      _selectedCity = null;
+                    });
+                  },
+                  items: _getStatesForCountry(_selectedCountry ?? '')
+                      .map<DropdownMenuItem<String>>(
+                        (String state) => DropdownMenuItem<String>(
+                          value: state,
+                          child: Text(state),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+              SizedBox(height: 8.0),
+              Card(
+                color: Colors.white,
+                elevation: 2,
+                child: DropdownButtonFormField<String>(
+                  decoration: const InputDecoration(
+                      hintText: "Select City",
+                      border: OutlineInputBorder(borderSide: BorderSide.none)),
+                  value: _selectedCity,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedCity = newValue;
+                    });
+                  },
+                  items: _getCitiesForState(_selectedState ?? '')
+                      .map<DropdownMenuItem<String>>(
+                        (String city) => DropdownMenuItem<String>(
+                          value: city,
+                          child: Text(city),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+              // Card(
+              //   color: Colors.white,
+              //   child: CountryStateCityPicker(
+              //       country: countryController,
+              //       state: stateController,
+              //       city: cityController,
+              //       textFieldInputBorder:
+              //           OutlineInputBorder(borderSide: BorderSide.none)),
+              // ),
+              // Container(
+              //   decoration: BoxDecoration(),
+              //   child: Card(
+              //       color: Colors.white,
+              //       child: TextFormField(
+              //         readOnly: true,
+              //         decoration: InputDecoration(
+              //             hintText: "Select Country",
+              //             border:
+              //                 OutlineInputBorder(borderSide: BorderSide.none)),
+              //         controller: countryController,
+              //         onTap: () {
+              //           FocusManager.instance.primaryFocus?.unfocus();
+              //           showCountryPicker(
+              //             context: context,
+              //             showPhoneCode: true,
+              //             showSearch: true,
+              //             countryListTheme: CountryListThemeData(
+              //                 textStyle: TextStyle(
+              //                     color: themeChange.darkTheme
+              //                         ? Colors.white
+              //                         : Colors.black)),
+              //             onSelect: (Country country) {
+              //               if (!mounted) return;
+              //               setState(() {
+              //                 _country = country;
+              //                 countryController.text = _country.name;
+              //               });
+              //             },
+              //           );
+              //         },
+              //       )),
+              // ),
+
+              const SizedBox(
+                height: 8,
+              ),
+
+              GestureDetector(
+                  onTap: () {
+                    final form = _formKey.currentState;
+                    if (form?.validate() == null) return;
+                    if (!mounted) return;
+                    setState(() {
+                      loading = true;
+                    });
+                    if (fnameController.text.isEmpty ||
+                        streetAddressController.text.isEmpty ||
+                        codeController.text.isEmpty ||
+                        _selectedCity == null ||
+                        _selectedCountry == null ||
+                        _selectedState == null) {
+                      ScaffoldMessenger.of(context)
+                        ..hideCurrentSnackBar()
+                        ..showSnackBar(const SnackBar(
+                            content: Text("Please fill all the field")));
+                    } else {
+                      if (!fnameController.text.isAlphabetOnly) {
+                        Scaffold_msg.toastMessage(
+                            context, "User name must contain only letters");
+                      } else {
+                        if (streetAddressController.text.isNumericOnly) {
+                          Scaffold_msg.toastMessage(
+                              context, "Street address does not valid");
+                        } else {
+                          if (codeController.text.length != 6) {
+                            Scaffold_msg.toastMessage(
+                                context, "pin code length must be 6 digit");
+                          } else {
+                            if (!codeController.text.isNumericOnly) {
+                              Scaffold_msg.toastMessage(
+                                  context, "pin code must be digit");
+                            } else {
+                              DatabaseReference databaseReference = id != null
+                                  ? FirebaseDatabase.instance
+                                      .ref(Constants.dUser)
+                                      .child(FirebaseAuth
+                                          .instance.currentUser!.uid)
+                                      .child(Constants.dAddress)
+                                      .child(id)
+                                  : FirebaseDatabase.instance
+                                      .ref(Constants.dUser)
+                                      .child(FirebaseAuth
+                                          .instance.currentUser!.uid)
+                                      .child(Constants.dAddress)
+                                      .push();
+
+                              databaseReference.update({
+                                Constants.daddressId: databaseReference.key,
+                                Constants.dfname: fnameController.text.trim(),
+                                Constants.dSAddress:
+                                    streetAddressController.text.trim(),
+                                Constants.dCity: _selectedCity,
+                                Constants.dState: _selectedCity,
+                                Constants.dZcode: codeController.text.trim(),
+                                Constants.dCountry: _selectedCountry
+                              }).then((value) {
+                                if (!mounted) return;
+                                setState(() {
+                                  loading = false;
+                                  isExis = true;
+                                });
+                              }).catchError((onError) {
+                                if (!mounted) return;
+                                setState(() {
+                                  loading = false;
+                                });
+                              });
+                            }
+                          }
+                        }
+                      }
+                    }
+                    if (!mounted) return;
+                    setState(() {
+                      loading = false;
+                    });
+                  },
+                  child: loading
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.red,
+                          ),
+                        )
+                      : Button_Style.button_Theme(id == null
+                          ? Constants.save_address
+                          : Constants.update_address))
+            ],
+          ),
         ),
       ),
     );

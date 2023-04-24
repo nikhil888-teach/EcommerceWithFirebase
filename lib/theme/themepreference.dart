@@ -11,7 +11,7 @@ class ThemePreference {
 
   Future<bool> getTopProducts() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    return sharedPreferences.getBool(TOPPRODUCTS) ?? false;
+    return sharedPreferences.getBool(TOPPRODUCTS) ?? true;
   }
 
   setNewProducts(bool value) async {
@@ -21,7 +21,7 @@ class ThemePreference {
 
   Future<bool> getNewProducts() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    return sharedPreferences.getBool(NEWPRODUCTS) ?? false;
+    return sharedPreferences.getBool(NEWPRODUCTS) ?? true;
   }
 
   setDarkTheme(bool value) async {

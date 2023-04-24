@@ -141,23 +141,42 @@ class _MyShippingAddressState extends State<MyShippingAddress> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(bottom: 7),
-                                    child: Text(
-                                        list[index][Constants.dCity]
-                                                .toString() +
-                                            ", " +
-                                            list[index][Constants.dState]
-                                                .toString() +
-                                            " " +
-                                            list[index][Constants.dZcode]
-                                                .toString() +
-                                            ", " +
-                                            list[index][Constants.dCountry]
-                                                .toString(),
-                                        style: Text_Style.text_Theme(
-                                            Constants.black_text,
-                                            14,
-                                            FontWeight.normal,
-                                            context)),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                            list[index][Constants.dCity]
+                                                    .toString() +
+                                                ", " +
+                                                list[index][Constants.dState]
+                                                    .toString() +
+                                                " " +
+                                                list[index][Constants.dZcode]
+                                                    .toString() +
+                                                ", " +
+                                                list[index][Constants.dCountry]
+                                                    .toString(),
+                                            style: Text_Style.text_Theme(
+                                                Constants.black_text,
+                                                14,
+                                                FontWeight.normal,
+                                                context)),
+                                        InkWell(
+                                            onTap: () {
+                                              FirebaseDatabase.instance
+                                                  .ref(Constants.dUser)
+                                                  .child(FirebaseAuth.instance
+                                                      .currentUser!.uid)
+                                                  .child(Constants.dAddress)
+                                                  .child(list[index]
+                                                          [Constants.daddressId]
+                                                      .toString())
+                                                  .remove();
+                                            },
+                                            child: Icon(Icons.delete))
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
