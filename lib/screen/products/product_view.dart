@@ -1069,26 +1069,40 @@ class _MyProductPageState extends State<MyProductPage> {
         .child(Constants.dAddToCart)
         .push();
     if (widget.color || widget.size) {
-      if (selectedColorCode != null && selectedsize != "Size") {
-        databaseReference.update({
-          Constants.dPid: widget.id,
-          Constants.dPname: widget.name,
-          Constants.dQuantity: 1,
-          Constants.dSize: selectedsize,
-          Constants.dColor: selectedColorCode,
-          Constants.dtotamt: widget.price,
-          Constants.dimages: widget.images[0],
-          Constants.dSPrice: widget.price,
-          Constants.dcheckId: databaseReference.key
-        }).then((value) {
-          Scaffold_msg.toastMessage(context, "Added to cart");
+      if (selectedColorCode != null) {
+        if (selectedsize == "Size") {
+          Scaffold_msg.toastMessage(context, "Please select size");
           if (!mounted) return;
           setState(() {
             loading = false;
           });
-        });
+        } else {
+          if (!widget.size) {
+            if (!mounted) return;
+            setState(() {
+              selectedsize = "Free size";
+            });
+          }
+          databaseReference.update({
+            Constants.dPid: widget.id,
+            Constants.dPname: widget.name,
+            Constants.dQuantity: 1,
+            Constants.dSize: selectedsize,
+            Constants.dColor: selectedColorCode,
+            Constants.dtotamt: widget.price,
+            Constants.dimages: widget.images[0],
+            Constants.dSPrice: widget.price,
+            Constants.dcheckId: databaseReference.key
+          }).then((value) {
+            Scaffold_msg.toastMessage(context, "Added to cart");
+            if (!mounted) return;
+            setState(() {
+              loading = false;
+            });
+          });
+        }
       } else {
-        Scaffold_msg.toastMessage(context, "Please select color and size");
+        Scaffold_msg.toastMessage(context, "Please select color");
         if (!mounted) return;
         setState(() {
           loading = false;
