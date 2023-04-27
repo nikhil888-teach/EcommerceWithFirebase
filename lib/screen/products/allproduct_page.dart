@@ -28,119 +28,123 @@ class _MyCategoryProductsState extends State<MyCategoryProducts> {
   Widget build(BuildContext context) {
     final themeChange = Provider.of<ThemeProvider>(context);
 
-    return Scaffold(
-        body: CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          floating: true,
-          pinned: true,
-          snap: false,
-          centerTitle: false,
-          title: Text(widget.subCategory,
-              style: Text_Style.text_Theme(
-                  Constants.black_text, 20, FontWeight.bold, context)),
-          // actions: [
-          //   IconButton(
-          //     icon: const Icon(Icons.shopping_cart),
-          //     onPressed: () {},
-          //   ),
-          // ],
-          bottom: AppBar(
-            automaticallyImplyLeading: false,
-            leadingWidth: 0,
-            elevation: 0,
-            title: Container(
-              width: double.infinity,
-              height: 40,
-              color: themeChange.darkTheme ? Colors.black : Colors.white,
-              child: Center(
-                child: TextField(
-                  onChanged: (value) {
-                    if (!mounted) return;
-                    setState(() {});
-                  },
-                  controller: searchController,
-                  cursorColor: Colors.red,
-                  style: Text_Style.text_Theme(
-                      Constants.black_text, 18, FontWeight.normal, context),
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      prefixIconColor: Colors.red,
-                      suffixIconColor: Colors.red,
-                      hintText: 'Search for something',
-                      hintStyle: Text_Style.text_Theme(
-                          Constants.grey_text, 18, FontWeight.normal, context),
-                      prefixIcon: Icon(Icons.search),
-                      suffixIcon: IconButton(
-                          onPressed: () {
-                            searchController.clear();
-                          },
-                          icon: Icon(Icons.cancel_rounded))),
+    return SafeArea(
+      child: Scaffold(
+          body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            floating: true,
+            pinned: true,
+            snap: false,
+            centerTitle: false,
+            title: Text(widget.subCategory,
+                style: Text_Style.text_Theme(
+                    Constants.black_text, 20, FontWeight.bold, context)),
+            // actions: [
+            //   IconButton(
+            //     icon: const Icon(Icons.shopping_cart),
+            //     onPressed: () {},
+            //   ),
+            // ],
+            bottom: AppBar(
+              automaticallyImplyLeading: false,
+              leadingWidth: 0,
+              elevation: 0,
+              title: Container(
+                width: double.infinity,
+                height: 40,
+                color: themeChange.darkTheme ? Colors.black : Colors.white,
+                child: Center(
+                  child: TextField(
+                    onChanged: (value) {
+                      if (!mounted) return;
+                      setState(() {});
+                    },
+                    controller: searchController,
+                    cursorColor: Colors.red,
+                    style: Text_Style.text_Theme(
+                        Constants.black_text, 18, FontWeight.normal, context),
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        prefixIconColor: Colors.red,
+                        suffixIconColor: Colors.red,
+                        hintText: 'Search for something',
+                        hintStyle: Text_Style.text_Theme(Constants.grey_text,
+                            18, FontWeight.normal, context),
+                        prefixIcon: Icon(Icons.search),
+                        suffixIcon: IconButton(
+                            onPressed: () {
+                              searchController.clear();
+                            },
+                            icon: Icon(Icons.cancel_rounded))),
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        SliverList(
-          delegate: SliverChildListDelegate(
-            [
-              StreamBuilder(
-                stream:
-                    FirebaseDatabase.instance.ref(Constants.dProducts).onValue,
-                builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
-                  if (!snapshot.hasData) {
-                    return Container(
-                      height: MediaQuery.of(context).size.height,
-                      width: MediaQuery.of(context).size.width,
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.red,
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                StreamBuilder(
+                  stream: FirebaseDatabase.instance
+                      .ref(Constants.dProducts)
+                      .onValue,
+                  builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
+                    if (!snapshot.hasData) {
+                      return Container(
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.red,
+                          ),
                         ),
-                      ),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Container();
-                  }
+                      );
+                    } else if (snapshot.hasError) {
+                      return Container();
+                    }
 
-                  Map<dynamic, dynamic> data =
-                      snapshot.data!.snapshot.value as dynamic;
-                  List<dynamic> list = [];
-                  String searchQuery = searchController.text.toLowerCase();
-                  if (searchController.text.isEmpty) {
-                    list.clear();
-                    for (var element in data.values) {
-                      if (element['Type'] == widget.subCategory &&
-                          element['Gender'] == widget.category) {
-                        list.add(element);
+                    Map<dynamic, dynamic> data =
+                        snapshot.data!.snapshot.value as dynamic;
+                    List<dynamic> list = [];
+                    String searchQuery = searchController.text.toLowerCase();
+                    if (searchController.text.isEmpty) {
+                      list.clear();
+                      for (var element in data.values) {
+                        if (element['Type'] == widget.subCategory &&
+                            element['Gender'] == widget.category) {
+                          list.add(element);
+                        }
                       }
-                    }
-                  } else if (searchController.text.isNotEmpty) {
-                    list.clear();
-                    for (var element in data.values) {
-                      if (element['Type'] == widget.subCategory &&
-                              element['Gender'] == widget.category &&
-                              element[Constants.dPname]
-                                  .toString()
-                                  .toLowerCase()
-                                  .contains(searchQuery) ||
-                          element[Constants.dBrand]
-                              .toString()
-                              .toLowerCase()
-                              .contains(searchQuery)) {
-                        list.add(element);
+                    } else if (searchController.text.isNotEmpty) {
+                      list.clear();
+                      for (var element in data.values) {
+                        if (element['Type'] == widget.subCategory &&
+                            element['Gender'] ==
+                                widget.category) if (element[Constants.dPname]
+                            .toString()
+                            .toLowerCase()
+                            .contains(searchQuery)) {
+                          list.add(element);
+                        } else if (element[Constants.dBrand]
+                            .toString()
+                            .toLowerCase()
+                            .contains(searchQuery)) {
+                          list.add(element);
+                        }
                       }
+                    } else {
+                      return Container();
                     }
-                  } else {
-                    return Container();
-                  }
-                  return allProductDisplay(context, list);
-                },
-              ),
-            ],
-          ),
-        )
-      ],
-    ));
+                    return allProductDisplay(context, list);
+                  },
+                ),
+              ],
+            ),
+          )
+        ],
+      )),
+    );
   }
 
   Container allProductDisplay(BuildContext context, List<dynamic> list) {

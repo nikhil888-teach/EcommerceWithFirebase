@@ -184,33 +184,33 @@ class _MyLoginPageState extends State<MyLoginPage> {
                       ],
                     ),
                   ),
-                  Wrap(
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    alignment: WrapAlignment.center,
-                    children: [
-                      Center(
-                          child: Text(
-                        Constants.OR_SIGN_WITH_SOCIAL,
-                        style: Text_Style.text_Theme(Constants.black_text, 14,
-                            FontWeight.normal, context),
-                      )),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24)),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 24, horizontal: 34),
-                            child: Image.asset(
-                              "assets/image/google.png",
-                              scale: 1.5,
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  )
+                  // Wrap(
+                  //   crossAxisAlignment: WrapCrossAlignment.center,
+                  //   alignment: WrapAlignment.center,
+                  //   children: [
+                  //     Center(
+                  //         child: Text(
+                  //       Constants.OR_SIGN_WITH_SOCIAL,
+                  //       style: Text_Style.text_Theme(Constants.black_text, 14,
+                  //           FontWeight.normal, context),
+                  //     )),
+                  //     Padding(
+                  //       padding: const EdgeInsets.only(top: 20),
+                  //       child: Card(
+                  //         shape: RoundedRectangleBorder(
+                  //             borderRadius: BorderRadius.circular(24)),
+                  //         child: Padding(
+                  //           padding: const EdgeInsets.symmetric(
+                  //               vertical: 24, horizontal: 34),
+                  //           child: Image.asset(
+                  //             "assets/image/google.png",
+                  //             scale: 1.5,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     )
+                  //   ],
+                  // )
                 ],
               ),
             )));

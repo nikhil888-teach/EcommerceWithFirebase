@@ -233,7 +233,7 @@ class _MySettingPageState extends State<MySettingPage> {
                   height: 30,
                 ),
                 Text(
-                  Constants.notification,
+                  "Display",
                   style: Text_Style.text_Theme(
                       Constants.black_text, 14, FontWeight.w600, context),
                 ),

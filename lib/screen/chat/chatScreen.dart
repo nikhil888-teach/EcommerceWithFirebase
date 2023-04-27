@@ -63,106 +63,110 @@ class _MyChatScreenState extends State<MyChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColor.backgroundColor,
-      body: SafeArea(
-        child: Column(
-          children: [
-            _buildHeader(context),
-            Expanded(child: _buildListMessage(messages)),
-            ..._buildInputChat(context),
-          ],
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: AppColor.backgroundColor,
+        body: SafeArea(
+          child: Column(
+            children: [
+              _buildHeader(context),
+              Expanded(child: _buildListMessage(messages)),
+              ..._buildInputChat(context),
+            ],
+          ),
         ),
       ),
     );
   }
 
   Widget _buildHeader(BuildContext context) {
-    return GestureDetector(
-      // onVerticalDragStart: (details) {
-      //   if (details.localPosition.direction > 0) {
-      //     // Alert(
-      //     //   style: const AlertStyle(
-      //     //       backgroundColor: AppColor.backgroundColor,
-      //     //       titleStyle: TextStyle(color: AppColor.textColor),
-      //     //       descStyle: TextStyle(color: AppColor.textColor)),
-      //     //   context: context,
-      //     //   type: AlertType.warning,
-      //     //   title: "ALERT",
-      //     //   desc: "Are you sure you want to close chat?",
-      //     //   buttons: [
-      //     //     DialogButton(
-      //     //       onPressed: () => Navigator.pop(context),
-      //     //       color: AppColor.senderbackground,
-      //     //       child: const Text(
-      //     //         "No",
-      //     //         style: TextStyle(color: Colors.white, fontSize: 20),
-      //     //       ),
-      //     //     ),
-      //     //     DialogButton(
-      //     //       onPressed: () => Get.offAllNamed(Routes.homeScreen),
-      //     //       color: AppColor.reciverbackground,
-      //     //       child: const Text(
-      //     //         "Yes",
-      //     //         style: TextStyle(color: Colors.white, fontSize: 20),
-      //     //       ),
-      //     //     )
-      //     //   ],
-      //     // ).show();
-      //     Get.offAllNamed(Routes.homeScreen);
-      //   }
-      // },
-      child: ClipRRect(
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(50),
-          topRight: Radius.circular(50),
-        ),
-        child: Container(
-          decoration: const BoxDecoration(color: AppColor.backgroundColor),
-          padding:
-              const EdgeInsets.only(left: 24, right: 24, top: 24, bottom: 12),
-          child: Stack(
-            alignment: Alignment.centerLeft,
-            children: [
-              // Align(
-              //   alignment: Alignment.centerLeft,
-              //   child: CustomNavigatorButton(
-              //       icon: const Icon(
-              //         Icons.arrow_back_ios,
-              //         size: 18,
-              //         color: AppColor.textColor,
-              //       ),
-              //       onTap: () {}),
-              // ),
-              Align(
-                alignment: Alignment.center,
-                child: Column(
-                  children: [
-                    Container(
-                      width: 100,
-                      height: 10,
-                      decoration: BoxDecoration(
-                          color: AppColor.backgroundOutlineColor,
-                          borderRadius: BorderRadius.circular(50)),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Text(
-                      'Ecommerce Bot',
-                      style: GoogleFonts.quicksand(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                        color: AppColor.blackColor,
+    return SafeArea(
+      child: GestureDetector(
+        // onVerticalDragStart: (details) {
+        //   if (details.localPosition.direction > 0) {
+        //     // Alert(
+        //     //   style: const AlertStyle(
+        //     //       backgroundColor: AppColor.backgroundColor,
+        //     //       titleStyle: TextStyle(color: AppColor.textColor),
+        //     //       descStyle: TextStyle(color: AppColor.textColor)),
+        //     //   context: context,
+        //     //   type: AlertType.warning,
+        //     //   title: "ALERT",
+        //     //   desc: "Are you sure you want to close chat?",
+        //     //   buttons: [
+        //     //     DialogButton(
+        //     //       onPressed: () => Navigator.pop(context),
+        //     //       color: AppColor.senderbackground,
+        //     //       child: const Text(
+        //     //         "No",
+        //     //         style: TextStyle(color: Colors.white, fontSize: 20),
+        //     //       ),
+        //     //     ),
+        //     //     DialogButton(
+        //     //       onPressed: () => Get.offAllNamed(Routes.homeScreen),
+        //     //       color: AppColor.reciverbackground,
+        //     //       child: const Text(
+        //     //         "Yes",
+        //     //         style: TextStyle(color: Colors.white, fontSize: 20),
+        //     //       ),
+        //     //     )
+        //     //   ],
+        //     // ).show();
+        //     Get.offAllNamed(Routes.homeScreen);
+        //   }
+        // },
+        child: ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(50),
+            topRight: Radius.circular(50),
+          ),
+          child: Container(
+            decoration: const BoxDecoration(color: AppColor.backgroundColor),
+            padding:
+                const EdgeInsets.only(left: 24, right: 24, top: 24, bottom: 12),
+            child: Stack(
+              alignment: Alignment.centerLeft,
+              children: [
+                // Align(
+                //   alignment: Alignment.centerLeft,
+                //   child: CustomNavigatorButton(
+                //       icon: const Icon(
+                //         Icons.arrow_back_ios,
+                //         size: 18,
+                //         color: AppColor.textColor,
+                //       ),
+                //       onTap: () {}),
+                // ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Column(
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 10,
+                        decoration: BoxDecoration(
+                            color: AppColor.backgroundOutlineColor,
+                            borderRadius: BorderRadius.circular(50)),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                  ],
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Text(
+                        'Ecommerce Bot',
+                        style: GoogleFonts.quicksand(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          color: AppColor.blackColor,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
